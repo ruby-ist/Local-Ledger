@@ -3,6 +3,10 @@ const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
+  components: [
+    { path: "~/components/inline-svg-icons", pathPrefix: false },
+    "~/components",
+  ],
   devServer: { host: "0.0.0.0" },
   devtools: { enabled: true },
   modules: ["@unocss/nuxt"],
