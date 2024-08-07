@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar pl-20">
     <MenuIcon name="Graph"><GraphIcon /></MenuIcon>
-    <MenuIcon name="Filters" active><FilterIcon /></MenuIcon>
+    <MenuIcon name="Groups" active><GroupIcon /></MenuIcon>
     <MenuIcon name="Ledger"><LedgerIcon /></MenuIcon>
     <MenuIcon name="Tags"><TagIcon /></MenuIcon>
-    <MenuIcon name="Settings"><SettingsIcon /></MenuIcon>
+    <MenuIcon name="Tweak"><SettingsIcon /></MenuIcon>
     <MenuIcon name="Add"><AddIcon /></MenuIcon>
   </nav>
 </template>

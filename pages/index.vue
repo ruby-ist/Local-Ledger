@@ -1,5 +1,3 @@
 <template>
-  <div>
-    <VerticalNavBar />
-  </div>
+  <div></div>
 </template>

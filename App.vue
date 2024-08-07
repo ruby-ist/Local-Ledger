@@ -2,6 +2,7 @@
   <div>
     <PageTitle />
     <NuxtPage class="pr-80" />
+    <VerticalNavBar />
   </div>
 </template>
 

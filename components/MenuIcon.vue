@@ -23,10 +23,14 @@ export default defineComponent({
   justify-content: space-around;
   align-items: center;
   cursor: pointer;
-  margin: 15px 0;
+  margin: 16px 0;
 
-  svg path {
-    fill: var(--color);
+  svg {
+    width: 20px;
+
+    path {
+      fill: var(--color);
+    }
   }
 
   span {
@@ -36,7 +40,8 @@ export default defineComponent({
     margin: 5px 0;
   }
 
-  &.active {
+  &.active,
+  &:hover {
     --color: white;
   }
 }
