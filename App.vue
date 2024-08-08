@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="main">
     <PageTitle />
-    <NuxtPage class="pr-80" />
+    <NuxtPage class="mr-80" />
     <VerticalNavBar />
   </div>
 </template>
@@ -16,5 +16,11 @@
 
 body {
   margin: 0;
+  overflow: hidden;
+
+  #main {
+    overflow: hidden;
+    height: 100vh;
+  }
 }
 </style>
