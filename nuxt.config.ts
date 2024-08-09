@@ -1,5 +1,4 @@
-// @ts-expect-error process is a nodejs global
-const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM);
+const host = process.env.TAURI_DEV_HOST;
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
@@ -15,11 +14,14 @@ export default defineNuxtConfig({
     clearScreen: false,
     envPrefix: ["VITE_", "TAURI_"],
     server: {
+      //@ts-ignore required for Tauri hot reloading
+      port: 3000,
       strictPort: true,
-      hmr: mobile
+      host: host || false,
+      hmr: host
         ? {
             protocol: "ws",
-            host: "0.0.0.0",
+            host,
             port: 5183,
           }
         : undefined,
