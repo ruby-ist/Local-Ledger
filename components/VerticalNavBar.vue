@@ -18,9 +18,9 @@ nav {
   border-bottom-left-radius: 25px;
   position: fixed;
   right: 0;
-  bottom: 50%;
-  transform: translateY(50%);
+  bottom: calc(50% - 94px);
+  transform: translateY(calc(50% - 47px));
   justify-content: space-around;
-  padding: 22px 10px 22px 18px;
+  padding: 22px 12px 22px 20px;
 }
 </style>

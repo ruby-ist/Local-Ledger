@@ -1,6 +1,6 @@
 <template>
   <div ref="group" class="group">
-    <h3><span>₹</span>&nbsp;&nbsp;{{ amount }}</h3>
+    <h3><span>₹</span>&nbsp;{{ amount }}</h3>
     <div class="fw-500">{{ name }}</div>
     <button><AddButtonIcon :color="color" /></button>
   </div>
@@ -47,7 +47,7 @@ export default defineComponent({
       component.style.setProperty("--background-color", `#${this.color}`);
       component.style.setProperty(
         "--background-shade",
-        `#${this.darkenHexColor(60)}`,
+        `#${this.darkenHexColor(70)}`,
       );
     }
   },
@@ -56,20 +56,21 @@ export default defineComponent({
 
 <style lang="scss">
 .group {
-  margin: 10px 0;
+  margin: 12px 0;
   border-radius: 16px;
-  padding: 20px 25px;
+  padding: 20px 25px 22px;
   position: relative;
+  width: 188px;
   background: linear-gradient(var(--background-color), var(--background-shade));
 
   h3 {
-    margin: 0 0 36px 0;
+    margin: 0 0 42px 0;
     font-size: 1.35em;
     font-weight: 700;
   }
 
   div {
-    font-size: 0.85em;
+    font-size: 0.9em;
   }
 
   button {
@@ -84,6 +85,10 @@ export default defineComponent({
     place-items: center;
     padding: 8px;
     cursor: pointer;
+
+    svg {
+      width: 16px;
+    }
   }
 }
 </style>

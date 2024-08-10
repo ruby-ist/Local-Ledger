@@ -1,8 +1,10 @@
 <template>
-  <div id="main">
+  <div id="layout">
     <PageTitle />
-    <NuxtPage class="mr-80" />
-    <VerticalNavBar />
+    <div>
+      <NuxtPage class="mr-96" />
+      <VerticalNavBar />
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,7 @@ body {
   margin: 0;
   overflow: hidden;
 
-  #main {
+  #layout {
     overflow: hidden;
     height: 100vh;
   }

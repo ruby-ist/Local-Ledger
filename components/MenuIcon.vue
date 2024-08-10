@@ -26,7 +26,7 @@ export default defineComponent({
   margin: 16px 0;
 
   svg {
-    width: 20px;
+    width: 22px;
 
     path {
       fill: var(--color);
@@ -35,7 +35,7 @@ export default defineComponent({
 
   span {
     color: var(--color);
-    font-size: 0.65em;
+    font-size: 0.8em;
     font-weight: 600;
     margin: 5px 0;
   }
