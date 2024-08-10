@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-export default defineComponent({
+export default defineNuxtComponent({
   props: {
     name: String,
     amount: Number,

@@ -1,12 +1,26 @@
 <template>
   <div id="layout">
-    <PageTitle />
+    <PageTitle :title="title" />
     <div>
-      <NuxtPage class="mr-96" />
+      <NuxtPage class="mr-96" @set-title="setTitle" />
       <VerticalNavBar />
     </div>
   </div>
 </template>
+
+<script lang="ts">
+export default defineNuxtComponent({
+  data: () => ({
+    title: "",
+  }),
+
+  methods: {
+    setTitle(title: string) {
+      this.title = title;
+    },
+  },
+});
+</script>
 
 <style>
 :root {
@@ -14,6 +28,10 @@
   color: white;
   font-family: system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
 }
 
 body {

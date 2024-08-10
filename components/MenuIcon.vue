@@ -1,15 +1,21 @@
 <template>
-  <div class="menu-icon" :class="{ active: active }">
+  <div class="menu-icon" :class="{ active: active }" @click="markAsActive">
     <slot />
     <span>{{ name }}</span>
   </div>
 </template>
 
 <script lang="ts">
-export default defineComponent({
+export default defineNuxtComponent({
   props: {
     name: String,
     active: Boolean,
+  },
+  methods: {
+    markAsActive(event: MouseEvent) {
+      document.querySelector(".menu-icon.active")?.classList.remove("active");
+      (event.currentTarget as HTMLDivElement).classList.add("active");
+    },
   },
 });
 </script>

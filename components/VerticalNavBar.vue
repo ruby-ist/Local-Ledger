@@ -1,8 +1,16 @@
 <template>
   <nav class="navbar pl-20">
     <MenuIcon name="Graph"><GraphIcon /></MenuIcon>
-    <MenuIcon name="Groups" active><GroupIcon /></MenuIcon>
-    <MenuIcon name="Ledger"><LedgerIcon /></MenuIcon>
+    <NuxtLink to="groups">
+      <MenuIcon name="Groups" active>
+        <GroupIcon />
+      </MenuIcon>
+    </NuxtLink>
+    <NuxtLink to="ledger">
+      <MenuIcon name="Ledger">
+        <LedgerIcon />
+      </MenuIcon>
+    </NuxtLink>
     <MenuIcon name="Tags"><TagIcon /></MenuIcon>
     <MenuIcon name="Tweak"><SettingsIcon /></MenuIcon>
     <MenuIcon name="Add"><AddIcon /></MenuIcon>
