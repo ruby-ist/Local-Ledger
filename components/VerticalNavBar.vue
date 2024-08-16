@@ -11,7 +11,11 @@
         <LedgerIcon />
       </MenuIcon>
     </NuxtLink>
-    <MenuIcon name="Tags"><TagIcon /></MenuIcon>
+    <NuxtLink to="tags">
+      <MenuIcon name="Tags">
+        <TagIcon />
+      </MenuIcon>
+    </NuxtLink>
     <MenuIcon name="Tweak"><SettingsIcon /></MenuIcon>
     <MenuIcon name="Add"><AddIcon /></MenuIcon>
   </nav>

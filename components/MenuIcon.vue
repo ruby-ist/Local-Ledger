@@ -22,7 +22,7 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 .menu-icon {
-  --color: #585858;
+  --color: #535353;
 
   display: flex;
   flex-flow: column;

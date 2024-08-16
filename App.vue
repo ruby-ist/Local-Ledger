@@ -2,7 +2,7 @@
   <div id="layout">
     <PageTitle :title="title" />
     <div>
-      <NuxtPage class="mr-96" @set-title="setTitle" />
+      <NuxtPage class="page" @set-title="setTitle" />
       <VerticalNavBar />
     </div>
   </div>
@@ -41,6 +41,18 @@ body {
   #layout {
     overflow: hidden;
     height: 100vh;
+  }
+}
+
+.page {
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin-right: 96px;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 </style>

@@ -3,7 +3,7 @@ const host = process.env.TAURI_DEV_HOST;
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   components: [
-    { path: "~/components/inline-svg-icons", pathPrefix: false },
+    { path: "~/components/icons", pathPrefix: false },
     "~/components",
   ],
   devServer: { host: "0.0.0.0" },
