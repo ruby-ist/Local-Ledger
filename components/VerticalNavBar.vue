@@ -16,7 +16,9 @@
         <TagIcon />
       </MenuIcon>
     </NuxtLink>
-    <MenuIcon name="Tweak"><SettingsIcon /></MenuIcon>
+    <NuxtLink to="settings">
+      <MenuIcon name="Tweak"><SettingsIcon /></MenuIcon>
+    </NuxtLink>
     <MenuIcon name="Add"><AddIcon /></MenuIcon>
   </nav>
 </template>
