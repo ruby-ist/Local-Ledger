@@ -8,11 +8,11 @@ export default defineConfig({
   rules: [
     [/^fw-(\d{3})$/, ([, w]) => ({ "font-weight": w })],
     [
-      /^([p|m])([t|l|b|r])-(\d+)$/, //@ts-ignore
+      /^([p|m])([t|l|b|r])-(\d+)$/, //@ts-expect-error Rules for UnoCSS
       ([, p, s, m]) => JSON.parse(`{ "${spaces[p]}-${sides[s]}": "${m}px" }`),
     ],
     [
-      /^([p|m])-(\d+)$/, //@ts-ignore
+      /^([p|m])-(\d+)$/, //@ts-expect-error Rules for UnoCSS
       ([, p, m]) => JSON.parse(`{ "${spaces[p]}": "${m}px" }`),
     ],
   ],

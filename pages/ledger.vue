@@ -6,7 +6,7 @@
       description="Breakfast"
       tag="Food"
       :amount="100"
-      tagColor="5272f2"
+      tag-color="5272f2"
     />
     <Log
       key="3"
@@ -14,7 +14,7 @@
       description="June Rent"
       tag="Rent"
       :amount="3250"
-      tagColor="64CCC5"
+      tag-color="64CCC5"
     />
     <Log
       key="4"
@@ -22,7 +22,7 @@
       description="Lunch"
       tag="Food"
       :amount="90"
-      tagColor="9370db"
+      tag-color="9370db"
     />
     <Log
       key="5"
@@ -30,7 +30,7 @@
       description="Snacks"
       tag="Food"
       :amount="50"
-      tagColor="fee12b"
+      tag-color="fee12b"
     />
     <Log
       key="6"
@@ -38,7 +38,7 @@
       description="Stationary"
       tag="Food"
       :amount="300"
-      tagColor="f4a460"
+      tag-color="f4a460"
     />
     <Log
       key="7"
@@ -46,7 +46,7 @@
       description="Others"
       tag="Food"
       :amount="40"
-      tagColor="9370db"
+      tag-color="9370db"
     />
   </div>
 </template>

@@ -16,7 +16,7 @@ export default defineNuxtComponent({
 
   methods: {
     darkenHexColor(percentage: number): string {
-      let hex = this.color || "";
+      const hex = this.color || "";
       if (hex.length !== 6) {
         throw new Error("Invalid hex color.");
       }

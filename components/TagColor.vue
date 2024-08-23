@@ -1,5 +1,5 @@
 <template>
-  <div class="tag-color"></div>
+  <div class="tag-color"/>
 </template>
 
 <script lang="ts">

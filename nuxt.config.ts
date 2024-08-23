@@ -8,13 +8,13 @@ export default defineNuxtConfig({
   ],
   devServer: { host: "0.0.0.0" },
   devtools: { enabled: true },
-  modules: ["@unocss/nuxt"],
+  modules: ["@unocss/nuxt", "@nuxt/eslint"],
   ssr: false,
   vite: {
     clearScreen: false,
     envPrefix: ["VITE_", "TAURI_"],
     server: {
-      //@ts-ignore required for Tauri hot reloading
+      //@ts-expect-error required for Tauri hot reloading
       port: 3000,
       strictPort: true,
       host: host || false,

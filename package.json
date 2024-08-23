@@ -9,7 +9,11 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "android": "tauri android dev",
+    "ios": "tauri ios dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@tauri-apps/api": ">=2.0.0-rc.0",
@@ -18,8 +22,10 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@nuxt/eslint": "^0.5.2",
     "@tauri-apps/cli": ">=2.0.0-rc.0",
     "@unocss/nuxt": "^0.62.2",
+    "eslint": "^9.9.0",
     "sass": "^1.77.8"
   }
 }
