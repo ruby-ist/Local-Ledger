@@ -7,6 +7,9 @@
 </template>
 
 <script lang="ts">
+import { mapActions } from "pinia";
+import { useColorStore } from "~/stores/colorStore";
+
 export default defineNuxtComponent({
   props: {
     name: String,
@@ -14,40 +17,16 @@ export default defineNuxtComponent({
     color: String,
   },
 
-  methods: {
-    darkenHexColor(percentage: number): string {
-      const hex = this.color || "";
-      if (hex.length !== 6) {
-        throw new Error("Invalid hex color.");
-      }
-
-      // Convert hex to RGB
-      let r = parseInt(hex.substring(0, 2), 16);
-      let g = parseInt(hex.substring(2, 4), 16);
-      let b = parseInt(hex.substring(4, 6), 16);
-
-      // Darken each component by the percentage
-      r = Math.floor(r * (1 - percentage / 100));
-      g = Math.floor(g * (1 - percentage / 100));
-      b = Math.floor(b * (1 - percentage / 100));
-
-      // Ensure values are within valid range
-      r = Math.max(0, Math.min(255, r));
-      g = Math.max(0, Math.min(255, g));
-      b = Math.max(0, Math.min(255, b));
-
-      return `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-    },
-  },
+  methods: { ...mapActions(useColorStore, ["darkShade"]) },
 
   mounted() {
     const component: HTMLDivElement = this.$refs.group as HTMLDivElement;
 
-    if (component) {
+    if (component && this.color) {
       component.style.setProperty("--background-color", `#${this.color}`);
       component.style.setProperty(
         "--background-shade",
-        `#${this.darkenHexColor(70)}`,
+        `#${this.darkShade(this.color, 70)}`,
       );
     }
   },
