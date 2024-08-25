@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   ],
   devServer: { host: "0.0.0.0" },
   devtools: { enabled: true },
-  modules: ["@unocss/nuxt", "@nuxt/eslint"],
+  modules: ["@unocss/nuxt", "@nuxt/eslint", "@pinia/nuxt"],
   ssr: false,
   vite: {
     clearScreen: false,
