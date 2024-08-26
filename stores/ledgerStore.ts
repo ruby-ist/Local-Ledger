@@ -1,4 +1,4 @@
-export const useLedgerStore = defineStore("ledger", {
+export const useLedgerStore = defineStore('ledger', {
   state: () => ({
     showAddmodal: false,
   }),

@@ -17,7 +17,7 @@ export default defineNuxtComponent({
   },
 
   mounted() {
-    this.$emit("setTitle", "Groups");
+    this.$emit('setTitle', 'Groups');
   },
 });
 </script>

@@ -13,8 +13,8 @@ export default defineNuxtComponent({
   },
   methods: {
     markAsActive(event: MouseEvent) {
-      document.querySelector(".menu-icon.active")?.classList.remove("active");
-      (event.currentTarget as HTMLDivElement).classList.add("active");
+      document.querySelector('.menu-icon.active')?.classList.remove('active');
+      (event.currentTarget as HTMLDivElement).classList.add('active');
     },
   },
 });

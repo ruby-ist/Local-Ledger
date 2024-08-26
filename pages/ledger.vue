@@ -60,7 +60,7 @@ export default defineNuxtComponent({
   },
 
   mounted() {
-    this.$emit("setTitle", "Ledger");
+    this.$emit('setTitle', 'Ledger');
   },
 });
 </script>

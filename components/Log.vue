@@ -1,14 +1,22 @@
 <template>
   <div class="log">
-    <div class="row" ref="log" @touchstart="initialMark" @touchmove="slideLog">
+    <div ref="log" class="row" @touchstart="initialMark" @touchmove="slideLog">
       <div class="col-1">
-        <div class="timestamp">{{ timestamp }}</div>
-        <h3 class="description">{{ description }}</h3>
-        <div class="tag"><TagColor :color="tagColor" />&ensp;{{ tag }}</div>
+        <div class="timestamp">
+          {{ timestamp }}
+        </div>
+        <h3 class="description">
+          {{ description }}
+        </h3>
+        <div class="tag">
+          <TagColor :color="tagColor" />&ensp;{{ tag }}
+        </div>
       </div>
       <div class="col-2">
         <ThreeDotsIcon height="20px" />
-        <div class="amount"><span>₹</span>&ensp;{{ amount }}</div>
+        <div class="amount">
+          <span>₹</span>&ensp;{{ amount }}
+        </div>
       </div>
     </div>
     <div class="hidden-layer">
@@ -21,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { gsap } from "gsap";
+import { gsap } from 'gsap';
 
 export default defineNuxtComponent({
   props: {
@@ -33,17 +41,17 @@ export default defineNuxtComponent({
   },
   methods: {
     initialMark(event: TouchEvent) {
-      if (this.$refs["log"])
-        this.$refs["log"].dataset.x = event.touches[0].pageX;
+      if (this.$refs['log'])
+        this.$refs['log'].dataset.x = event.touches[0].pageX;
     },
 
     slideLog(event: TouchEvent) {
-      const x = event.touches[0].pageX - this.$refs["log"].dataset.x;
-      gsap.to(this.$refs["log"], { x: x, duration: 0.1 });
+      const x = event.touches[0].pageX - this.$refs['log'].dataset.x;
+      gsap.to(this.$refs['log'], { x: x, duration: 0.1 });
     },
 
-    setToInitial(event: TouchEvent) {
-      gsap.to(this.$refs["log"], { x: 0, duration: 0.1 });
+    setToInitial() {
+      gsap.to(this.$refs['log'], { x: 0, duration: 0.1 });
     },
   },
 });

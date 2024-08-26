@@ -1,9 +1,9 @@
-export const useColorStore = defineStore("color", {
+export const useColorStore = defineStore('color', {
   actions: {
     darkShade(color: string, percentage: number): string {
-      const hex = color || "";
+      const hex = color || '';
       if (hex.length !== 6) {
-        throw new Error("Invalid hex color.");
+        throw new Error('Invalid hex color.');
       }
 
       // Convert hex to RGB
@@ -21,7 +21,7 @@ export const useColorStore = defineStore("color", {
       g = Math.max(0, Math.min(255, g));
       b = Math.max(0, Math.min(255, b));
 
-      return `${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+      return `${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     },
   },
 });

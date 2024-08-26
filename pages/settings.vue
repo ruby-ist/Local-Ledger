@@ -2,16 +2,28 @@
   <div class="settings">
     <div>
       <div class="option">
-        <div class="name">Currency Symbol</div>
-        <div class="value">₹</div>
+        <div class="name">
+          Currency Symbol
+        </div>
+        <div class="value">
+          ₹
+        </div>
       </div>
       <div class="option">
-        <div class="name">Duration</div>
-        <div class="value">Per month</div>
+        <div class="name">
+          Duration
+        </div>
+        <div class="value">
+          Per month
+        </div>
       </div>
       <div class="option">
-        <div class="name">Target</div>
-        <div class="value">12000</div>
+        <div class="name">
+          Target
+        </div>
+        <div class="value">
+          12000
+        </div>
       </div>
     </div>
 
@@ -31,7 +43,7 @@ export default defineNuxtComponent({
   },
 
   mounted() {
-    this.$emit("setTitle", "Settings");
+    this.$emit('setTitle', 'Settings');
   },
 });
 </script>

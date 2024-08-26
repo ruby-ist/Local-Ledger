@@ -1,14 +1,16 @@
 <template>
   <div ref="group" class="group">
     <h3><span>₹</span>&nbsp;{{ amount }}</h3>
-    <div class="fw-500">{{ name }}</div>
+    <div class="fw-500">
+      {{ name }}
+    </div>
     <button><AddButtonIcon :color="color" /></button>
   </div>
 </template>
 
 <script lang="ts">
-import { mapActions } from "pinia";
-import { useColorStore } from "~/stores/colorStore";
+import { mapActions } from 'pinia';
+import { useColorStore } from '~/stores/colorStore';
 
 export default defineNuxtComponent({
   props: {
@@ -17,15 +19,15 @@ export default defineNuxtComponent({
     color: String,
   },
 
-  methods: { ...mapActions(useColorStore, ["darkShade"]) },
+  methods: { ...mapActions(useColorStore, ['darkShade']) },
 
   mounted() {
     const component: HTMLDivElement = this.$refs.group as HTMLDivElement;
 
     if (component && this.color) {
-      component.style.setProperty("--background-color", `#${this.color}`);
+      component.style.setProperty('--background-color', `#${this.color}`);
       component.style.setProperty(
-        "--background-shade",
+        '--background-shade',
         `#${this.darkShade(this.color, 70)}`,
       );
     }

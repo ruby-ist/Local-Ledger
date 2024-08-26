@@ -1,7 +1,7 @@
 <script>
 export default defineNuxtComponent({
   mounted() {
-    this.$router.push("/groups");
+    this.$router.push('/groups');
   },
 });
 </script>

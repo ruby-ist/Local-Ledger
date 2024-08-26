@@ -17,7 +17,7 @@ export default defineNuxtComponent({
   },
 
   mounted() {
-    this.$emit("setTitle", "Tags");
+    this.$emit('setTitle', 'Tags');
   },
 });
 </script>

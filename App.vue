@@ -11,7 +11,7 @@
 <script lang="ts">
 export default defineNuxtComponent({
   data: () => ({
-    title: "",
+    title: '',
   }),
 
   methods: {
