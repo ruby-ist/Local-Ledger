@@ -1,6 +1,12 @@
 <template>
   <div class="log">
-    <div ref="log" class="row" @touchstart="initialMark" @touchmove="slideLog">
+    <div
+      ref="log"
+      class="row"
+      @touchstart="initialMark"
+      @touchmove="slideLog"
+      @touchcancel="setToInitial"
+    >
       <div class="col-1">
         <div class="timestamp">
           {{ timestamp }}
@@ -41,17 +47,28 @@ export default defineNuxtComponent({
   },
   methods: {
     initialMark(event: TouchEvent) {
-      if (this.$refs['log'])
-        this.$refs['log'].dataset.x = event.touches[0].pageX;
+      if (this.$refs['log']) {
+        (this.$refs['log'] as HTMLDivElement).dataset.x
+          = event.touches[0].pageX.toString();
+      }
     },
 
     slideLog(event: TouchEvent) {
-      const x = event.touches[0].pageX - this.$refs['log'].dataset.x;
-      gsap.to(this.$refs['log'], { x: x, duration: 0.1 });
+      if (this.$refs.log) {
+        const initialX = parseInt(
+          (this.$refs.log as HTMLDivElement).dataset.x || '0',
+        );
+        const x = event.touches[0].pageX - initialX;
+        if (x >= -125 && x <= 125) {
+          gsap.to(this.$refs.log, { x: x, duration: 0.1 });
+        }
+      }
     },
 
     setToInitial() {
-      gsap.to(this.$refs['log'], { x: 0, duration: 0.1 });
+      if (this.$refs.log) {
+        gsap.to(this.$refs.log, { x: 0, duration: 0.1 });
+      }
     },
   },
 });
