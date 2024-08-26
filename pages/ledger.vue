@@ -68,6 +68,7 @@ export default defineNuxtComponent({
 <style lang="scss" scoped>
 .ledgers {
   padding: 10px 0px 10px 26px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: clip;
 }
 </style>
