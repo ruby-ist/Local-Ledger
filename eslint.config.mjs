@@ -3,16 +3,8 @@ import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt({
   rules: {
-    'vue/max-attributes-per-line': [
-      'warn',
-      {
-        singleline: {
-          max: 4,
-        },
-        multiline: {
-          max: 1,
-        },
-      },
-    ],
+    'vue/max-attributes-per-line': 'off',
+    'vue/first-attribute-linebreak': 'off',
+    'vue/html-closing-bracket-newline': 'off',
   },
 }).append({ ignores: ['src-tauri'] });

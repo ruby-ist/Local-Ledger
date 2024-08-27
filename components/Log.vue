@@ -1,12 +1,8 @@
 <template>
   <div class="log">
-    <div
-      ref="log"
-      class="row"
-      @touchstart="initialMark"
-      @touchmove="slideLog"
-      @touchcancel="setToInitial"
-    >
+    <div ref="slider" class="row"
+         @touchstart="startSwipe" @touchend="finishSwipe"
+         @touchmove="performSwipe" @touchcancel="closeSwipe">
       <div class="col-1">
         <div class="timestamp">
           {{ timestamp }}
@@ -15,13 +11,15 @@
           {{ description }}
         </h3>
         <div class="tag">
-          <TagColor :color="tagColor" />&ensp;{{ tag }}
+          <TagColor :color="tagColor" />
+          &ensp;{{ tag }}
         </div>
       </div>
       <div class="col-2">
-        <ThreeDotsIcon height="20px" />
+        <a href="#" @click="autoSwipe"><ThreeDotsIcon height="20px" /></a>
         <div class="amount">
-          <span>₹</span>&ensp;{{ amount }}
+          <span>₹</span>
+          &ensp;{{ amount }}
         </div>
       </div>
     </div>
@@ -38,6 +36,11 @@
 import { gsap } from 'gsap';
 
 export default defineNuxtComponent({
+  data: () => ({
+    initialPosition: 0,
+    currentPosition: 0,
+    swipeOpen: false,
+  }),
   props: {
     description: String,
     tag: String,
@@ -46,28 +49,45 @@ export default defineNuxtComponent({
     tagColor: String,
   },
   methods: {
-    initialMark(event: TouchEvent) {
-      if (this.$refs['log']) {
-        (this.$refs['log'] as HTMLDivElement).dataset.x
-          = event.touches[0].pageX.toString();
+    autoSwipe() {
+      if (this.$refs.slider) {
+        const x = this.swipeOpen ? 0 : -125;
+        gsap.to(this.$refs.slider, { x: x, duration: 0.1 });
+        this.swipeOpen = !this.swipeOpen;
       }
     },
 
-    slideLog(event: TouchEvent) {
-      if (this.$refs.log) {
-        const initialX = parseInt(
-          (this.$refs.log as HTMLDivElement).dataset.x || '0',
-        );
-        const x = event.touches[0].pageX - initialX;
-        if (x >= -125 && x <= 125) {
-          gsap.to(this.$refs.log, { x: x, duration: 0.1 });
+    startSwipe(event: TouchEvent) {
+      this.initialPosition = event.touches[0].pageX;
+    },
+
+    performSwipe(event: TouchEvent) {
+      if (this.$refs.slider) {
+        let x = event.touches[0].pageX - this.initialPosition;
+        x = x < 0 ? x : 0;
+        if (x >= -125 && x <= 0) {
+          this.currentPosition = x;
+          gsap.to(this.$refs.slider, { x: x, duration: 0.1 });
         }
       }
     },
 
-    setToInitial() {
-      if (this.$refs.log) {
-        gsap.to(this.$refs.log, { x: 0, duration: 0.1 });
+    finishSwipe() {
+      if (this.$refs.slider) {
+        if (this.currentPosition < -67.5) {
+          gsap.to(this.$refs.slider, { x: -125, duration: 0.1 });
+          this.swipeOpen = true;
+        }
+        else {
+          gsap.to(this.$refs.slider, { x: 0, duration: 0.1 });
+          this.swipeOpen = false;
+        }
+      }
+    },
+
+    closeSwipe() {
+      if (this.$refs.slider) {
+        gsap.to(this.$refs.slider, { x: 0, duration: 0.1 });
       }
     },
   },
