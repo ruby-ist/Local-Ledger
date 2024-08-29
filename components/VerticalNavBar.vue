@@ -23,11 +23,23 @@
         <SettingsIcon />
       </MenuIcon>
     </NuxtLink>
-    <MenuIcon name="Add">
+    <MenuIcon name="Add" @click="openLogModal">
       <AddIcon />
     </MenuIcon>
   </nav>
 </template>
+
+<script lang="ts">
+import { gsap } from 'gsap';
+
+export default defineComponent({
+  methods: {
+    openLogModal() {
+      gsap.to('#new_log_modal', { height: '100%', display: 'flex', duration: 0.5 });
+    },
+  },
+});
+</script>
 
 <style scoped lang="scss">
 nav {

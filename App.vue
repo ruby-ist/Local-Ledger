@@ -1,14 +1,17 @@
 <template>
   <div id="layout">
     <PageTitle :title="title" />
-    <div>
+    <div style="position: relative;">
       <NuxtPage class="page" @set-title="setTitle" />
       <VerticalNavBar />
+      <AddLogModal />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { gsap } from 'gsap';
+
 export default defineNuxtComponent({
   data: () => ({
     title: '',
@@ -18,6 +21,10 @@ export default defineNuxtComponent({
     setTitle(title: string) {
       this.title = title;
     },
+  },
+
+  mounted() {
+    gsap.set('#new_log_modal', { height: 0, display: 'none' });
   },
 });
 </script>
