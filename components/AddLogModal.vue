@@ -1,6 +1,7 @@
 <template>
   <div id="new_log_modal">
     <h2>Tag</h2>
+    <ColorsCarousel />
     <div class="amount">
       <span>₹ </span>
       <input v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
@@ -25,7 +26,7 @@ export default defineNuxtComponent({
   }),
 
   methods: {
-    updateWidth(e: InputEvent) {
+    updateWidth(e: Event) {
       const target = e.target as HTMLInputElement;
       const value = target.value;
       const length = value.length > 0 ? value.length : 1;
@@ -49,7 +50,7 @@ export default defineNuxtComponent({
       // ToDo: strip prefix zero from pasted data
     },
 
-    adjustHeight(e: InputEvent) {
+    adjustHeight(e: Event) {
       const target = e.target as HTMLTextAreaElement;
       target.style.height = target.style.minHeight;
       console.log(target.scrollHeight + 'px');
@@ -74,9 +75,13 @@ export default defineNuxtComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   background: black;
   overflow-x: clip;
+
+  h2 {
+    margin-top: 64px;
+  }
 
   .amount {
     font-size: 1.5em;
