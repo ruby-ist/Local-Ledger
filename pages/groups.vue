@@ -1,5 +1,5 @@
 <template>
-  <div class="groups">
+  <div class="groups p-20-0-20-8per">
     <Group key="1" name="Food" :amount="1650" color="5272F2" />
     <Group key="2" name="Rent" :amount="3250" color="64CCC5" />
     <Group key="3" name="Food" :amount="1650" color="9370db" />
@@ -26,6 +26,5 @@ export default defineNuxtComponent({
 .groups {
   display: flex;
   flex-flow: column;
-  padding: 20px 0 20px 8%;
 }
 </style>

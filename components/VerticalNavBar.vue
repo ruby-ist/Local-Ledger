@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar pl-20">
+  <nav class="navbar p-22-12-22-20">
     <MenuIcon name="Graph">
       <GraphIcon />
     </MenuIcon>
@@ -53,6 +53,5 @@ nav {
   bottom: calc(50% - 94px);
   transform: translateY(calc(50% - 47px));
   justify-content: space-around;
-  padding: 22px 12px 22px 20px;
 }
 </style>

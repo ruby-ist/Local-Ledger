@@ -1,5 +1,5 @@
 <template>
-  <div class="ledgers">
+  <div class="ledgers p-10-0-10-26">
     <Log
       key="1"
       timestamp="16-Aug-2024 : 9:47 AM"
@@ -67,7 +67,6 @@ export default defineNuxtComponent({
 
 <style lang="scss" scoped>
 .ledgers {
-  padding: 10px 0px 10px 26px;
   overflow-y: auto;
   overflow-x: clip;
 }

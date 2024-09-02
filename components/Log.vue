@@ -1,16 +1,16 @@
 <template>
   <div class="log">
-    <div ref="slider" class="row"
+    <div ref="slider" class="row p-20-10"
          @touchstart="startSwipe" @touchend="finishSwipe"
          @touchmove="performSwipe" @touchcancel="closeSwipe">
       <div class="col-1">
         <div class="timestamp">
           {{ timestamp }}
         </div>
-        <h3 class="description">
+        <h3 class="descriptio m-15-0-30">
           {{ description }}
         </h3>
-        <div class="tag">
+        <div class="tag mb-2">
           <TagColor :color="tagColor" />
           &ensp;{{ tag }}
         </div>
@@ -24,9 +24,9 @@
       </div>
     </div>
     <div class="hidden-layer">
-      <div class="icons">
-        <TrashIcon class="edit-icon" />
-        <EditIcon color="535353" />
+      <div class="mr-10">
+        <TrashIcon class="edit-icon m-0-15" />
+        <EditIcon color="535353" class=" m-0-15" />
       </div>
     </div>
   </div>
@@ -103,7 +103,6 @@ export default defineNuxtComponent({
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 20px 10px;
     background: black;
   }
 
@@ -119,7 +118,6 @@ export default defineNuxtComponent({
   }
 
   .description {
-    margin: 15px 0 30px;
     font-weight: 600;
   }
 
@@ -128,7 +126,6 @@ export default defineNuxtComponent({
     font-weight: 500;
     display: flex;
     align-items: center;
-    margin-bottom: 2px;
   }
 
   .amount {
@@ -147,13 +144,8 @@ export default defineNuxtComponent({
     align-items: center;
     justify-content: flex-end;
 
-    .icons {
-      margin-right: 10px;
-    }
-
     svg {
       height: 22px;
-      margin: 0 15px;
 
       path {
         fill: #535353;

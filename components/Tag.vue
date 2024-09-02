@@ -1,8 +1,8 @@
 <template>
-  <div class="tags">
+  <div class="tags p-20-0-20-36">
     <span class="name">{{ name }}</span>
     <div class="icons">
-      <TagColor class="color" :color="color" />
+      <TagColor class="color mr-10" :color="color" />
       <EditIcon />
       <TrashIcon />
     </div>
@@ -20,7 +20,6 @@ export default defineNuxtComponent({
 
 <style lang="scss" scoped>
 .tags {
-  padding: 20px 0 20px 36px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -47,7 +46,6 @@ export default defineNuxtComponent({
   .color {
     width: 20px;
     height: 20px;
-    margin-right: 10px;
   }
 }
 </style>

@@ -6,5 +6,6 @@ export default withNuxt({
     'vue/max-attributes-per-line': 'off',
     'vue/first-attribute-linebreak': 'off',
     'vue/html-closing-bracket-newline': 'off',
+    '@stylistic/brace-style': 'off',
   },
 }).append({ ignores: ['src-tauri'] });

@@ -1,5 +1,5 @@
 <template>
-  <div class="settings">
+  <div class="settings pl-36 pr-20">
     <div>
       <div class="option">
         <div class="name">
@@ -50,14 +50,13 @@ export default defineNuxtComponent({
 
 <style lang="scss" scoped>
 .settings {
-  padding-left: 36px;
-  padding-right: 20px;
-
   .option {
+    // ToDo: make it Uno class
     margin: 24px 0;
 
     .name {
       font-size: 0.8em;
+      // ToDo: make it Uno class
       margin-bottom: 8px;
     }
 

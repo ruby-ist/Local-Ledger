@@ -1,6 +1,8 @@
 <template>
   <div id="new_log_modal">
-    <h2>Tag</h2>
+    <h2 class="mt-64">
+      Tag
+    </h2>
     <ColorsCarousel />
     <div class="amount">
       <span>₹ </span>
@@ -8,9 +10,11 @@
              maxlength="6" class="amount-input" type="text" placeholder="0"
              @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
-    <textarea v-model="description" wrap="hard" maxlength="30" placeholder="description"
+    <textarea v-model="description" class="m-30-0 p-15-20" wrap="hard" maxlength="30" placeholder="description"
               autocomplete="off" spellcheck="false" @input="adjustHeight" />
-    <button>Add</button>
+    <button class="p-8-16">
+      Add
+    </button>
     <a class="close-button" @click="closeModal">x</a>
   </div>
 </template>
@@ -79,10 +83,6 @@ export default defineNuxtComponent({
   background: black;
   overflow-x: clip;
 
-  h2 {
-    margin-top: 64px;
-  }
-
   .amount {
     font-size: 1.5em;
     display: flex;
@@ -103,7 +103,6 @@ export default defineNuxtComponent({
 
   textarea {
     text-align: center;
-    padding: 15px 20px;
     min-height: 20px;
     height: 20px;
     max-height: 40px;
@@ -112,7 +111,6 @@ export default defineNuxtComponent({
     background: #121212;
     border-radius: 10px;
     border: none;
-    margin: 30px 0;
     font-family: monospace;
 
     &:focus {
@@ -121,7 +119,6 @@ export default defineNuxtComponent({
   }
 
   button {
-    padding: 8px 16px;
     background: white;
     border: none;
     border-radius: 8px;
