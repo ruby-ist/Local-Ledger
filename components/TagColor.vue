@@ -1,5 +1,5 @@
 <template>
-  <div class="tag-color" />
+  <div class="tag-color h-12 w-12" />
 </template>
 
 <script lang="ts">
@@ -17,8 +17,6 @@ export default defineNuxtComponent({
 .tag-color {
   --tag-color: #fff;
 
-  width: 12px;
-  height: 12px;
   background-color: var(--tag-color);
   display: inline-block;
   border-radius: 15%;

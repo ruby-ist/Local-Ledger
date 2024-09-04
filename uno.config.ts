@@ -57,5 +57,13 @@ export default defineConfig({
           ].filter(Boolean).join(' '),
         };
       }],
+
+    // height and weight shorthand rule
+    [/^(h|w)-(\d+)(\w{2,3})?/, ([, style, i, unit]) => {
+      const property = style === 'h' ? 'height' : 'width';
+      return {
+        [property]: `${i}${mapUnit(unit)}`,
+      };
+    }],
   ],
 });

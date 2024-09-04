@@ -23,10 +23,10 @@
         </div>
       </div>
     </div>
-    <div class="hidden-layer">
+    <div class="hidden-layer h-100per w-100per">
       <div class="mr-10">
-        <TrashIcon class="edit-icon m-0-15" />
-        <EditIcon color="535353" class=" m-0-15" />
+        <TrashIcon class="edit-icon m-0-15 h-22" />
+        <EditIcon color="535353" class=" m-0-15 h-22" />
       </div>
     </div>
   </div>
@@ -136,8 +136,6 @@ export default defineNuxtComponent({
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
     background-color: #121212;
     z-index: -1;
     display: flex;
@@ -145,8 +143,6 @@ export default defineNuxtComponent({
     justify-content: flex-end;
 
     svg {
-      height: 22px;
-
       path {
         fill: #535353;
       }

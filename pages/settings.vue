@@ -27,8 +27,8 @@
       </div>
     </div>
 
-    <div class="edit-settings">
-      <EditIcon />
+    <div class="edit-settings h-50">
+      <EditIcon class="w-22" />
       <span>Edit</span>
     </div>
   </div>
@@ -71,11 +71,6 @@ export default defineNuxtComponent({
     align-items: flex-end;
     flex-direction: column;
     justify-content: space-around;
-    height: 50px;
-
-    svg {
-      width: 22px;
-    }
 
     span {
       font-size: 0.8em;

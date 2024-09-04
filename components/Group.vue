@@ -1,5 +1,5 @@
 <template>
-  <div ref="group" class="group m-12-0 p-20-25-22">
+  <div ref="group" class="group m-12-0 p-20-25-22 w-188">
     <h3 class="m-0-0-42-0">
       <span>₹</span>&nbsp;{{ amount }}
     </h3>
@@ -7,7 +7,7 @@
       {{ name }}
     </div>
     <button class="p-8">
-      <AddButtonIcon :color="color" />
+      <AddButtonIcon :color="color" class="w-16" />
     </button>
   </div>
 </template>
@@ -43,7 +43,6 @@ export default defineNuxtComponent({
 .group {
   border-radius: 16px;
   position: relative;
-  width: 188px;
   background: linear-gradient(var(--background-color), var(--background-shade));
 
   h3 {
@@ -66,10 +65,6 @@ export default defineNuxtComponent({
     display: grid;
     place-items: center;
     cursor: pointer;
-
-    svg {
-      width: 16px;
-    }
   }
 }
 </style>

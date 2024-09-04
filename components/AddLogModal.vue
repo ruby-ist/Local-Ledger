@@ -10,8 +10,8 @@
              maxlength="6" class="amount-input" type="text" placeholder="0"
              @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
-    <textarea v-model="description" class="m-30-0 p-15-20" wrap="hard" maxlength="30" placeholder="description"
-              autocomplete="off" spellcheck="false" @input="adjustHeight" />
+    <textarea v-model="description" class="m-30-0 p-15-20 h-20" wrap="hard" maxlength="30"
+              placeholder="description" autocomplete="off" spellcheck="false" @input="adjustHeight" />
     <button class="p-8-16">
       Add
     </button>
@@ -71,8 +71,10 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 #new_log_modal {
+  // GSAP not working if we move these two to UnoCSS class
   height: 100%;
   width: 100%;
+
   position: absolute;
   bottom: 0;
   left: 0;
@@ -104,7 +106,6 @@ export default defineNuxtComponent({
   textarea {
     text-align: center;
     min-height: 20px;
-    height: 20px;
     max-height: 40px;
     resize: none;
     color: white;

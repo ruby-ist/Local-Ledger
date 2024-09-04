@@ -1,10 +1,10 @@
 <template>
   <div class="tags p-20-0-20-36">
     <span class="name">{{ name }}</span>
-    <div class="icons">
-      <TagColor class="color mr-10" :color="color" />
-      <EditIcon />
-      <TrashIcon />
+    <div class="icons w-50per">
+      <TagColor class="mr-10 h-20 w-20" :color="color" />
+      <EditIcon class="h-22" />
+      <TrashIcon class="h-22" />
     </div>
   </div>
 </template>
@@ -26,7 +26,6 @@ export default defineNuxtComponent({
   align-items: center;
 
   .icons {
-    width: 50%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -34,18 +33,12 @@ export default defineNuxtComponent({
 
     svg {
       cursor: pointer;
-      height: 22px;
     }
   }
 
   .name {
     font-size: 1.3em;
     font-weight: 500;
-  }
-
-  .color {
-    width: 20px;
-    height: 20px;
   }
 }
 </style>
