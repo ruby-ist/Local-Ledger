@@ -6,7 +6,7 @@
     <div class="fw-500">
       {{ name }}
     </div>
-    <button class="p-8">
+    <button class="p-8 pointer">
       <AddButtonIcon :color="color" class="w-16" />
     </button>
   </div>
@@ -64,7 +64,6 @@ export default defineNuxtComponent({
     color: var(--background-color);
     display: grid;
     place-items: center;
-    cursor: pointer;
   }
 }
 </style>

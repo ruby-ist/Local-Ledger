@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="edit-settings h-50">
+    <div class="edit-settings h-50 flex column align-flex-end justify--space-around">
       <EditIcon class="w-22" />
       <span>Edit</span>
     </div>
@@ -67,11 +67,6 @@ export default defineNuxtComponent({
   }
 
   .edit-settings {
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    justify-content: space-around;
-
     span {
       font-size: 0.8em;
     }

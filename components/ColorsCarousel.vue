@@ -1,5 +1,5 @@
 <template>
-  <div ref="carousel" class="carousel mb-24 w-300" @scroll="loopScroll" @touchend="snapScroll" @touchcancel="snapScroll">
+  <div ref="carousel" class="carousel mb-24 w-300 flex" @scroll="loopScroll" @touchend="snapScroll" @touchcancel="snapScroll">
     <div class="item">
       <TagColor color="432343" />
       <div class="tag">
@@ -173,7 +173,6 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 .carousel {
-  display: flex;
   scroll-snap-type: x mandatory;
   overflow-x: auto;
   white-space: nowrap;
@@ -190,11 +189,12 @@ export default defineNuxtComponent({
 .item {
   // ToDo: make it Uno class
   margin: 10px;
-  scroll-behavior: smooth;
-  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  scroll-behavior: smooth;
+  scroll-snap-align: center;
 
   &:first-child {
     padding-left: 100px;
@@ -205,14 +205,13 @@ export default defineNuxtComponent({
   }
 
   .tag-color {
-    display: flex;
     // ToDo: move it to unocss class
     width: 80px;
     height: 80px;
     border-radius: 15px;
     justify-content: center;
     align-items: center;
-    // ToDo: make it Uno class
+    display: flex;
     margin-bottom: 10px;
   }
 }

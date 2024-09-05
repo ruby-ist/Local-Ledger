@@ -1,6 +1,6 @@
 <template>
   <div class="log">
-    <div ref="slider" class="row p-20-10"
+    <div ref="slider" class="p-20-10 flex row justify--space-between"
          @touchstart="startSwipe" @touchend="finishSwipe"
          @touchmove="performSwipe" @touchcancel="closeSwipe">
       <div class="col-1">
@@ -10,12 +10,12 @@
         <h3 class="descriptio m-15-0-30">
           {{ description }}
         </h3>
-        <div class="tag mb-2">
+        <div class="tag mb-2 flex align-center">
           <TagColor :color="tagColor" />
           &ensp;{{ tag }}
         </div>
       </div>
-      <div class="col-2">
+      <div class="flex column justify--space-between align-flex-end">
         <a href="#" @click="autoSwipe"><ThreeDotsIcon height="20px" /></a>
         <div class="amount">
           <span>₹</span>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="hidden-layer h-100per w-100per">
+    <div class="hidden-layer h-100per w-100per flex align-center justify--flex-end">
       <div class="mr-10">
         <TrashIcon class="edit-icon m-0-15 h-22" />
         <EditIcon color="535353" class=" m-0-15 h-22" />
@@ -100,17 +100,7 @@ export default defineNuxtComponent({
   position: relative;
 
   .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     background: black;
-  }
-
-  .col-2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
   }
 
   .timestamp {
@@ -124,8 +114,6 @@ export default defineNuxtComponent({
   .tag {
     font-size: 0.8em;
     font-weight: 500;
-    display: flex;
-    align-items: center;
   }
 
   .amount {
@@ -138,9 +126,6 @@ export default defineNuxtComponent({
     left: 0;
     background-color: #121212;
     z-index: -1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
 
     svg {
       path {

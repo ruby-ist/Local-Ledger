@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar p-22-12-22-20">
+  <nav class="navbar p-22-12-22-20 flex column wrap justify--space-around">
     <MenuIcon name="Graph">
       <GraphIcon />
     </MenuIcon>
@@ -43,8 +43,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 nav {
-  display: flex;
-  flex-flow: column wrap;
   background: #121212;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -52,6 +50,5 @@ nav {
   right: 0;
   bottom: calc(50% - 94px);
   transform: translateY(calc(50% - 47px));
-  justify-content: space-around;
 }
 </style>

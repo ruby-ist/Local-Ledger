@@ -65,5 +65,20 @@ export default defineConfig({
         [property]: `${i}${mapUnit(unit)}`,
       };
     }],
+
+    // Flexbox shorthand rules
+    ['flex', { display: 'flex' }],
+    [/^align-([a-z-]+)$/, ([, alignment]) => ({ 'align-items': alignment })],
+    [/^align--([a-z-]+)$/, ([, alignment]) => ({ 'align-content': alignment })],
+    [/^justify-([a-z-]+)$/, ([_, alignment]) => ({ 'justify-items': alignment })],
+    [/^justify--([a-z-]+)$/, ([_, alignment]) => ({ 'justify-content': alignment })],
+    [/^(row|column)$/, ([, direction]) => ({ 'flex-direction': direction })],
+    [/^(wrap|nowrap)$/, ([, wrap]) => ({ 'flex-wrap': wrap })],
+
+    // Cursor rules
+    ['pointer', { cursor: 'pointer' }],
+
+    // Textarea resize
+    ['no-resize', { resize: 'none' }],
   ],
 });

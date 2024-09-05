@@ -1,21 +1,21 @@
 <template>
-  <div id="new_log_modal">
+  <div id="new_log_modal" class="h-100per w-100per flex column align-center justify--start">
     <h2 class="mt-64">
       Tag
     </h2>
     <ColorsCarousel />
-    <div class="amount">
+    <div class="amount flex align-center">
       <span>₹ </span>
       <input v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
              maxlength="6" class="amount-input" type="text" placeholder="0"
              @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
-    <textarea v-model="description" class="m-30-0 p-15-20 h-20" wrap="hard" maxlength="30"
+    <textarea v-model="description" class="m-30-0 p-15-20 h-20 no-resize" wrap="hard" maxlength="30"
               placeholder="description" autocomplete="off" spellcheck="false" @input="adjustHeight" />
-    <button class="p-8-16">
+    <button class="p-8-16 pointer">
       Add
     </button>
-    <a class="close-button" @click="closeModal">x</a>
+    <a class="close-button pointer" @click="closeModal">x</a>
   </div>
 </template>
 
@@ -71,24 +71,14 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 #new_log_modal {
-  // GSAP not working if we move these two to UnoCSS class
-  height: 100%;
-  width: 100%;
-
   position: absolute;
   bottom: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
   background: black;
   overflow-x: clip;
 
   .amount {
     font-size: 1.5em;
-    display: flex;
-    align-items: center;
   }
 
   .amount-input {
@@ -107,7 +97,6 @@ export default defineNuxtComponent({
     text-align: center;
     min-height: 20px;
     max-height: 40px;
-    resize: none;
     color: white;
     background: #121212;
     border-radius: 10px;
@@ -123,7 +112,6 @@ export default defineNuxtComponent({
     background: white;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 1em;
   }
 
@@ -135,7 +123,6 @@ export default defineNuxtComponent({
     font-size: 2em;
     font-family: monospace;
     z-index: 2;
-    cursor: pointer;
   }
 }
 </style>

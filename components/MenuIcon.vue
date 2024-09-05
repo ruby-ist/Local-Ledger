@@ -1,5 +1,6 @@
 <template>
-  <div class="menu-icon m-16-0" :class="{ active: active }" @click="markAsActive">
+  <div class="menu-icon m-16-0 flex column align-center justify--space-around pointer"
+       :class="{ active: active }" @click="markAsActive">
     <slot />
     <span class="m-5-0">{{ name }}</span>
   </div>
@@ -23,12 +24,6 @@ export default defineNuxtComponent({
 <style lang="scss">
 .menu-icon {
   --color: #535353;
-
-  display: flex;
-  flex-flow: column;
-  justify-content: space-around;
-  align-items: center;
-  cursor: pointer;
 
   svg {
     width: 22px;
