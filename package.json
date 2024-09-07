@@ -21,6 +21,7 @@
     "@tauri-apps/api": ">=2.0.0-rc.0",
     "@tauri-apps/plugin-shell": ">=2.0.0-rc.0",
     "nuxt": "^3.13.0",
+    "swiper": "^11.1.12",
     "vue": "^3.3.4"
   },
   "devDependencies": {

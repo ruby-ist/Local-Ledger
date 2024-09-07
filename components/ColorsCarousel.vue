@@ -1,218 +1,90 @@
 <template>
-  <div ref="carousel" class="carousel mb-24 w-300 flex" @scroll="loopScroll" @touchend="snapScroll" @touchcancel="snapScroll">
-    <div class="item">
-      <TagColor color="432343" />
-      <div class="tag">
-        Food
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="935873" />
-      <div class="tag">
-        Snack
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="398499" />
-      <div class="tag">
-        Dress
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="123e23" />
-      <div class="tag">
-        Movie
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="493843" />
-      <div class="tag">
-        Others
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="435454" />
-      <div class="tag">
-        Pending
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="432343" />
-      <div class="tag">
-        Food
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="935873" />
-      <div class="tag">
-        Snack
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="398499" />
-      <div class="tag">
-        Dress
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="123e23" />
-      <div class="tag">
-        Movie
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="493843" />
-      <div class="tag">
-        Others
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="435454" />
-      <div class="tag">
-        Pending
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="432343" />
-      <div class="tag">
-        Food
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="935873" />
-      <div class="tag">
-        Snack
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="398499" />
-      <div class="tag">
-        Dress
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="123e23" />
-      <div class="tag">
-        Movie
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="493843" />
-      <div class="tag">
-        Others
-      </div>
-    </div>
-    <div class="item">
-      <TagColor color="435454" />
-      <div class="tag">
-        Pending
-      </div>
-    </div>
-  </div>
+  <swiper-container class="h-120 w-120 m-20-0" effect="cards" grab-cursor="true">
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+    <swiper-slide>Slide 4</swiper-slide>
+    <swiper-slide>Slide 5</swiper-slide>
+    <swiper-slide>Slide 6</swiper-slide>
+    <swiper-slide>Slide 7</swiper-slide>
+    <swiper-slide>Slide 8</swiper-slide>
+    <swiper-slide>Slide 9</swiper-slide>
+  </swiper-container>
 </template>
 
-<script lang="ts">
-import { gsap } from 'gsap';
+<script>
+import { register } from 'swiper/element/bundle';
+
+register();
 
 export default defineNuxtComponent({
-  methods: {
-    loopScroll(event: Event) {
-      const carousel = event.target as HTMLDivElement;
-      const left = carousel.scrollLeft;
-
-      if (left <= 500) {
-        carousel.scrollLeft = 1200 - (600 - left);
-        gsap.set(carousel.children[5], { scale: 0.5 });
-        gsap.set(carousel.children[11], { scale: 1 });
-      }
-      else if (left >= 1200) {
-        carousel.scrollLeft = left - 600;
-        gsap.set(carousel.children[12], { scale: 0.5 });
-        gsap.set(carousel.children[6], { scale: 1 });
-      }
-      else {
-        this.magnifyItems();
-      }
-    },
-
-    magnifyItems() {
-      document.querySelectorAll('.item').forEach((item) => {
-        const left = item.getBoundingClientRect().left;
-        if (left < 253 && left >= 153) {
-          const scaleLevel = Math.round((253 - left) * 0.5) / 100;
-          gsap.set(item, { scale: 0.5 + scaleLevel });
-        }
-        else if (left < 153 && left >= 69.8) {
-          //  153x + c = 1
-          // 69.8x + c = 0.5
-          // 1/x = ( 153 - 69.8 ) / 0.5 = 166.4
-          // c ~= 0.08
-          const scaleLevel = Math.round((left / 166.4 + 0.08) * 100) / 100;
-          gsap.set(item, { scale: scaleLevel });
-        }
-        else {
-          gsap.set(item, { scale: 0.5 });
-        }
-      });
-    },
-
-    snapScroll(event: Event) {
-      const carousel = event.target as HTMLDivElement;
-      carousel.scrollLeft = Math.round(carousel.scrollLeft / 100) * 100;
-    },
-  },
-
   mounted() {
-    const carousel = this.$refs.carousel as HTMLDivElement;
-    carousel.scrollLeft = 600;
+    const swiperEl = document.querySelector('swiper-container');
+    const swiperParams = {
+      loop: true,
+      centeredSlides: true,
+      grabCursor: true,
+      cardsEffect: {
+        perSlideRotate: 5,
+        perSlideOffset: 10,
+      },
+    };
 
-    gsap.set('.item', { scale: 0.5 });
+    Object.assign(swiperEl, swiperParams);
+    swiperEl.initialize();
+    swiperEl.swiper.slideTo(5);
   },
 });
 </script>
 
-<style lang="scss">
-.carousel {
-  scroll-snap-type: x mandatory;
-  overflow-x: auto;
-  white-space: nowrap;
-  position: relative;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+<style>
+swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
 }
 
-.item {
-  // ToDo: make it Uno class
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+swiper-slide:nth-child(1n) {
+  background-color: rgb(206, 17, 17);
+}
 
-  scroll-behavior: smooth;
-  scroll-snap-align: center;
+swiper-slide:nth-child(2n) {
+  background-color: rgb(0, 140, 255);
+}
 
-  &:first-child {
-    padding-left: 100px;
-  }
+swiper-slide:nth-child(3n) {
+  background-color: rgb(10, 184, 111);
+}
 
-  &:last-child {
-    padding-right: 100px;
-  }
+swiper-slide:nth-child(4n) {
+  background-color: rgb(211, 122, 7);
+}
 
-  .tag-color {
-    // ToDo: move it to unocss class
-    width: 80px;
-    height: 80px;
-    border-radius: 15px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-bottom: 10px;
-  }
+swiper-slide:nth-child(5n) {
+  background-color: rgb(118, 163, 12);
+}
+
+swiper-slide:nth-child(6n) {
+  background-color: rgb(180, 10, 47);
+}
+
+swiper-slide:nth-child(7n) {
+  background-color: rgb(35, 99, 19);
+}
+
+swiper-slide:nth-child(8n) {
+  background-color: rgb(0, 68, 255);
+}
+
+swiper-slide:nth-child(9n) {
+  background-color: rgb(218, 12, 218);
+}
+
+swiper-slide:nth-child(10n) {
+  background-color: rgb(54, 94, 77);
 }
 </style>
