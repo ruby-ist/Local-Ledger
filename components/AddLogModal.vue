@@ -1,5 +1,7 @@
 <template>
-  <div id="new_log_modal" class="h-100per w-100per flex column align-center justify--start">
+  <div id="new_log_modal"
+       class="h-100p w-100p absolute b-0 l-0 flex column
+              align-center justify--start clip-overflow--x">
     <h2 class="mt-64">
       Tag
     </h2>
@@ -15,7 +17,7 @@
     <button class="p-8-16 pointer">
       Add
     </button>
-    <a class="close-button pointer" @click="closeModal">x</a>
+    <a class="close-button pointer absolute -t-63 r-36 z-2" @click="closeModal">x</a>
   </div>
 </template>
 
@@ -71,11 +73,7 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 #new_log_modal {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   background: black;
-  overflow-x: clip;
 
   .amount {
     font-size: 1.5em;
@@ -116,13 +114,9 @@ export default defineNuxtComponent({
   }
 
   .close-button {
-    position: absolute;
-    top: -63px;
-    right: 36px;
     color: white;
     font-size: 2em;
     font-family: monospace;
-    z-index: 2;
   }
 }
 </style>

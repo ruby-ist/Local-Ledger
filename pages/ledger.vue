@@ -1,5 +1,5 @@
 <template>
-  <div class="ledgers p-10-0-10-26">
+  <div class="p-10-0-10-26 clip-overflow--x">
     <Log
       key="1"
       timestamp="16-Aug-2024 : 9:47 AM"
@@ -64,10 +64,3 @@ export default defineNuxtComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.ledgers {
-  overflow-y: auto;
-  overflow-x: clip;
-}
-</style>

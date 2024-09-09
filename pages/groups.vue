@@ -1,5 +1,5 @@
 <template>
-  <div class="p-20-0-20-8per flex column">
+  <div class="p-20-0-20-8p flex column">
     <Group key="1" name="Food" :amount="1650" color="5272F2" />
     <Group key="2" name="Rent" :amount="3250" color="64CCC5" />
     <Group key="3" name="Food" :amount="1650" color="9370db" />

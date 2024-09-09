@@ -1,8 +1,8 @@
 <template>
-  <div id="layout h-100vh">
+  <div class="h-100vh hidden-overflow">
     <PageTitle :title="title" />
-    <div style="position: relative;">
-      <NuxtPage class="page mr-96px" @set-title="setTitle" />
+    <div class="relative">
+      <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" @set-title="setTitle" />
       <VerticalNavBar />
       <AddLogModal />
     </div>
@@ -44,20 +44,9 @@ a {
 body {
   margin: 0;
   overflow: hidden;
-
-  #layout {
-    overflow: hidden;
-  }
 }
 
 .page {
   height: calc(100vh - 120px);
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 </style>

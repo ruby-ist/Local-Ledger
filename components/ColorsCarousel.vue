@@ -1,5 +1,5 @@
 <template>
-  <swiper-container class="h-120 w-120 m-20-0" effect="cards" grab-cursor="true">
+  <swiper-container class="h-120 w-120 m-20-0" effect="cards">
     <swiper-slide>Slide 1</swiper-slide>
     <swiper-slide>Slide 2</swiper-slide>
     <swiper-slide>Slide 3</swiper-slide>
@@ -21,13 +21,13 @@ export default defineNuxtComponent({
   mounted() {
     const swiperEl = document.querySelector('swiper-container');
     const swiperParams = {
-      loop: true,
-      centeredSlides: true,
-      grabCursor: true,
       cardsEffect: {
         perSlideRotate: 5,
         perSlideOffset: 10,
       },
+      centeredSlides: true,
+      grabCursor: true,
+      loop: true,
     };
 
     Object.assign(swiperEl, swiperParams);
@@ -39,6 +39,7 @@ export default defineNuxtComponent({
 
 <style>
 swiper-slide {
+  /* ToDo: move to uno class */
   display: flex;
   align-items: center;
   justify-content: center;

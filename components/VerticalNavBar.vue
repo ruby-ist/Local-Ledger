@@ -1,5 +1,6 @@
 <template>
-  <nav class="navbar p-22-12-22-20 flex column wrap justify--space-around">
+  <nav class="navbar p-22-12-22-20 flex column wrap
+              justify--space-around fixed r-0">
     <MenuIcon name="Graph">
       <GraphIcon />
     </MenuIcon>
@@ -46,8 +47,6 @@ nav {
   background: #121212;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
-  position: fixed;
-  right: 0;
   bottom: calc(50% - 94px);
   transform: translateY(calc(50% - 47px));
 }

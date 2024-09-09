@@ -1,5 +1,5 @@
 <template>
-  <div class="log">
+  <div class="log relative">
     <div ref="slider" class="p-20-10 flex row justify--space-between"
          @touchstart="startSwipe" @touchend="finishSwipe"
          @touchmove="performSwipe" @touchcancel="closeSwipe">
@@ -23,7 +23,8 @@
         </div>
       </div>
     </div>
-    <div class="hidden-layer h-100per w-100per flex align-center justify--flex-end">
+    <div class="hidden-layer h-100p w-100p flex align-center justify--flex-end
+                absolute t-0 l-0 -z-1">
       <div class="mr-10">
         <TrashIcon class="edit-icon m-0-15 h-22" />
         <EditIcon color="535353" class=" m-0-15 h-22" />
@@ -97,7 +98,6 @@ export default defineNuxtComponent({
 <style lang="scss">
 .log {
   border-bottom: 1px solid #535353;
-  position: relative;
 
   .row {
     background: black;
@@ -121,11 +121,7 @@ export default defineNuxtComponent({
   }
 
   .hidden-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
     background-color: #121212;
-    z-index: -1;
 
     svg {
       path {
