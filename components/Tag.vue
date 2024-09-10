@@ -1,6 +1,6 @@
 <template>
   <div class="tags p-20-0-20-36 flex row align-center justify--space-between">
-    <span class="name">{{ name }}</span>
+    <span font="s-1.3em w-500">{{ name }}</span>
     <div class="w-50p flex row align-center justify--space-around">
       <TagColor class="mr-10 h-20 w-20 pointer" :color="color" />
       <EditIcon class="h-22 pointer" />
@@ -17,12 +17,3 @@ export default defineNuxtComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.tags {
-  .name {
-    font-size: 1.3em;
-    font-weight: 500;
-  }
-}
-</style>

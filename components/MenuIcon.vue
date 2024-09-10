@@ -2,7 +2,7 @@
   <div class="menu-icon m-16-0 flex column align-center justify--space-around pointer"
        :class="{ active: active }" @click="markAsActive">
     <slot />
-    <span class="m-5-0">{{ name }}</span>
+    <span class="m-5-0" font="s-0.8em w-600">{{ name }}</span>
   </div>
 </template>
 
@@ -35,8 +35,6 @@ export default defineNuxtComponent({
 
   span {
     color: var(--color);
-    font-size: 0.8em;
-    font-weight: 600;
   }
 
   &.active,

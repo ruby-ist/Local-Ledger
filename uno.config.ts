@@ -1,4 +1,4 @@
-import { defineConfig } from 'unocss';
+import { defineConfig, presetAttributify } from 'unocss';
 
 type Direction = 't' | 'r' | 'b' | 'l';
 
@@ -36,10 +36,17 @@ const mapStyle = (style: string): string => {
   return fullProperty;
 };
 
-export default defineConfig({
-  rules: [
-    [/^fw-(\d{3})$/, ([, weight]) => ({ 'font-weight': weight })],
+// Utility function to handle optional side keyword (e.g., top, bottom, etc.)
+const borderSideMap = (side: string) => side ? `border-${side}-` : 'border-';
 
+// Utility function to determine if its hex color
+const isHexColor = (color: string): boolean => {
+  return /^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/.test(color);
+};
+
+export default defineConfig({
+  presets: [presetAttributify],
+  rules: [
     // Direction-based padding & margin rule
     [/^(m|p)(t|r|b|l)-(\d+)(\w{1,3})?$/,
       ([, style, direction, value, unit]) => {
@@ -137,5 +144,60 @@ export default defineConfig({
         ];
       },
     ],
+
+    // Border rules
+    [/^border-(top|bottom|left|right)?-?(\d+)(\w{1,3})?$/, ([, side, value, unit]) => {
+      return {
+        [`${borderSideMap(side)}width`]: `${value}${mapUnit(unit)}`,
+      };
+    }],
+
+    [/^border-(top|bottom|left|right)?-?(solid|none)$/, ([, side, style]) => {
+      return {
+        [`${borderSideMap(side)}style`]: style,
+      };
+    }],
+
+    [/^border-(top|bottom|left|right)?-?color-([A-Za-z0-9]+)?$/, ([, side, color]) => {
+      if (isHexColor(`#${color}`)) {
+        return { [`${borderSideMap(side)}color`]: `#${color}` };
+      } else {
+        return { [`${borderSideMap(side)}color`]: color };
+      }
+    }],
+
+    [/^border-rad-(\d+)(\w{1,3})?$/, ([, value, unit]) => {
+      return {
+        'border-radius': `${value}${mapUnit(unit)}`,
+      };
+    }],
+
+    [/^border-rad-(\d+)(\w{1,3})?-(\d+)(\w{1,3})?-(\d+)(\w{1,3})?-(\d+)(\w{1,3})?$/, ([, v1, u1, v2, u2, v3, u3, v4, u4]) => {
+      return {
+        'border-top-left-radius': `${v1}${mapUnit(u1)}`,
+        'border-top-right-radius': `${v2}${mapUnit(u2)}`,
+        'border-bottom-right-radius': `${v3}${mapUnit(u3)}`,
+        'border-bottom-left-radius': `${v4}${mapUnit(u4)}`,
+      };
+    }],
+
+    // Font rules
+    [/^font-s-([0-9.]+)(\w{1,3})?$/, ([, value, unit]) => {
+      return {
+        'font-size': `${value}${mapUnit(unit)}`,
+      };
+    }],
+
+    [/^font-w-([a-z0-9]+)$/, ([, value]) => {
+      return {
+        'font-weight': value,
+      };
+    }],
+
+    [/^font-fam-([a-z-]+)$/, ([, value]) => {
+      return {
+        'font-family': value.split('--').join(', '),
+      };
+    }],
   ],
 });

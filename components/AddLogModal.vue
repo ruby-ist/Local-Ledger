@@ -6,18 +6,22 @@
       Tag
     </h2>
     <ColorsCarousel />
-    <div class="amount flex align-center">
+    <div class="flex align-center" font="s-1.5em">
       <span>₹ </span>
       <input v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
-             maxlength="6" class="amount-input" type="text" placeholder="0"
-             @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
+             maxlength="6" class="amount-input" border="none" type="text" placeholder="0"
+             font="s-1.5em fam-monospace" @input="updateWidth" @keypress="checkNumeric"
+             @paste="checkContentValue">
     </div>
     <textarea v-model="description" class="m-30-0 p-15-20 h-20 no-resize" wrap="hard" maxlength="30"
-              placeholder="description" autocomplete="off" spellcheck="false" @input="adjustHeight" />
-    <button class="p-8-16 pointer">
+              placeholder="description" autocomplete="off" spellcheck="false" border="none rad-10"
+              font="fam-monospace" @input="adjustHeight" />
+    <button class="p-8-16 pointer" border="none rad-8" font="s-1em">
       Add
     </button>
-    <a class="close-button pointer absolute -t-63 r-36 z-2" @click="closeModal">x</a>
+    <a class="close-button pointer absolute -t-63 r-36 z-2" font="s-2em fam-monospace" @click="closeModal">
+      x
+    </a>
   </div>
 </template>
 
@@ -75,16 +79,9 @@ export default defineNuxtComponent({
 #new_log_modal {
   background: black;
 
-  .amount {
-    font-size: 1.5em;
-  }
-
   .amount-input {
-    border: none;
     background: none;
     color: white;
-    font-size: 1.5em;
-    font-family: monospace;
 
     &:focus {
       outline: none;
@@ -97,9 +94,6 @@ export default defineNuxtComponent({
     max-height: 40px;
     color: white;
     background: #121212;
-    border-radius: 10px;
-    border: none;
-    font-family: monospace;
 
     &:focus {
       outline: none;
@@ -108,15 +102,10 @@ export default defineNuxtComponent({
 
   button {
     background: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1em;
   }
 
   .close-button {
     color: white;
-    font-size: 2em;
-    font-family: monospace;
   }
 }
 </style>

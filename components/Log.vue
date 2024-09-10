@@ -1,23 +1,23 @@
 <template>
-  <div class="log relative">
+  <div class="log relative" border-bottom="1 solid color-535353">
     <div ref="slider" class="p-20-10 flex row justify--space-between"
          @touchstart="startSwipe" @touchend="finishSwipe"
          @touchmove="performSwipe" @touchcancel="closeSwipe">
       <div class="col-1">
-        <div class="timestamp">
+        <div font="s-0.6em">
           {{ timestamp }}
         </div>
-        <h3 class="descriptio m-15-0-30">
+        <h3 class="m-15-0-30 font-w-600">
           {{ description }}
         </h3>
-        <div class="tag mb-2 flex align-center">
+        <div class="mb-2 flex align-center" font="s-0.8em w-500">
           <TagColor :color="tagColor" />
           &ensp;{{ tag }}
         </div>
       </div>
       <div class="flex column justify--space-between align-flex-end">
         <a href="#" @click="autoSwipe"><ThreeDotsIcon height="20px" /></a>
-        <div class="amount">
+        <div font="w-700">
           <span>₹</span>
           &ensp;{{ amount }}
         </div>
@@ -97,27 +97,8 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 .log {
-  border-bottom: 1px solid #535353;
-
   .row {
     background: black;
-  }
-
-  .timestamp {
-    font-size: 0.6em;
-  }
-
-  .description {
-    font-weight: 600;
-  }
-
-  .tag {
-    font-size: 0.8em;
-    font-weight: 500;
-  }
-
-  .amount {
-    font-weight: 700;
   }
 
   .hidden-layer {

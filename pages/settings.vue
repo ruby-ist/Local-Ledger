@@ -27,9 +27,9 @@
       </div>
     </div>
 
-    <div class="edit-settings h-50 flex column align-flex-end justify--space-around">
+    <div class="h-50 flex column align-flex-end justify--space-around">
       <EditIcon class="w-22" />
-      <span>Edit</span>
+      <span font="s-0.8em">Edit</span>
     </div>
   </div>
 </template>
@@ -55,20 +55,15 @@ export default defineNuxtComponent({
     margin: 24px 0;
 
     .name {
-      font-size: 0.8em;
       // ToDo: make it Uno class
       margin-bottom: 8px;
+      font-size: 0.8em;
     }
 
     .value {
+      // ToDo: make it Uno class
       font-size: 1.3em;
       font-weight: 500;
-    }
-  }
-
-  .edit-settings {
-    span {
-      font-size: 0.8em;
     }
   }
 }

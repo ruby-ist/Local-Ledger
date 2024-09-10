@@ -1,12 +1,12 @@
 <template>
-  <div ref="group" class="group m-12-0 p-20-25-22 w-188 relative">
-    <h3 class="m-0-0-42-0">
+  <div ref="group" class="group m-12-0 p-20-25-22 w-188 relative border-rad-16">
+    <h3 class="m-0-0-42-0" font="s-1.35em w-700">
       <span>₹</span>&nbsp;{{ amount }}
     </h3>
-    <div class="fw-500">
+    <div font="s-0.9em w-500">
       {{ name }}
     </div>
-    <button class="p-8 pointer centered-grid absolute b-14 r-14">
+    <button class="p-8 pointer centered-grid absolute b-14 r-14" border="none rad-50p">
       <AddButtonIcon :color="color" class="w-16" />
     </button>
   </div>
@@ -41,22 +41,10 @@ export default defineNuxtComponent({
 
 <style lang="scss">
 .group {
-  border-radius: 16px;
   background: linear-gradient(var(--background-color), var(--background-shade));
 
-  h3 {
-    font-size: 1.35em;
-    font-weight: 700;
-  }
-
-  div {
-    font-size: 0.9em;
-  }
-
   button {
-    border: none;
     background: var(--background-shade);
-    border-radius: 50%;
     color: var(--background-color);
   }
 }
