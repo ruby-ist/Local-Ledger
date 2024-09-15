@@ -1,6 +1,6 @@
 <template>
   <div class="log relative" border-bottom="1 solid color-535353">
-    <div ref="slider" class="p-20-10 flex row justify--space-between"
+    <div ref="slider" class="p-20-10 flex row justify--space-between bg-color-black"
          @touchstart="startSwipe" @touchend="finishSwipe"
          @touchmove="performSwipe" @touchcancel="closeSwipe">
       <div class="col-1">
@@ -23,11 +23,11 @@
         </div>
       </div>
     </div>
-    <div class="hidden-layer h-100p w-100p flex align-center justify--flex-end
-                absolute t-0 l-0 -z-1">
+    <div class="h-100p w-100p flex align-center justify--flex-end
+                absolute t-0 l-0 -z-1 bg-color-secondary-black">
       <div class="mr-10">
-        <TrashIcon class="edit-icon m-0-15 h-22" />
-        <EditIcon color="535353" class=" m-0-15 h-22" />
+        <TrashIcon class="m-0-15 h-22 path:fill-grey" />
+        <EditIcon class="m-0-15 h-22 path:fill-grey" />
       </div>
     </div>
   </div>
@@ -94,21 +94,3 @@ export default defineNuxtComponent({
   },
 });
 </script>
-
-<style lang="scss">
-.log {
-  .row {
-    background: black;
-  }
-
-  .hidden-layer {
-    background-color: #121212;
-
-    svg {
-      path {
-        fill: #535353;
-      }
-    }
-  }
-}
-</style>

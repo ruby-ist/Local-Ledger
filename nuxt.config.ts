@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     { path: '~/components/icons', pathPrefix: false },
     '~/components',
   ],
+  css: ['~/assets/css/colors.css'],
   eslint: {
     config: {
       stylistic: {

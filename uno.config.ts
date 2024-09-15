@@ -77,6 +77,14 @@ export default defineConfig({
       };
     }],
 
+    // min max height and weight shorthand rule
+    [/^(min|max)-(h|w)-(\d+)(\w{1,3})?/, ([, limit, style, i, unit]) => {
+      const property = style === 'h' ? 'height' : 'width';
+      return {
+        [`${limit}-${property}`]: `${i}${mapUnit(unit)}`,
+      };
+    }],
+
     // Flexbox shorthand rules
     ['flex', { display: 'flex' }],
     [/^align-([a-z-]+)$/, ([, alignment]) => ({ 'align-items': alignment })],
@@ -199,5 +207,57 @@ export default defineConfig({
         'font-family': value.split('--').join(', '),
       };
     }],
+
+    // Color Rules,
+    [/^color-([\w-]+)$/, ([_, color]) => {
+      return {
+        color: `var(--${color})`,
+      };
+    }],
+
+    [/^bg-color-([\w-]+)$/, ([_, color]) => {
+      return {
+        'background-color': `var(--${color})`,
+      };
+    }],
+
+    [/^bg-gradient-([\w-]+)--([\w-]+)$/, ([_, primaryColor, secondaryColor]) => {
+      return {
+        background: `linear-gradient(var(--${primaryColor}), var(--${secondaryColor}))`,
+      };
+    }],
+
+    // no background rule
+    ['no-bg', { background: 'none' }],
+
+    // no outline rule
+    ['no-outline', { outline: 'none' }],
+
+    // text align rule
+    ['center-text', { 'text-align': 'center' }],
+
+    // SVG rule
+    [/^fill-([\w-]+)$/, ([_, color]) => {
+      return { fill: `var(--${color}) !important` };
+    }],
+  ],
+  variants: [
+    (matcher) => {
+      if (matcher.startsWith('focus:')) {
+        return {
+          matcher: matcher.slice(6),
+          selector: s => `${s}:focus`, // Target the focus pseudo-class
+        };
+      }
+    },
+
+    (matcher) => {
+      if (matcher.startsWith('path:')) {
+        return {
+          matcher: matcher.slice(5),
+          selector: s => `${s} path`,
+        };
+      }
+    },
   ],
 });

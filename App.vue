@@ -31,8 +31,8 @@ export default defineNuxtComponent({
 
 <style>
 :root {
-  background: black;
-  color: white;
+  background: var(--black);
+  color: var(--white);
   font-family: system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }

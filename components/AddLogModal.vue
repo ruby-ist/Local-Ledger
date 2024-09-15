@@ -1,6 +1,6 @@
 <template>
   <div id="new_log_modal"
-       class="h-100p w-100p absolute b-0 l-0 flex column
+       class="h-100p w-100p absolute b-0 l-0 flex column bg-color-black
               align-center justify--start clip-overflow--x">
     <h2 class="mt-64">
       Tag
@@ -9,17 +9,18 @@
     <div class="flex align-center" font="s-1.5em">
       <span>₹ </span>
       <input v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
-             maxlength="6" class="amount-input" border="none" type="text" placeholder="0"
+             maxlength="6" class="no-bg focus:no-outline color-white" border="none" type="text" placeholder="0"
              font="s-1.5em fam-monospace" @input="updateWidth" @keypress="checkNumeric"
              @paste="checkContentValue">
     </div>
-    <textarea v-model="description" class="m-30-0 p-15-20 h-20 no-resize" wrap="hard" maxlength="30"
-              placeholder="description" autocomplete="off" spellcheck="false" border="none rad-10"
-              font="fam-monospace" @input="adjustHeight" />
-    <button class="p-8-16 pointer" border="none rad-8" font="s-1em">
+    <textarea v-model="description" class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize
+                                          color-white center-text bg-color-secondary-black focus:no-outline"
+              wrap="hard" maxlength="30" placeholder="description" autocomplete="off" spellcheck="false"
+              border="none rad-10" font="fam-monospace" @input="adjustHeight" />
+    <button class="p-8-16 pointer bg-color-white" border="none rad-8" font="s-1em">
       Add
     </button>
-    <a class="close-button pointer absolute -t-63 r-36 z-2" font="s-2em fam-monospace" @click="closeModal">
+    <a class="pointer absolute -t-63 r-36 z-2 color-white" font="s-2em fam-monospace" @click="closeModal">
       x
     </a>
   </div>
@@ -63,7 +64,7 @@ export default defineNuxtComponent({
     adjustHeight(e: Event) {
       const target = e.target as HTMLTextAreaElement;
       target.style.height = target.style.minHeight;
-      console.log(target.scrollHeight + 'px');
+      // 30 is top and bottom padding
       target.style.height = (target.scrollHeight - 30) + 'px';
     },
 
@@ -74,38 +75,3 @@ export default defineNuxtComponent({
   },
 });
 </script>
-
-<style lang="scss">
-#new_log_modal {
-  background: black;
-
-  .amount-input {
-    background: none;
-    color: white;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  textarea {
-    text-align: center;
-    min-height: 20px;
-    max-height: 40px;
-    color: white;
-    background: #121212;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  button {
-    background: white;
-  }
-
-  .close-button {
-    color: white;
-  }
-}
-</style>

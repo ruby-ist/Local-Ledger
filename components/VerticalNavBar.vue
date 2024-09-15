@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar p-22-12-22-20 flex column wrap
-              justify--space-around fixed r-0"
+              justify--space-around fixed r-0 bg-color-secondary-black"
        border="rad-25-0-0-25">
     <MenuIcon name="Graph">
       <GraphIcon />
@@ -45,7 +45,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 nav {
-  background: #121212;
   bottom: calc(50% - 94px);
   transform: translateY(calc(50% - 47px));
 }
