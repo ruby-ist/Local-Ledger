@@ -1,5 +1,3 @@
-const host = process.env.TAURI_DEV_HOST;
-
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   components: [
@@ -19,26 +17,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@unocss/nuxt', '@nuxt/eslint', '@pinia/nuxt'],
   ssr: false,
-  vite: {
-    clearScreen: false,
-    envPrefix: ['VITE_', 'TAURI_'],
-    server: {
-      // @ts-expect-error required for Tauri hot reloading
-      port: 3000,
-      strictPort: true,
-      host: host || false,
-      hmr: host
-        ? {
-            protocol: 'ws',
-            host,
-            port: 5183,
-          }
-        : undefined,
-      watch: {
-        ignored: ['**/src-tauri/**'],
-      },
-    },
-  },
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => {

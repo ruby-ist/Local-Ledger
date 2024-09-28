@@ -6,27 +6,20 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "nuxt": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "tauri": "tauri",
-    "android": "tauri android dev",
-    "ios": "tauri ios dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.4",
-    "@tauri-apps/api": ">=2.0.0-rc.0",
-    "@tauri-apps/plugin-shell": ">=2.0.0-rc.0",
     "nuxt": "^3.13.0",
     "swiper": "^11.1.12",
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.5.2",
-    "@tauri-apps/cli": ">=2.0.0-rc.0",
     "@unocss/nuxt": "^0.62.2",
     "eslint": "^9.9.0",
     "gsap": "^3.12.5",
