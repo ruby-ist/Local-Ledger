@@ -1,4 +1,14 @@
 <template>
+  <Head>
+    <Title>Nuxt PWA</Title>
+    <Meta name="description" content="Expense tracker app" />
+    <Meta name="theme-color" content="#000" />
+    <Link rel="icon" href="favicon.ico" />
+    <Link rel="apple-touch-icon" href="apple-touch-icon-180x180.png" />
+    <Link rel="mask-icon" href="maskable-icon-512x512.png" />
+  </Head>
+  <NuxtPwaAssets />
+
   <div class="h-100vh hidden-overflow">
     <PageTitle :title="title" />
     <div class="relative">

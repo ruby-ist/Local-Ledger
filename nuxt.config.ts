@@ -15,7 +15,47 @@ export default defineNuxtConfig({
   },
   devServer: { host: '0.0.0.0' },
   devtools: { enabled: true },
-  modules: ['@unocss/nuxt', '@nuxt/eslint', '@pinia/nuxt'],
+  modules: [
+    '@unocss/nuxt',
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    '@vite-pwa/nuxt',
+  ],
+  pwa: {
+    registerType: 'autoUpdate',
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,svg}'],
+    },
+    manifest: {
+      name: 'Expense Tracker',
+      short_name: 'Expa',
+      description: 'My Awesome App description',
+      theme_color: '#000',
+      icons: [
+        {
+          src: 'pwa-64x64.png',
+          sizes: '64x64',
+          type: 'image/png',
+        },
+        {
+          src: 'pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: 'maskable-icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+    },
+  },
   ssr: false,
   vue: {
     compilerOptions: {
