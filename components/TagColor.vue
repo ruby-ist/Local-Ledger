@@ -8,7 +8,7 @@ export default defineNuxtComponent({
     color: String,
   },
   mounted() {
-    this.$el.style.setProperty('--tag-color', `#${this.color}`);
+    this.$el.style.setProperty('--tag-color', this.color);
   },
 });
 </script>

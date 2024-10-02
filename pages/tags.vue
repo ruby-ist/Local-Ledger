@@ -1,23 +1,28 @@
 <template>
   <div>
-    <Tag key="1" name="Food" color="5272f2" />
-    <Tag key="2" name="Rent" color="64CCC5" />
-    <Tag key="3" name="Snacks" color="9370db" />
-    <Tag key="4" name="Other" color="fee12b" />
-    <Tag key="5" name="Pending" color="f4a460" />
+    <Tag v-for="tag in tags" :key="tag.id" :tag="tag" />
   </div>
 </template>
 
 <script lang="ts">
+import { mapWritableState } from 'pinia';
+import { db } from '~/db';
+import { useTagsStore } from '~/stores/tagsStore';
+
 export default defineNuxtComponent({
+  computed: {
+    ...mapWritableState(useTagsStore, ['tags']),
+  },
+
   emits: {
     setTitle(payload: string) {
       return payload.length > 0;
     },
   },
 
-  mounted() {
+  async mounted() {
     this.$emit('setTitle', 'Tags');
+    this.tags = await db.tags.toArray();
   },
 });
 </script>
