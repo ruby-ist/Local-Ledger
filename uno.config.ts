@@ -96,6 +96,7 @@ export default defineConfig({
 
     // display rules
     ['inline-block', { display: 'inline-block' }],
+    ['no-display', { display: 'none' }],
 
     // Center Grid shorthand rule
     [/^centered-grid$/, () => ({
@@ -154,6 +155,8 @@ export default defineConfig({
     ],
 
     // Border rules
+    ['no-border', { border: 'none' }],
+
     [/^border-(top|bottom|left|right)?-?(\d+)(\w{1,3})?$/, ([, side, value, unit]) => {
       return {
         [`${borderSideMap(side)}width`]: `${value}${mapUnit(unit)}`,

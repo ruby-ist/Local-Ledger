@@ -1,1 +1,1 @@
-# Tauri + Nuxt
+# Nuxt + PWA + IndexedDB

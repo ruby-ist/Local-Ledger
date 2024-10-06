@@ -15,7 +15,7 @@ interface Log {
 }
 
 const db = new Dexie('ExpenseAnalyser') as Dexie & {
-  friends: EntityTable<Tag, 'id'>;
+  tags: EntityTable<Tag, 'id'>;
   logs: EntityTable<Log, 'id'>;
 };
 

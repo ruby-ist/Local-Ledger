@@ -5,7 +5,7 @@
     <h2 class="mt-64">
       Tag
     </h2>
-    <ColorsCarousel />
+    <!-- <ColorsCarousel /> -->
     <div class="flex align-center" font="s-1.5em">
       <span>₹ </span>
       <input v-model="amount" :style="{ width: inputWidth }" autocomplete="off"

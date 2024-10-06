@@ -1,7 +1,25 @@
 export const useColorStore = defineStore('color', {
+  state: () => ({
+    colors: [
+      '#6fa8db',
+      '#e57939',
+      '#b8cab4',
+      '#9fb3c0',
+      '#ef9798',
+      '#e88cb2',
+      '#b670a5',
+      '#53aac3',
+      '#51a9b2',
+      '#6ac066',
+      '#8874b0',
+      '#7994cc',
+      '#6fa8db',
+    ],
+  }),
+
   actions: {
     darkShade(color: string, percentage: number): string {
-      const hex = color || '';
+      const hex = color.length === 7 ? color.substring(1) : color;
       if (hex.length !== 6) {
         throw new Error('Invalid hex color.');
       }

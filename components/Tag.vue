@@ -4,7 +4,9 @@
     <div class="w-50p flex row align-center justify--space-around">
       <TagColor class="mr-10 h-20 w-20 pointer" :color="tag.color" />
       <EditIcon class="h-22 pointer" />
-      <TrashIcon class="h-22 pointer" @click="deleteTag" />
+      <button class="no-bg no-outline no-border" data-confirm="Are You Sure?" @click="deleteTag">
+        <TrashIcon class="h-22 pointer" data-confirm="Are you sure?" />
+      </button>
     </div>
   </div>
 </template>
@@ -22,8 +24,10 @@ export default defineNuxtComponent({
 
   methods: {
     deleteTag() {
-      db.tags.delete(this.tag.id);
-      this.removeTag(this.tag.id);
+      if (confirm('Are you sure?') && this.tag) {
+        db.tags.delete(this.tag.id);
+        this.removeTag(this.tag.id);
+      }
     },
     ...mapActions(useTagsStore, ['removeTag']),
   },

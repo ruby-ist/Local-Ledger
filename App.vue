@@ -15,17 +15,24 @@
       <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" @set-title="setTitle" />
       <VerticalNavBar />
       <AddLogModal />
+      <TagModal v-if="showTagModal" ref="tagModal" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { gsap } from 'gsap';
+import { mapState } from 'pinia';
+import { useTagsStore } from '~/stores/tagsStore';
 
 export default defineNuxtComponent({
   data: () => ({
     title: '',
   }),
+
+  computed: {
+    ...mapState(useTagsStore, { showTagModal: 'showModal' }),
+  },
 
   methods: {
     setTitle(title: string) {
@@ -35,6 +42,12 @@ export default defineNuxtComponent({
 
   mounted() {
     gsap.set('#new_log_modal', { height: 0, display: 'none' });
+  },
+
+  updated() {
+    if (this.showTagModal) {
+      gsap.to('#tag-modal', { height: '100%', display: 'flex', duration: 0.5 });
+    }
   },
 });
 </script>
