@@ -14,6 +14,8 @@ import { useColorStore } from '~/stores/colorStore';
 register();
 
 export default defineNuxtComponent({
+  props: ['currentColor'],
+
   computed: {
     ...mapState(useColorStore, ['colors']),
   },
@@ -36,7 +38,13 @@ export default defineNuxtComponent({
 
     Object.assign(swiperEl, swiperParams);
     swiperEl.initialize();
-    swiperEl.swiper.slideTo(5);
+
+    if (this.currentColor) {
+      const index = this.colors.findIndex(color => (color === this.currentColor));
+      swiperEl.swiper.slideToLoop(index);
+    } else {
+      swiperEl.swiper.slideToLoop(5);
+    }
   },
 });
 </script>

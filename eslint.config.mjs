@@ -10,4 +10,4 @@ export default withNuxt({
     'vue/multiline-html-element-content-newline': 'off',
     '@stylistic/brace-style': 'off',
   },
-}).append({ ignores: ['src-tauri'] });
+});
