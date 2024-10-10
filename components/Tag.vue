@@ -16,11 +16,6 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapWritableState } from 'pinia';
-import type { Tag } from '~/db';
-import { db } from '~/db';
-import { useTagsStore } from '~/stores/tagsStore';
-
 export default defineNuxtComponent({
   props: {
     tag: {

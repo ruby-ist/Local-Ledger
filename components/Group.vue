@@ -16,9 +16,6 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from 'pinia';
-import { useColorStore } from '~/stores/colorStore';
-
 export default defineNuxtComponent({
   props: {
     name: String,

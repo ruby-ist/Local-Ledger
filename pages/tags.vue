@@ -6,10 +6,6 @@
 </template>
 
 <script lang="ts">
-import { mapWritableState } from 'pinia';
-import { db } from '~/db';
-import { useTagsStore } from '~/stores/tagsStore';
-
 export default defineNuxtComponent({
   computed: {
     ...mapWritableState(useTagsStore, ['tags', 'showModal']),

@@ -1,6 +1,3 @@
-import type { Tag } from '~/db';
-import { db } from '~/db';
-
 export const useTagsStore = defineStore('tags', {
   state: () => ({
     tags: [] as Tag[],

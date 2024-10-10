@@ -7,12 +7,6 @@
 </template>
 
 <script>
-import { register } from 'swiper/element/bundle';
-import { mapState, mapActions } from 'pinia';
-import { useColorStore } from '~/stores/colorStore';
-
-register();
-
 export default defineNuxtComponent({
   props: ['currentColor'],
 

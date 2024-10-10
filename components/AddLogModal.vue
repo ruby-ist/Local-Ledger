@@ -27,8 +27,6 @@
 </template>
 
 <script lang="ts">
-import { gsap } from 'gsap';
-
 export default defineNuxtComponent({
   data: () => ({
     amount: '',

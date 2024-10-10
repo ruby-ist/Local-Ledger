@@ -21,9 +21,7 @@
 </template>
 
 <script lang="ts">
-import { gsap } from 'gsap';
-import { mapState } from 'pinia';
-import { useTagsStore } from '~/stores/tagsStore';
+import '~/utils/swiper';
 
 export default defineNuxtComponent({
   data: () => ({

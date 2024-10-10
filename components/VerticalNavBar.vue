@@ -32,8 +32,6 @@
 </template>
 
 <script lang="ts">
-import { gsap } from 'gsap';
-
 export default defineComponent({
   methods: {
     openLogModal() {

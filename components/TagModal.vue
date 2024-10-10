@@ -18,11 +18,6 @@
 </template>
 
 <script lang="ts">
-import { gsap } from 'gsap';
-import { mapWritableState, mapActions } from 'pinia';
-import { useTagsStore } from '~/stores/tagsStore';
-import { db } from '~/db';
-
 export default defineNuxtComponent({
   data: () => ({
     name: '',
@@ -65,7 +60,7 @@ export default defineNuxtComponent({
 
     async updateTag() {
       if (this.currentTag) {
-        await db.tags.add({ id: this.currentTag.id, name: this.name, color: this.color });
+        await db.tags.put({ id: this.currentTag.id, name: this.name, color: this.color });
         await this.updateTags();
         this.closeModal();
       } else {
