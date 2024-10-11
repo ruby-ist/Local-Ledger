@@ -1,6 +1,7 @@
-import pwaConfig from './pwa.config';
-import stylisticConfig from './stylistic.config';
-import vueConfig from './vue.config';
+import pwaConfig from './config/pwa.config';
+import stylisticConfig from './config/stylistic.config';
+import vueConfig from './config/vue.config';
+import unoConfig from './config/uno.config';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -23,5 +24,6 @@ export default defineNuxtConfig({
   ],
   pwa: pwaConfig,
   ssr: false,
+  unocss: unoConfig,
   vue: vueConfig,
 });
