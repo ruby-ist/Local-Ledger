@@ -1,32 +1,35 @@
 <template>
   <div class="log relative" border-bottom="1 solid color-535353">
-    <div ref="slider" class="p-20-10 flex row justify--space-between bg-color-black"
+    <div ref="slider" class="p-20-10 flex row justify--space-between
+                             relative bg-color-black z-1"
          @touchstart="startSwipe" @touchend="finishSwipe"
          @touchmove="performSwipe" @touchcancel="closeSwipe">
       <div class="col-1">
         <div font="s-0.6em">
-          {{ timestamp }}
+          {{ formattedTime }}
         </div>
         <h3 class="m-15-0-30 font-w-600">
-          {{ description }}
+          {{ log.description }}
         </h3>
         <div class="mb-2 flex align-center" font="s-0.8em w-500">
-          <TagColor :color="tagColor" />
-          &ensp;{{ tag }}
+          <TagColor :color="log.tag.color" />
+          &ensp;{{ log.tag.name }}
         </div>
       </div>
       <div class="flex column justify--space-between align-flex-end">
         <a href="#" @click="autoSwipe"><ThreeDotsIcon height="20px" /></a>
         <div font="w-700">
           <span>₹</span>
-          &ensp;{{ amount }}
+          &ensp;{{ log.amount }}
         </div>
       </div>
     </div>
     <div class="h-100p w-100p flex align-center justify--flex-end
-                absolute t-0 l-0 -z-1 bg-color-secondary-black">
+                absolute t-0 l-0 z-0 bg-color-secondary-black">
       <div class="mr-10">
-        <TrashIcon class="m-0-15 h-22 path:fill-grey" />
+        <button class="no-bg no-outline no-border" @click="deleteLog">
+          <TrashIcon class="m-0-15 h-22 path:fill-grey" />
+        </button>
         <EditIcon class="m-0-15 h-22 path:fill-grey" />
       </div>
     </div>
@@ -41,11 +44,23 @@ export default defineNuxtComponent({
     swipeOpen: false,
   }),
   props: {
-    description: String,
-    tag: String,
-    amount: Number,
-    timestamp: String,
-    tagColor: String,
+    log: {
+      type: Object as PropType<LogWithTag>,
+      required: true,
+    },
+  },
+  computed: {
+    formattedTime(): string {
+      const dateTime = new Intl.DateTimeFormat('en-GB', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      }).format(new Date(this.log.createdAt));
+      return dateTime.replace(',', ' :').replace(/\b(am|pm)\b/, match => match.toUpperCase());
+    },
   },
   methods: {
     autoSwipe() {
@@ -89,6 +104,14 @@ export default defineNuxtComponent({
         gsap.to(this.$refs.slider, { x: 0, duration: 0.1 });
       }
     },
+
+    deleteLog() {
+      if (confirm('Are you sure?') && this.log) {
+        db.logs.delete(this.log.id);
+        this.removeLog(this.log.id);
+      }
+    },
+    ...mapActions(useLedgerStore, ['removeLog']),
   },
 });
 </script>

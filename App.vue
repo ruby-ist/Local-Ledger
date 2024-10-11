@@ -14,7 +14,7 @@
     <div class="relative">
       <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" @set-title="setTitle" />
       <VerticalNavBar />
-      <AddLogModal />
+      <LogModal v-if="showLogModal" ref="logModal" />
       <TagModal v-if="showTagModal" ref="tagModal" />
     </div>
   </div>
@@ -30,6 +30,7 @@ export default defineNuxtComponent({
 
   computed: {
     ...mapState(useTagsStore, { showTagModal: 'showModal' }),
+    ...mapState(useLedgerStore, { showLogModal: 'showModal' }),
   },
 
   methods: {
