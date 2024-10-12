@@ -1,25 +1,28 @@
 <template>
-  <div id="new_log_modal"
-       class="h-100p w-100p absolute b-0 l-0 flex column bg-color-black
-              align-center justify--start clip-overflow--x">
+  <div id="log-modal"
+       class="h-0 w-100p absolute b-0 l-0 no-display column bg-color-black
+              align-center justify--start clip-overflow--x z-1">
     <h2 class="mt-64">
       Tag
     </h2>
-    <!-- <ColorsCarousel /> -->
+    <LogsCarousel :current-tag="currentLog?.tag" />
     <div class="flex align-center" font="s-1.5em">
       <span>₹ </span>
-      <input v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
-             maxlength="6" class="no-bg focus:no-outline color-white" border="none" type="text" placeholder="0"
-             font="s-1.5em fam-monospace" @input="updateWidth" @keypress="checkNumeric"
-             @paste="checkContentValue">
+      <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
+             maxlength="6" class="no-bg focus:no-outline color-white" border="none" type="text"
+             placeholder="0" font="s-1.5em fam-monospace" required="true" inputmode="numeric" pattern="\d+"
+             @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
-    <textarea v-model="description" class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize
-                                          color-white center-text bg-color-secondary-black focus:no-outline"
-              wrap="hard" maxlength="30" placeholder="description" autocomplete="off" spellcheck="false"
-              border="none rad-10" font="fam-monospace" @input="adjustHeight" />
-    <button class="p-8-16 pointer bg-color-white" border="none rad-8" font="s-1em">
-      Add
-    </button>
+    <textarea ref="descriptionField" v-model="description"
+              class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
+                     color-white center-text bg-color-secondary-black focus:no-outline"
+              wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
+              spellcheck="false" border="none rad-10" font="s-1rem" required="true"
+              @input="adjustHeight" />
+    <button v-if="currentLog" class="p-8-16 pointer bg-color-white" border="none rad-8"
+            font="s-1em" @click="updateLog">Update</button>
+    <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
+            font="s-1em" @click="createLog">Add</button>
     <a class="pointer absolute -t-63 r-36 z-2 color-white" font="s-2em fam-monospace" @click="closeModal">
       x
     </a>
@@ -34,18 +37,32 @@ export default defineNuxtComponent({
     description: '',
   }),
 
+  computed: {
+    tagId(): number {
+      const activeSlide = document.querySelector('#log-modal .swiper-slide-active') as HTMLElement;
+      return parseInt(activeSlide.dataset.id as string);
+    },
+    ...mapWritableState(useLedgerStore, ['showModal', 'currentLog']),
+  },
+
+  mounted() {
+    if (this.currentLog) {
+      this.amount = this.currentLog.amount.toString();
+      this.description = this.currentLog.description;
+      this.updateWidth();
+    }
+  },
+
   methods: {
-    updateWidth(e: Event) {
-      const target = e.target as HTMLInputElement;
-      const value = target.value;
-      const length = value.length > 0 ? value.length : 1;
+    updateWidth() {
+      const length = this.amount.length > 0 ? this.amount.length : 1;
       const width = length.toString() + 'ch';
       this.inputWidth = width;
     },
 
     checkNumeric(e: KeyboardEvent) {
-      const charCode = e.charCode;
-      if (charCode < 48 || charCode > 57 || this.amount.startsWith('0')) {
+      const code = e.code;
+      if (!code.startsWith('Digit') || this.amount.startsWith('0')) {
         e.preventDefault();
       }
     },
@@ -66,10 +83,55 @@ export default defineNuxtComponent({
       target.style.height = (target.scrollHeight - 30) + 'px';
     },
 
-    closeModal() {
-      // ToDo: move the close button to header componenet
-      gsap.to('#new_log_modal', { height: 0, display: 'none', duration: 0.5 });
+    validFields(): boolean {
+      return (
+        (this.$refs.amountField as HTMLInputElement).reportValidity()
+        && (this.$refs.descriptionField as HTMLTextAreaElement).reportValidity()
+      );
     },
+
+    async createLog() {
+      if (!this.validFields()) return;
+      await db.logs.add({
+        description: this.description,
+        amount: parseInt(this.amount),
+        createdAt: Date.now(),
+        tagId: this.tagId,
+      });
+      await this.updateLogs();
+      this.closeModal({ navigateToLedger: true });
+    },
+
+    async updateLog() {
+      if (this.currentLog) {
+        await db.logs.put({
+          description: this.description,
+          amount: parseInt(this.amount),
+          createdAt: this.currentLog.createdAt,
+          tagId: this.tagId,
+        });
+        await this.updateLogs();
+        this.closeModal({ navigateToLedger: true });
+      } else {
+        await this.createLog();
+      }
+    },
+
+    closeModal(options = {}) {
+      // ToDo: move the close button to header componenet
+      gsap.to('#log-modal', {
+        height: 0,
+        display: 'none',
+        duration: 0.5,
+        onComplete: () => {
+          this.currentLog = null;
+          this.showModal = false;
+          // @ts-expect-error nuxt router
+          if (options.navigateToLedger) this.$router.push('/ledger');
+        },
+      });
+    },
+    ...mapActions(useLedgerStore, ['updateLogs']),
   },
 });
 </script>

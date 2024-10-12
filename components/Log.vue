@@ -12,7 +12,7 @@
           {{ log.description }}
         </h3>
         <div class="mb-2 flex align-center" font="s-0.8em w-500">
-          <TagColor :color="log.tag.color" />
+          <TagColor :color="log.tag.color" :style="`--tag-color: ${log.tag.color}`" />
           &ensp;{{ log.tag.name }}
         </div>
       </div>
@@ -30,7 +30,9 @@
         <button class="no-bg no-outline no-border" @click="deleteLog">
           <TrashIcon class="m-0-15 h-22 path:fill-grey" />
         </button>
-        <EditIcon class="m-0-15 h-22 path:fill-grey" />
+        <button class="no-bg no-outline no-border" @click="editLog">
+          <EditIcon class="m-0-15 h-22 path:fill-grey" />
+        </button>
       </div>
     </div>
   </div>
@@ -61,6 +63,7 @@ export default defineNuxtComponent({
       }).format(new Date(this.log.createdAt));
       return dateTime.replace(',', ' :').replace(/\b(am|pm)\b/, match => match.toUpperCase());
     },
+    ...mapWritableState(useLedgerStore, ['currentLog', 'showModal']),
   },
   methods: {
     autoSwipe() {
@@ -105,10 +108,17 @@ export default defineNuxtComponent({
       }
     },
 
+    editLog() {
+      this.currentLog = this.log;
+      this.showModal = true;
+      this.closeSwipe();
+    },
+
     deleteLog() {
       if (confirm('Are you sure?') && this.log) {
         db.logs.delete(this.log.id);
         this.removeLog(this.log.id);
+        this.closeSwipe();
       }
     },
     ...mapActions(useLedgerStore, ['removeLog']),

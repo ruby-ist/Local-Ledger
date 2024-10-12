@@ -2,7 +2,7 @@ export const useLedgerStore = defineStore('ledger', {
   state: () => ({
     logs: [] as LogWithTag[],
     showModal: false,
-    currentLog: null as (null | Log),
+    currentLog: null as (null | LogWithTag),
   }),
   actions: {
     removeLog(id: number) {

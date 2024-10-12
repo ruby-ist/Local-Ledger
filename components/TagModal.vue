@@ -4,14 +4,15 @@
               align-center justify--start clip-overflow--x">
     <h2 class="mt-64">Pick a color</h2>
     <ColorsCarousel :current-color="currentTag?.color" />
-    <input v-model="name" class="m-30-0 p-15-20 h-20 w-100 min-h-20 max-h-40 no-resize
-                                 color-white center-text bg-color-secondary-black focus:no-outline"
-           maxlength="30" placeholder="Name" autocomplete="off" spellcheck="false"
-           border="none rad-10" font="s-1rem" required="true">
+    <input ref="nameField" v-model="name"
+           class="m-30-0 p-15-20 h-20 w-100 min-h-20 max-h-40 no-resize
+                  color-white center-text bg-color-secondary-black focus:no-outline"
+           maxlength="30" placeholder="Name" autocomplete="off"
+           spellcheck="false" border="none rad-10" font="s-1rem" required="true">
     <button v-if="currentTag" class="p-8-16 pointer bg-color-white"
             border="none rad-8" font="s-1em" @click="updateTag">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
-            font="s-1em" @click="addTag">Add</button>
+            font="s-1em" @click="createTag">Add</button>
     <a class="pointer absolute -t-64 r-32 z-2 color-white bg-color-black p-2"
        font="s-2.5em fam-monospace" @click="closeModal">x</a>
   </div>
@@ -52,7 +53,12 @@ export default defineNuxtComponent({
       });
     },
 
-    async addTag() {
+    validFields(): boolean {
+      return (this.$refs.nameField as HTMLInputElement).reportValidity();
+    },
+
+    async createTag() {
+      if (!this.validFields()) return;
       await db.tags.add({ name: this.name, color: this.color });
       await this.updateTags();
       this.closeModal();
@@ -60,11 +66,11 @@ export default defineNuxtComponent({
 
     async updateTag() {
       if (this.currentTag) {
-        await db.tags.put({ id: this.currentTag.id, name: this.name, color: this.color });
+        await db.tags.put({ name: this.name, color: this.color, id: this.currentTag.id });
         await this.updateTags();
         this.closeModal();
       } else {
-        this.addTag();
+        await this.createTag();
       }
     },
 

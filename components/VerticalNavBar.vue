@@ -33,9 +33,13 @@
 
 <script lang="ts">
 export default defineComponent({
+  computed: {
+    ...mapWritableState(useLedgerStore, ['showModal']),
+  },
+
   methods: {
     openLogModal() {
-      gsap.to('#new_log_modal', { height: '100%', display: 'flex', duration: 0.5 });
+      this.showModal = true;
     },
   },
 });

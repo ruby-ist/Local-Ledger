@@ -39,13 +39,13 @@ export default defineNuxtComponent({
     },
   },
 
-  mounted() {
-    gsap.set('#new_log_modal', { height: 0, display: 'none' });
-  },
-
   updated() {
     if (this.showTagModal) {
       gsap.to('#tag-modal', { height: '100%', display: 'flex', duration: 0.5 });
+    }
+
+    if (this.showLogModal) {
+      gsap.to('#log-modal', { height: '100%', display: 'flex', duration: 0.5 });
     }
   },
 });
