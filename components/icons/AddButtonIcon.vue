@@ -18,7 +18,7 @@ export default defineNuxtComponent({
 
   computed: {
     fillColor() {
-      return `#${this.color}`;
+      return this.color;
     },
   },
 });

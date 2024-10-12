@@ -22,11 +22,11 @@ export default defineNuxtComponent({
 
   methods: {
     ...mapActions(useColorStore, ['darkShade']),
-    ...mapActions(useTagsStore, ['updateTags']),
+    ...mapActions(useTagsStore, ['fetchTags']),
   },
 
   async mounted() {
-    await this.updateTags();
+    await this.fetchTags();
 
     const swiperEl = this.$refs.swiper as SwiperElement;
     const swiperParams = {

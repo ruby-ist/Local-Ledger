@@ -10,7 +10,7 @@
            maxlength="30" placeholder="Name" autocomplete="off"
            spellcheck="false" border="none rad-10" font="s-1rem" required="true">
     <button v-if="currentTag" class="p-8-16 pointer bg-color-white"
-            border="none rad-8" font="s-1em" @click="updateTag">Update</button>
+            border="none rad-8" font="s-1em" @click="modifyTag">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="createTag">Add</button>
     <a class="pointer absolute -t-64 r-32 z-2 color-white bg-color-black p-2"
@@ -59,22 +59,25 @@ export default defineNuxtComponent({
 
     async createTag() {
       if (!this.validFields()) return;
-      await db.tags.add({ name: this.name, color: this.color });
-      await this.updateTags();
+
+      await this.addTag(this.name, this.color);
       this.closeModal();
     },
 
-    async updateTag() {
+    async modifyTag() {
       if (this.currentTag) {
-        await db.tags.put({ name: this.name, color: this.color, id: this.currentTag.id });
-        await this.updateTags();
+        await this.updateTag({
+          name: this.name,
+          color: this.color,
+          id: this.currentTag.id,
+        });
         this.closeModal();
       } else {
         await this.createTag();
       }
     },
 
-    ...mapActions(useTagsStore, ['updateTags']),
+    ...mapActions(useTagsStore, ['fetchTags', 'addTag', 'updateTag']),
   },
 });
 </script>

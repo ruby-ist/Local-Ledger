@@ -21,12 +21,12 @@ export default defineNuxtComponent({
     openTagModal() {
       this.showModal = true;
     },
-    ...mapActions(useTagsStore, ['updateTags']),
+    ...mapActions(useTagsStore, ['fetchTags']),
   },
 
   async mounted() {
     this.$emit('setTitle', 'Tags');
-    await this.updateTags();
+    await this.fetchTags();
   },
 });
 </script>

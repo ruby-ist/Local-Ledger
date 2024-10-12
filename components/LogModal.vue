@@ -99,7 +99,7 @@ export default defineNuxtComponent({
         tagId: this.tagId,
       });
       await this.updateLogs();
-      this.closeModal({ navigateToLedger: true });
+      this.closeModal();
     },
 
     async updateLog() {
@@ -111,13 +111,21 @@ export default defineNuxtComponent({
           tagId: this.tagId,
         });
         await this.updateLogs();
-        this.closeModal({ navigateToLedger: true });
+        this.closeModal();
       } else {
         await this.createLog();
       }
     },
 
-    closeModal(options = {}) {
+    optionalRedirect() {
+      // @ts-expect-error nuxt route
+      if (this.$route.name !== 'groups' && this.$route.name !== 'ledger') {
+        // @ts-expect-error nuxt router
+        this.$router.push('/ledger');
+      }
+    },
+
+    closeModal() {
       // ToDo: move the close button to header componenet
       gsap.to('#log-modal', {
         height: 0,
@@ -126,8 +134,7 @@ export default defineNuxtComponent({
         onComplete: () => {
           this.currentLog = null;
           this.showModal = false;
-          // @ts-expect-error nuxt router
-          if (options.navigateToLedger) this.$router.push('/ledger');
+          this.optionalRedirect();
         },
       });
     },

@@ -14,6 +14,11 @@ export const useColorStore = defineStore('color', {
       '#8874b0',
       '#7994cc',
       '#6fa8db',
+      '#5272F2',
+      '#64CCC5',
+      '#9370db',
+      '#f4a460',
+      '#fee12b',
     ],
   }),
 

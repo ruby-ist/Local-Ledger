@@ -8,7 +8,7 @@
       <button class="no-bg no-outline no-border" @click="editTag">
         <EditIcon class="h-22 pointer" />
       </button>
-      <button class="no-bg no-outline no-border" data-confirm="Are You Sure?" @click="deleteTag">
+      <button class="no-bg no-outline no-border" data-confirm="Are You Sure?" @click="destroyTag">
         <TrashIcon class="h-22 pointer" data-confirm="Are you sure?" />
       </button>
     </div>
@@ -29,11 +29,8 @@ export default defineNuxtComponent({
   },
 
   methods: {
-    deleteTag() {
-      if (confirm('Are you sure?') && this.tag) {
-        db.tags.delete(this.tag.id);
-        this.removeTag(this.tag.id);
-      }
+    async destroyTag() {
+      if (confirm('Are you sure?') && this.tag.id) await this.deleteTag(this.tag.id);
     },
 
     editTag() {
@@ -41,7 +38,7 @@ export default defineNuxtComponent({
       this.showModal = true;
     },
 
-    ...mapActions(useTagsStore, ['removeTag']),
+    ...mapActions(useTagsStore, ['deleteTag']),
   },
 });
 </script>
