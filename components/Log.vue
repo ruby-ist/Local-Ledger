@@ -27,7 +27,7 @@
     <div class="h-100p w-100p flex align-center justify--flex-end
                 absolute t-0 l-0 z-0 bg-color-secondary-black">
       <div class="mr-10">
-        <button class="no-bg no-outline no-border" @click="deleteLog">
+        <button class="no-bg no-outline no-border" @click="destroyLog">
           <TrashIcon class="m-0-15 h-22 path:fill-grey" />
         </button>
         <button class="no-bg no-outline no-border" @click="editLog">
@@ -114,14 +114,13 @@ export default defineNuxtComponent({
       this.closeSwipe();
     },
 
-    deleteLog() {
-      if (confirm('Are you sure?') && this.log) {
-        db.logs.delete(this.log.id);
-        this.removeLog(this.log.id);
+    async destroyLog() {
+      if (confirm('Are you sure?')) {
+        await this.deleteLog(this.log.id as number);
         this.closeSwipe();
       }
     },
-    ...mapActions(useLedgerStore, ['removeLog']),
+    ...mapActions(useLedgerStore, ['deleteLog']),
   },
 });
 </script>

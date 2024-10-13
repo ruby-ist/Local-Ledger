@@ -1,5 +1,4 @@
 import pwaConfig from './config/pwa.config';
-import stylisticConfig from './config/stylistic.config';
 import vueConfig from './config/vue.config';
 import unoConfig from './config/uno.config';
 
@@ -12,7 +11,7 @@ export default defineNuxtConfig({
     }, '~/components',
   ],
   css: ['~/assets/css/colors.css'],
-  eslint: { config: { stylistic: stylisticConfig } },
+  eslint: { config: { stylistic: true } },
   devServer: { host: '0.0.0.0' },
   devtools: { enabled: true },
   imports: { dirs: ['stores'] },

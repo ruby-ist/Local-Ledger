@@ -5,25 +5,25 @@ export const useTagsStore = defineStore('tags', {
     currentTag: null as (null | Tag),
   }),
   actions: {
-    async deleteTag(id: number) {
-      const index = this.tags.findIndex(tag => (tag.id === id));
-      await db.tags.delete(id);
-      this.tags.splice(index, 1);
+    async addTag(name: string, color: string) {
+      const id = await db.tags.add({ name: name, color: color });
+      this.tags.push({ name: name, color: color, id: id });
     },
 
     async fetchTags() {
       this.tags = await db.tags.toArray();
     },
 
-    async updateTag(tag: Tag) {
+    async putTag(tag: Tag) {
       const index = this.tags.findIndex(item => (item.id === tag.id));
       await db.tags.put(tag);
       this.tags.splice(index, 1, tag);
     },
 
-    async addTag(name: string, color: string) {
-      const id = await db.tags.add({ name: name, color: color });
-      this.tags.push({ id: id, name: name, color: color });
+    async deleteTag(id: number) {
+      const index = this.tags.findIndex(tag => (tag.id === id));
+      await db.tags.delete(id);
+      this.tags.splice(index, 1);
     },
   },
 });

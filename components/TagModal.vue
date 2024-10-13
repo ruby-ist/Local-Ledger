@@ -10,7 +10,7 @@
            maxlength="30" placeholder="Name" autocomplete="off"
            spellcheck="false" border="none rad-10" font="s-1rem" required="true">
     <button v-if="currentTag" class="p-8-16 pointer bg-color-white"
-            border="none rad-8" font="s-1em" @click="modifyTag">Update</button>
+            border="none rad-8" font="s-1em" @click="updateTag">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="createTag">Add</button>
     <a class="pointer absolute -t-64 r-32 z-2 color-white bg-color-black p-2"
@@ -64,9 +64,9 @@ export default defineNuxtComponent({
       this.closeModal();
     },
 
-    async modifyTag() {
+    async updateTag() {
       if (this.currentTag) {
-        await this.updateTag({
+        await this.putTag({
           name: this.name,
           color: this.color,
           id: this.currentTag.id,
@@ -77,7 +77,7 @@ export default defineNuxtComponent({
       }
     },
 
-    ...mapActions(useTagsStore, ['fetchTags', 'addTag', 'updateTag']),
+    ...mapActions(useTagsStore, ['addTag', 'putTag']),
   },
 });
 </script>

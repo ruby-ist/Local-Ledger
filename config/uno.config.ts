@@ -149,7 +149,7 @@ export default defineConfig({
             '-ms-overflow-style': 'none',
             'scrollbar-width': 'none',
           },
-          `.no-scroll-bar::-webkit-scrollbar {display: none;}`,
+          '.no-scroll-bar::-webkit-scrollbar {display: none;}',
         ];
       },
     ],

@@ -23,12 +23,12 @@ export default defineNuxtComponent({
   },
 
   methods: {
-    ...mapActions(useLedgerStore, ['fetchGroups', 'updateLogs']),
+    ...mapActions(useLedgerStore, ['fetchGroups', 'fetchLogs']),
   },
 
   async mounted() {
     this.$emit('setTitle', 'Groups');
-    await this.updateLogs();
+    await this.fetchLogs();
   },
 
   watch: {

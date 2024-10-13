@@ -92,25 +92,20 @@ export default defineNuxtComponent({
 
     async createLog() {
       if (!this.validFields()) return;
-      await db.logs.add({
-        description: this.description,
-        amount: parseInt(this.amount),
-        createdAt: Date.now(),
-        tagId: this.tagId,
-      });
-      await this.updateLogs();
+
+      await this.addLog(this.description, parseInt(this.amount), this.tagId);
       this.closeModal();
     },
 
     async updateLog() {
       if (this.currentLog) {
-        await db.logs.put({
+        await this.putLog({
           description: this.description,
           amount: parseInt(this.amount),
           createdAt: this.currentLog.createdAt,
           tagId: this.tagId,
+          id: this.currentLog.id,
         });
-        await this.updateLogs();
         this.closeModal();
       } else {
         await this.createLog();
@@ -138,7 +133,7 @@ export default defineNuxtComponent({
         },
       });
     },
-    ...mapActions(useLedgerStore, ['updateLogs']),
+    ...mapActions(useLedgerStore, ['addLog', 'putLog']),
   },
 });
 </script>

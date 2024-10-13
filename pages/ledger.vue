@@ -17,12 +17,12 @@ export default defineNuxtComponent({
   },
 
   methods: {
-    ...mapActions(useLedgerStore, ['updateLogs']),
+    ...mapActions(useLedgerStore, ['fetchLogs']),
   },
 
   async mounted() {
     this.$emit('setTitle', 'Ledger');
-    await this.updateLogs();
+    await this.fetchLogs();
   },
 });
 </script>

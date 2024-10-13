@@ -6,7 +6,7 @@ interface Tag {
   color: string;
 }
 
-interface Log {
+interface LogWithTagId {
   id?: number;
   description: string;
   createdAt: number;
@@ -15,12 +15,14 @@ interface Log {
 }
 
 interface LogWithTag {
-  id: number;
+  id?: number;
   description: string;
   createdAt: number;
   amount: number;
   tag: Tag;
 }
+
+type Log = LogWithTag | LogWithTagId;
 
 interface Group {
   id: number;
@@ -39,5 +41,5 @@ db.version(1).stores({
   logs: '++id, createdAt, tagId, amount',
 });
 
-export type { Tag, Log, LogWithTag, Group };
+export type { Tag, Log, Group, LogWithTag, LogWithTagId };
 export { db };

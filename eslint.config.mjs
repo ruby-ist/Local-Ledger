@@ -9,5 +9,8 @@ export default withNuxt({
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
     '@stylistic/brace-style': 'off',
+    '@stylistic/indent': ['error', 2, { ObjectExpression: 'first' }],
+    '@stylistic/quotes': ['error', 'single'],
+    '@stylistic/semi': ['error'],
   },
 });
