@@ -11,6 +11,12 @@ export default withNuxt({
     '@stylistic/brace-style': 'off',
     '@stylistic/indent': ['error', 2, { ObjectExpression: 'first' }],
     '@stylistic/quotes': ['error', 'single'],
-    '@stylistic/semi': ['error'],
+    '@stylistic/semi': ['error', 'always'],
+    '@stylistic/member-delimiter-style': ['error', {
+      multiline: {
+        delimiter: 'semi',
+        requireLast: true,
+      },
+    }],
   },
 });
