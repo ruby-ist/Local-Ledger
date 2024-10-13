@@ -100,7 +100,7 @@ export default defineNuxtComponent({
       if (!this.validFields()) return;
 
       await this.addLog(this.description, parseInt(this.amount), this.tagId);
-      this.closeModal();
+      this.closeModal({ dataChanged: true });
     },
 
     async updateLog() {
@@ -112,13 +112,13 @@ export default defineNuxtComponent({
           tagId: this.tagId,
           id: this.currentLog.id,
         });
-        this.closeModal();
+        this.closeModal({ dataChanged: true });
       } else {
         await this.createLog();
       }
     },
 
-    optionalRedirect() {
+    conditionalRedirect() {
       // @ts-expect-error nuxt route
       if (this.$route.name !== 'groups' && this.$route.name !== 'ledger') {
         // @ts-expect-error nuxt router
@@ -126,7 +126,7 @@ export default defineNuxtComponent({
       }
     },
 
-    closeModal() {
+    closeModal({ dataChanged } = { dataChanged: false }) {
       // ToDo: move the close button to header componenet
       gsap.to('#log-modal', {
         height: 0,
@@ -136,7 +136,7 @@ export default defineNuxtComponent({
           this.currentLog = null;
           this.selectedTag = null;
           this.showModal = false;
-          this.optionalRedirect();
+          if (dataChanged) this.conditionalRedirect();
         },
       });
     },

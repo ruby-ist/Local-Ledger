@@ -30,8 +30,11 @@ export default defineNuxtComponent({
   },
 
   watch: {
-    async logs() {
-      this.groups = await this.fetchGroups();
+    logs: {
+      async handler() {
+        this.groups = await this.fetchGroups();
+      },
+      deep: true,
     },
   },
 });
