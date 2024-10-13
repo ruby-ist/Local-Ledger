@@ -5,7 +5,7 @@
     <h2 class="mt-64">
       Tag
     </h2>
-    <LogsCarousel :current-tag="currentLog?.tag" />
+    <LogsCarousel :current-tag="currentTag()" />
     <div class="flex align-center" font="s-1.5em">
       <span>₹ </span>
       <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
@@ -42,7 +42,7 @@ export default defineNuxtComponent({
       const activeSlide = document.querySelector('#log-modal .swiper-slide-active') as HTMLElement;
       return parseInt(activeSlide.dataset.id as string);
     },
-    ...mapWritableState(useLedgerStore, ['showModal', 'currentLog']),
+    ...mapWritableState(useLedgerStore, ['showModal', 'currentLog', 'selectedTag']),
   },
 
   mounted() {
@@ -90,6 +90,12 @@ export default defineNuxtComponent({
       );
     },
 
+    currentTag(): Tag | null {
+      if (this.currentLog) return (this.currentLog as LogWithTag).tag;
+      if (this.selectedTag) return this.selectedTag;
+      return null;
+    },
+
     async createLog() {
       if (!this.validFields()) return;
 
@@ -128,6 +134,7 @@ export default defineNuxtComponent({
         duration: 0.5,
         onComplete: () => {
           this.currentLog = null;
+          this.selectedTag = null;
           this.showModal = false;
           this.optionalRedirect();
         },

@@ -3,16 +3,15 @@ export const useLedgerStore = defineStore('ledger', {
     logs: [] as Log[],
     showModal: false,
     currentLog: null as (null | Log),
+    selectedTag: null as (null | Tag),
   }),
   actions: {
     async addLog(description: string, amount: number, tagId: number) {
       const createdAt = Date.now();
-      const newLog: Log = { description: description, amount: amount,
-                            tagId: tagId, createdAt: createdAt };
+      const newLog: Log = { description, amount, tagId, createdAt };
       const id = await db.logs.add(newLog);
       const tag = await db.tags.get(tagId) as Tag;
-      this.logs.unshift({ description: description, amount: amount,
-                          createdAt: createdAt, tag: tag, id: id });
+      this.logs.unshift({ description, amount, createdAt, tag, id });
     },
 
     async deleteLog(id: number) {
@@ -26,13 +25,11 @@ export const useLedgerStore = defineStore('ledger', {
       const tagIds = logs.map(log => (log as LogWithTagId).tagId);
       const tags = await db.tags.where('id').anyOf(tagIds).toArray();
 
-      this.logs = logs.map((log: Log): Log => ({
-        description: log.description,
-        amount: log.amount,
-        createdAt: log.createdAt,
-        tag: tags.find(tag => tag.id === (log as LogWithTagId).tagId) as Tag,
-        id: log.id as number,
-      }));
+      this.logs = logs.map((log: Log): Log => {
+        const { description, amount, createdAt, id } = log;
+        const tag = tags.find(tag => tag.id === (log as LogWithTagId).tagId) as Tag;
+        return { description, amount, createdAt, tag, id };
+      });
     },
 
     async putLog(log: Log) {
@@ -40,8 +37,7 @@ export const useLedgerStore = defineStore('ledger', {
       await db.logs.put(log);
       const { description, amount, createdAt, id } = log;
       const tag = await db.tags.get((log as LogWithTagId).tagId) as Tag;
-      this.logs.splice(index, 1, { description: description, amount: amount,
-                                   createdAt: createdAt, tag: tag, id: id });
+      this.logs.splice(index, 1, { description, amount, createdAt, tag: tag, id });
     },
 
     async fetchGroups(): Promise<Group[]> {
@@ -52,8 +48,8 @@ export const useLedgerStore = defineStore('ledger', {
         if (tally.has(tagId)) {
           (tally.get(tagId) as Group).amount += log.amount;
         } else {
-          tally.set(tagId, { id: tagId, amount: log.amount,
-                             name: log.tag.name, color: log.tag.color });
+          const { name, color } = log.tag;
+          tally.set(tagId, { id: tagId, name, color, amount: log.amount });
         }
         return tally;
       }, new Map<number, Group>());

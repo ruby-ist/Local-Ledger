@@ -43,11 +43,11 @@ export default defineNuxtComponent({
     swiperEl.initialize();
 
     if (this.currentTag) {
-      let index = this.tags.findIndex(tag => (tag.id === this.currentTag.id));
-      index = this.tagsLength < 5 ? index : (index + 1); // bug fix for swiper
-      swiperEl.swiper.slideTo(index);
+      const index = this.tags.findIndex(tag => (tag.id === this.currentTag.id));
+      // timeout because swiper might not function properly when slides are not enough
+      setTimeout(() => swiperEl.swiper.slideToLoop(index), 250);
     } else {
-      swiperEl.swiper.slideTo(Math.floor(this.tagsLength / 2));
+      swiperEl.swiper.slideToLoop(Math.floor(this.tagsLength / 2));
     }
   },
 });

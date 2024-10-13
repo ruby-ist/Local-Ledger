@@ -35,7 +35,8 @@ export default defineNuxtComponent({
 
     if (this.currentColor) {
       const index = this.colors.findIndex(color => (color === this.currentColor));
-      swiperEl.swiper.slideToLoop(index);
+      // timeout because swiper might not function properly when slides are not enough
+      setTimeout(() => swiperEl.swiper.slideToLoop(index), 250);
     } else {
       swiperEl.swiper.slideToLoop(5);
     }

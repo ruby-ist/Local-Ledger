@@ -1,8 +1,6 @@
 <template>
   <div class="p-20-0-20-8p flex column">
-    <Group v-for="group in groups"
-           :key="group.id" :name="group.name"
-           :amount="group.amount" :color="group.color" />
+    <Group v-for="group in groups" :key="group.id" :group="group" />
   </div>
 </template>
 
