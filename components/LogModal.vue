@@ -7,7 +7,7 @@
     </h2>
     <LogsCarousel :current-tag="currentTag()" />
     <div class="flex align-center" font="s-1.5em">
-      <span>₹ </span>
+      <span>{{ currencySymbol }}</span>
       <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
              maxlength="6" class="no-bg focus:no-outline color-white" border="none" type="text"
              placeholder="0" font="s-1.5em fam-monospace" required="true" inputmode="numeric" pattern="\d+"
@@ -23,7 +23,8 @@
             font="s-1em" @click="updateLog">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="createLog">Add</button>
-    <a class="pointer absolute -t-63 r-36 z-2 color-white" font="s-2em fam-monospace" @click="closeModal">
+    <a class="pointer absolute -t-63 r-36 z-2 color-white" font="s-2em fam-monospace"
+       @click="closeModal({ dataChanged: false })">
       x
     </a>
   </div>
@@ -42,6 +43,7 @@ export default defineNuxtComponent({
       const activeSlide = document.querySelector('#log-modal .swiper-slide-active') as HTMLElement;
       return parseInt(activeSlide.dataset.id as string);
     },
+    ...mapState(useSettingsStore, { currencySymbol: 'currency' }),
     ...mapWritableState(useLedgerStore, ['showModal', 'currentLog', 'selectedTag']),
   },
 

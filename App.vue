@@ -39,6 +39,12 @@ export default defineNuxtComponent({
     },
   },
 
+  beforeMount() {
+    if (!localStorage.getItem('appSettings')) {
+      localStorage.setItem('appSettings', JSON.stringify(defaultSettings));
+    }
+  },
+
   updated() {
     if (this.showTagModal) {
       gsap.to('#tag-modal', { height: '100%', display: 'flex', duration: 0.5 });

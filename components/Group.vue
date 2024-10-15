@@ -2,7 +2,7 @@
   <div ref="group" class="m-12-0 p-20-25-22 w-188 relative border-rad-16
                           bg-gradient-background-color--background-shade">
     <h3 class="m-0-0-42-0" font="s-1.35em w-700">
-      <span>₹</span>&nbsp;{{ group.amount }}
+      <span>{{ currencySymbol }}</span>&nbsp;{{ group.amount }}
     </h3>
     <div font="s-0.9em w-500">
       {{ group.name }}
@@ -25,6 +25,7 @@ export default defineNuxtComponent({
   },
 
   computed: {
+    ...mapState(useSettingsStore, { currencySymbol: 'currency' }),
     ...mapWritableState(useLedgerStore, ['showModal', 'selectedTag']),
   },
 

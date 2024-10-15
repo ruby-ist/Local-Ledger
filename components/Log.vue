@@ -19,8 +19,8 @@
       <div class="flex column justify--space-between align-flex-end">
         <a href="#" @click="autoSwipe"><ThreeDotsIcon height="20px" /></a>
         <div font="w-700">
-          <span>₹</span>
-          &ensp;{{ log.amount }}
+          <span>{{ currencySymbol }} </span>
+          {{ log.amount }}
         </div>
       </div>
     </div>
@@ -63,6 +63,7 @@ export default defineNuxtComponent({
       }).format(new Date(this.log.createdAt));
       return dateTime.replace(',', ' :').replace(/\b(am|pm)\b/, match => match.toUpperCase());
     },
+    ...mapState(useSettingsStore, { currencySymbol: 'currency' }),
     ...mapWritableState(useLedgerStore, ['currentLog', 'showModal']),
   },
   methods: {
