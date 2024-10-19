@@ -22,6 +22,8 @@ export const useTagsStore = defineStore('tags', {
 
     async deleteTag(id: number) {
       const index = this.tags.findIndex(tag => (tag.id === id));
+      // @ts-expect-error dexie type mismatch
+      await db.logs.where('tagId').equals(id).modify({ tagId: 1 });
       await db.tags.delete(id);
       this.tags.splice(index, 1);
     },

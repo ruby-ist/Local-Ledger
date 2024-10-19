@@ -8,7 +8,10 @@
 <script lang="ts">
 export default defineNuxtComponent({
   computed: {
-    ...mapWritableState(useTagsStore, ['tags', 'showModal']),
+    tags(): Tag[] {
+      return this.tagsList.filter(tag => tag.id !== 1);
+    },
+    ...mapWritableState(useTagsStore, { tagsList: 'tags', showModal: 'showModal' }),
   },
 
   emits: {

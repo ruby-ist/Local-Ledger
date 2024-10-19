@@ -41,5 +41,9 @@ db.version(1).stores({
   logs: '++id, createdAt, tagId, amount',
 });
 
+db.on('populate', (transaction) => {
+  transaction.table('tags').add({ name: 'Others', color: '#d9d9d9' });
+});
+
 export type { Tag, Log, Group, LogWithTag, LogWithTagId };
 export { db };
