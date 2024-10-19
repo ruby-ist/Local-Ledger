@@ -2,9 +2,11 @@
   <nav class="navbar p-22-12-22-20 flex column wrap
               justify--space-around fixed r-0 bg-color-secondary-black"
        border="rad-25-0-0-25">
-    <MenuIcon name="Graph">
-      <GraphIcon />
-    </MenuIcon>
+    <NuxtLink to="graph">
+      <MenuIcon name="Graph">
+        <GraphIcon />
+      </MenuIcon>
+    </NuxtLink>
     <NuxtLink to="groups">
       <MenuIcon name="Groups" active>
         <GroupIcon />
