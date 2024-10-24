@@ -85,6 +85,8 @@ export default defineConfig({
       };
     }],
 
+    ['max-content', { width: 'max-content' }],
+
     // Flexbox shorthand rules
     ['flex', { display: 'flex' }],
     [/^align-([a-z-]+)$/, ([, alignment]) => ({ 'align-items': alignment })],

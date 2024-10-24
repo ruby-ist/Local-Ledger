@@ -19,6 +19,8 @@
               wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
               spellcheck="false" border="none rad-10" font="s-1rem" required="true"
               @input="adjustHeight" />
+    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
+           class="mb-60 color-white bg-color-black no-border no-outline max-content">
     <button v-if="currentLog" class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="updateLog">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
@@ -36,6 +38,7 @@ export default defineNuxtComponent({
     amount: '',
     inputWidth: '1ch',
     description: '',
+    createdAt: '',
   }),
 
   computed: {
@@ -48,11 +51,15 @@ export default defineNuxtComponent({
   },
 
   mounted() {
+    let dateTime = new Date();
+
     if (this.currentLog) {
       this.amount = this.currentLog.amount.toString();
       this.description = this.currentLog.description;
+      dateTime = new Date(this.currentLog.createdAt);
       this.updateWidth();
     }
+    this.createdAt = this.formatDateForDatetimePicker(dateTime);
   },
 
   methods: {
@@ -101,7 +108,13 @@ export default defineNuxtComponent({
     async createLog() {
       if (!this.validFields()) return;
 
-      await this.addLog(this.description, parseInt(this.amount), this.tagId);
+      const newLog: LogWithTagId = {
+        description: this.description,
+        amount: parseInt(this.amount),
+        createdAt: this.convertToEpochTime(this.createdAt),
+        tagId: this.tagId,
+      };
+      await this.addLog(newLog);
       this.closeModal({ dataChanged: true });
     },
 
@@ -110,7 +123,7 @@ export default defineNuxtComponent({
         await this.putLog({
           description: this.description,
           amount: parseInt(this.amount),
-          createdAt: this.currentLog.createdAt,
+          createdAt: this.convertToEpochTime(this.createdAt),
           tagId: this.tagId,
           id: this.currentLog.id,
         });
@@ -141,6 +154,23 @@ export default defineNuxtComponent({
           if (dataChanged) this.conditionalRedirect();
         },
       });
+    },
+
+    formatDateForDatetimePicker(date: Date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 because months are 0-based
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    },
+
+    convertToEpochTime(datetimeStr: string): number {
+      const formattedStr = datetimeStr.replace('T', ' ');
+      const date = new Date(formattedStr);
+
+      return date.getTime();
     },
     ...mapActions(useLedgerStore, ['addLog', 'putLog']),
   },

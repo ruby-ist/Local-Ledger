@@ -6,11 +6,10 @@ export const useLedgerStore = defineStore('ledger', {
     selectedTag: null as (null | Tag),
   }),
   actions: {
-    async addLog(description: string, amount: number, tagId: number) {
-      const createdAt = Date.now();
-      const newLog: Log = { description, amount, tagId, createdAt };
+    async addLog(newLog: LogWithTagId) {
       const id = await db.logs.add(newLog);
-      const tag = await db.tags.get(tagId) as Tag;
+      const tag = await db.tags.get(newLog.tagId) as Tag;
+      const { description, amount, createdAt } = newLog;
       this.logs.unshift({ description, amount, createdAt, tag, id });
     },
 
@@ -38,6 +37,7 @@ export const useLedgerStore = defineStore('ledger', {
       const { description, amount, createdAt, id } = log;
       const tag = await db.tags.get((log as LogWithTagId).tagId) as Tag;
       this.logs.splice(index, 1, { description, amount, createdAt, tag: tag, id });
+      this.logs.sort((a, b) => (b.createdAt - a.createdAt));
     },
 
     async fetchGroups(): Promise<Group[]> {

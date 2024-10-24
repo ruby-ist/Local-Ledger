@@ -88,7 +88,6 @@ export default defineNuxtComponent({
     const chartDom = this.$refs.chart as HTMLDivElement;
     const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
     const datasets = await this.dataset();
-    console.log(datasets);
 
     const option = {
       color: ['#d9d9d9', '#5272F2', '#6ac066', '#ef9798', '#e57939'],
