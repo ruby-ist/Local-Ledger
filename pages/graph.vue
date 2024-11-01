@@ -16,10 +16,11 @@
 </template>
 
 <script lang="ts">
+let chart: ECharts;
+
 export default defineNuxtComponent({
   data: () => ({
     tags: [] as Tag[],
-    chart: null as ECharts | null,
     totalAmount: 0,
   }),
 
@@ -45,10 +46,21 @@ export default defineNuxtComponent({
 
   methods: {
     toggleLegend(name: string) {
-      if (this.chart) {
-        this.chart.dispatchAction({
+      if (chart) {
+        chart.dispatchAction({
           type: 'legendToggleSelect',
           name: name,
+        });
+      }
+    },
+
+    hideTooltip(event: Event) {
+      const chartElement = chart.getDom();
+      if (!chartElement.contains(event.target as Node)) {
+        chart.dispatchAction({ type: 'hideTip' });
+        chart.dispatchAction({
+          type: 'updateAxisPointer',
+          currTrigger: 'leave',
         });
       }
     },
@@ -116,6 +128,8 @@ export default defineNuxtComponent({
           ]),
         },
         data: dailyProgression,
+        symbol: 'roundRect',
+        symbolSize: 6,
         showSymbol: false,
         lineStyle: { color: tag.color, width: 1 },
       };
@@ -137,14 +151,15 @@ export default defineNuxtComponent({
 
     chartOptions(series: SeriesOption[]) {
       return {
-        color: this.tags.map(tag => (tag.name)),
+        color: this.tags.map(tag => (tag.color)),
         legend: { show: false },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985',
+            type: 'line',
+            lineStyle: {
+              opacity: 0.5,
+              color: '#fff',
             },
           },
         },
@@ -198,11 +213,16 @@ export default defineNuxtComponent({
     this.$emit('setTitle', 'Graph');
 
     const chartDom = this.$refs.chart as HTMLDivElement;
-    this.chart = echarts.init(chartDom, null, { renderer: 'svg' });
+    chart = echarts.init(chartDom, null, { renderer: 'svg' });
     const dataset = await this.dataset();
     const option = this.chartOptions(dataset);
 
-    this.chart.setOption(option);
+    chart.setOption(option);
+    document.addEventListener('pointerup', this.hideTooltip);
+  },
+
+  unmounted() {
+    document.removeEventListener('pointerup', this.hideTooltip);
   },
 });
 </script>
