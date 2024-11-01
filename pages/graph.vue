@@ -1,11 +1,25 @@
 <template>
   <div>
-    <div ref="chart" class="w-300 h-300" />
+    <div ref="chart" class="w-280 h-300 ml-20 mb-40" />
+    <div class="ml-50">
+      <h3 class="pl-15">Tags</h3>
+      <div class="flex row wrap">
+        <div v-for="tag in tags" :key="tag.id"
+             class="m-10 w-90 flex align-center">
+          <div class="w-20 h-20 bg-color-grey inline-block mr-5" border="rad-5" />
+          <span>{{ tag.name }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 export default defineNuxtComponent({
+  data: () => ({
+    tags: [] as Tag[],
+  }),
+
   emits: {
     setTitle(payload: string) {
       return payload.length > 0;
@@ -17,6 +31,11 @@ export default defineNuxtComponent({
       const today = new Date();
       const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
       return monthEnd.getDate();
+    },
+
+    currentDate(): number {
+      // return (new Date()).getDate();
+      return 7;
     },
   },
 
@@ -60,7 +79,7 @@ export default defineNuxtComponent({
       const dailyTotal: Map<number, number> = this.squeezeByDate(logs);
       const progression: number[] = dailyTotal.has(1) ? [0, dailyTotal.get(1)!] : [0, 0];
 
-      for (let date = 2; date < this.endDateOfMonth; date++) {
+      for (let date = 2; date <= this.currentDate; date++) {
         let amount = progression[date - 1];
         if (dailyTotal.has(date)) amount += dailyTotal.get(date)!;
         progression.push(amount);
@@ -75,10 +94,12 @@ export default defineNuxtComponent({
         type: 'line',
         stack: 'Total',
         areaStyle: {
-          color: new graphic.LinearGradient(0, 0, 1, 0, [
+          color: new graphic.LinearGradient(1, 0, 0, 1, [
             { offset: 0, color: '#000' },
-            { offset: 0.5, color: `#${this.darkShade(tag.color, 40)}` },
-            { offset: 1, color: tag.color },
+            { offset: 0.25, color: `#${this.darkShade(tag.color, 50)}` },
+            { offset: 0.5, color: `#${this.darkShade(tag.color, 20)}` },
+            { offset: 0.75, color: `#${this.darkShade(tag.color, 50)}` },
+            { offset: 1, color: '#000' },
           ]),
         },
         data: dailyProgression,
@@ -90,10 +111,10 @@ export default defineNuxtComponent({
     async dataset(): Promise<SeriesOption[]> {
       const dataset: SeriesOption[] = [];
       const groups = await this.fetchLogGroups();
-      const tags = await this.fetchTagForGroups(groups);
+      this.tags = await this.fetchTagForGroups(groups);
       groups.forEach((logs, tagId) => {
         const dailyProgression = this.convertToDailyProgression(logs);
-        const tag = tags.find(tag => tag.id === tagId) as Tag;
+        const tag = this.tags.find(tag => tag.id === tagId) as Tag;
         dataset.push(this.createSeriesOption(tag, dailyProgression));
       });
 
@@ -112,11 +133,6 @@ export default defineNuxtComponent({
             },
           },
         },
-        legend: {
-          orient: 'vertical',
-          right: 'center',
-          data: ['Others', 'Food', 'Snacks', 'Grocery', 'Rent'],
-        },
         grid: {
           left: '3%',
           right: '4%',
@@ -127,7 +143,10 @@ export default defineNuxtComponent({
           {
             type: 'category',
             boundaryGap: false,
-            data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+            axisTick: {
+              show: false,
+            },
+            data: [...Array(this.currentDate + 1).keys()],
           },
         ],
         yAxis: [
@@ -135,6 +154,19 @@ export default defineNuxtComponent({
             type: 'value',
             splitLine: {
               show: false,
+            },
+            axisLine: {
+              show: true,
+            },
+            axisLabel: {
+              formatter: (value: string, _index: number) => {
+                const amount = parseInt(value);
+                if (amount > 1000) {
+                  return `${Math.round(amount / 10) / 100}k`;
+                } else {
+                  return value;
+                }
+              },
             },
           },
         ],
