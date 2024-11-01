@@ -226,9 +226,9 @@ export default defineConfig({
       };
     }],
 
-    [/^bg-gradient-([\w-]+)--([\w-]+)$/, ([_, primaryColor, secondaryColor]) => {
+    [/^bg-gradient-(\d+deg-)?([\w-]+)--([\w-]+)$/, ([_, degree = '180deg-', primaryColor, secondaryColor]) => {
       return {
-        background: `linear-gradient(var(--${primaryColor}), var(--${secondaryColor}))`,
+        background: `linear-gradient(${degree.slice(0, -1)}, var(--${primaryColor}), var(--${secondaryColor}))`,
       };
     }],
 

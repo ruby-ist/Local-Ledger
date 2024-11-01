@@ -12,7 +12,7 @@
           {{ log.description }}
         </h3>
         <div class="mb-2 flex align-center" font="s-0.8em w-500">
-          <TagColor :color="log.tag.color" :style="`--tag-color: ${log.tag.color}`" />
+          <Badge class="w-14 h-14 mr-4" :style="`--tag-color: ${log.tag.color}`" :shade="25" />
           &ensp;{{ log.tag.name }}
         </div>
       </div>

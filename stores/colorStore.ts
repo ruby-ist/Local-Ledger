@@ -24,7 +24,7 @@ export const useColorStore = defineStore('color', {
 
   actions: {
     darkShade(color: string, percentage: number): string {
-      const hex = color.length === 7 ? color.substring(1) : color;
+      const hex = color.substring(1);
       if (hex.length !== 6) {
         throw new Error('Invalid hex color.');
       }
@@ -44,7 +44,7 @@ export const useColorStore = defineStore('color', {
       g = Math.max(0, Math.min(255, g));
       b = Math.max(0, Math.min(255, b));
 
-      return `${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     },
   },
 });

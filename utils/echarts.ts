@@ -1,6 +1,6 @@
 import * as echarts from 'echarts';
 import { graphic } from 'echarts';
-import type { SeriesOption } from 'echarts';
+import type { SeriesOption, ECharts } from 'echarts';
 
-export type { SeriesOption };
+export type { SeriesOption, ECharts };
 export { echarts, graphic };

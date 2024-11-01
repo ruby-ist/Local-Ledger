@@ -2,7 +2,7 @@
   <swiper-container ref="swiper" class="h-120 w-120 m-20-0" effect="cards">
     <swiper-slide v-for="(color, index) in colors"
                   :key="index" border="rad-18" class="bg-gradient-color--gradient"
-                  :style="`--color: ${color}; --gradient: #${darkShade(color, 60)}`" />
+                  :style="`--color: ${color}; --gradient: ${darkShade(color, 60)}`" />
   </swiper-container>
 </template>
 

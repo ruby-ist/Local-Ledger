@@ -3,12 +3,13 @@
     <div ref="chart" class="w-280 h-300 ml-20 mb-40" />
     <div class="ml-50">
       <h3 class="pl-15">Tags</h3>
-      <div class="flex row wrap">
-        <div v-for="tag in tags" :key="tag.id"
-             class="m-10 w-90 flex align-center">
-          <div class="w-20 h-20 bg-color-grey inline-block mr-5" border="rad-5" />
-          <span>{{ tag.name }}</span>
-        </div>
+      <div class="flex row wrap mb-40">
+        <GraphLegend v-for="tag in tags" :key="tag.id" :tag="tag" @toggle-legend="toggleLegend" />
+      </div>
+      <div font="s-1.1rem">
+        <div class="mb-15"><b>Spent:&ensp;</b>{{ currencySymbol + totalAmount }}</div>
+        <div class="mb-15"><b>Remaining:&ensp;</b>{{ currencySymbol + (target - totalAmount) }}</div>
+        <div class="mb-15"><b>Days Left:&ensp;</b>{{ endDateOfMonth - currentDate }}</div>
       </div>
     </div>
   </div>
@@ -18,6 +19,8 @@
 export default defineNuxtComponent({
   data: () => ({
     tags: [] as Tag[],
+    chart: null as ECharts | null,
+    totalAmount: 0,
   }),
 
   emits: {
@@ -37,9 +40,19 @@ export default defineNuxtComponent({
       // return (new Date()).getDate();
       return 7;
     },
+    ...mapState(useSettingsStore, { currencySymbol: 'currency', target: 'target' }),
   },
 
   methods: {
+    toggleLegend(name: string) {
+      if (this.chart) {
+        this.chart.dispatchAction({
+          type: 'legendToggleSelect',
+          name: name,
+        });
+      }
+    },
+
     async fetchLogGroups(): Promise<Map<number, Log[]>> {
       const logs: Log[] = await db.logs.orderBy('tagId').toArray();
 
@@ -96,9 +109,9 @@ export default defineNuxtComponent({
         areaStyle: {
           color: new graphic.LinearGradient(1, 0, 0, 1, [
             { offset: 0, color: '#000' },
-            { offset: 0.25, color: `#${this.darkShade(tag.color, 50)}` },
-            { offset: 0.5, color: `#${this.darkShade(tag.color, 20)}` },
-            { offset: 0.75, color: `#${this.darkShade(tag.color, 50)}` },
+            { offset: 0.25, color: `${this.darkShade(tag.color, 50)}` },
+            { offset: 0.5, color: `${this.darkShade(tag.color, 20)}` },
+            { offset: 0.75, color: `${this.darkShade(tag.color, 50)}` },
             { offset: 1, color: '#000' },
           ]),
         },
@@ -116,6 +129,7 @@ export default defineNuxtComponent({
         const dailyProgression = this.convertToDailyProgression(logs);
         const tag = this.tags.find(tag => tag.id === tagId) as Tag;
         dataset.push(this.createSeriesOption(tag, dailyProgression));
+        this.totalAmount += dailyProgression[dailyProgression.length - 1];
       });
 
       return dataset;
@@ -123,7 +137,8 @@ export default defineNuxtComponent({
 
     chartOptions(series: SeriesOption[]) {
       return {
-        color: ['#d9d9d9', '#5272F2', '#6ac066', '#ef9798', '#e57939'],
+        color: this.tags.map(tag => (tag.name)),
+        legend: { show: false },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -161,7 +176,9 @@ export default defineNuxtComponent({
             axisLabel: {
               formatter: (value: string, _index: number) => {
                 const amount = parseInt(value);
-                if (amount > 1000) {
+                if (amount >= 1_000_000) {
+                  return `${Math.round(amount / 10000) / 100}M`;
+                } else if (amount >= 1_000) {
                   return `${Math.round(amount / 10) / 100}k`;
                 } else {
                   return value;
@@ -181,11 +198,11 @@ export default defineNuxtComponent({
     this.$emit('setTitle', 'Graph');
 
     const chartDom = this.$refs.chart as HTMLDivElement;
-    const myChart = echarts.init(chartDom, null, { renderer: 'svg' });
+    this.chart = echarts.init(chartDom, null, { renderer: 'svg' });
     const dataset = await this.dataset();
     const option = this.chartOptions(dataset);
 
-    myChart.setOption(option);
+    this.chart.setOption(option);
   },
 });
 </script>

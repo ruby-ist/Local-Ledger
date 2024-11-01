@@ -3,7 +3,7 @@
     <swiper-slide v-for="(tag, index) in tags"
                   :key="index" border="rad-18" class="bg-gradient-color--gradient centered-grid"
                   font="w-500 s-1.15rem" :data-id="tag.id"
-                  :style="`--color: ${tag.color}; --gradient: #${darkShade(tag.color, 60)}`">
+                  :style="`--color: ${tag.color}; --gradient: ${darkShade(tag.color, 60)}`">
       {{ tag.name }}
     </swiper-slide>
   </swiper-container>

@@ -41,7 +41,7 @@ export default defineNuxtComponent({
   mounted() {
     const component: HTMLDivElement = this.$refs.group as HTMLDivElement;
     component.style.setProperty('--background-color', this.group.color);
-    component.style.setProperty('--background-shade', `#${this.darkShade(this.group.color, 60)}`);
+    component.style.setProperty('--background-shade', this.darkShade(this.group.color, 60));
   },
 });
 </script>
