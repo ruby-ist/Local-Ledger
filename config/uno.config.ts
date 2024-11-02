@@ -98,6 +98,7 @@ export default defineConfig({
 
     // display rules
     ['inline-block', { display: 'inline-block' }],
+    ['block', { display: 'block' }],
     ['no-display', { display: 'none' }],
 
     // Center Grid shorthand rule
@@ -240,10 +241,18 @@ export default defineConfig({
 
     // text align rule
     ['center-text', { 'text-align': 'center' }],
+    ['right-text', { 'text-align': 'right' }],
 
     // SVG rule
     [/^fill-([\w-]+)$/, ([_, color]) => {
       return { fill: `var(--${color}) !important` };
+    }],
+
+    // Opacity Rule
+    [/^opacity-([\d.]+)$/, ([_, value]) => {
+      return {
+        opacity: value,
+      };
     }],
   ],
   variants: [
