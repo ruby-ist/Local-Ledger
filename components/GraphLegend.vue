@@ -1,6 +1,6 @@
 <template>
   <div class="m-12-10 w-90 flex align-center">
-    <Badge v-if="enabled" class="w-15 h-15 mr-10 pointer" :shade="50" border="rad-3"
+    <Badge v-if="enabled" class="w-15 h-15 mr-10 pointer" :shade="45" border="rad-3"
            :style="`--tag-color: ${tag.color}`" @click="toggleCurrentLegend" />
     <div v-else class="w-15 h-15 bg-color-grey inline-block mr-10 pointer" border="rad-3"
          @click="toggleCurrentLegend" />

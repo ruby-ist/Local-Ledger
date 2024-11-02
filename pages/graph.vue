@@ -31,73 +31,75 @@ export default defineNuxtComponent({
   },
 
   computed: {
+    currentDate(): number {
+      // return (new Date()).getDate();
+      return 7;
+    },
+
     endDateOfMonth(): number {
       const today = new Date();
       const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
       return monthEnd.getDate();
     },
 
-    currentDate(): number {
-      // return (new Date()).getDate();
-      return 7;
+    gridConfig() {
+      return {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      };
+    },
+
+    legendConfig() {
+      return { show: false };
+    },
+
+    tooltipConfig() {
+      return {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'line',
+          lineStyle: {
+            opacity: 0.5,
+            color: '#fff',
+          },
+        },
+        order: 'seriesDesc',
+      };
+    },
+
+    xAxisConfig() {
+      return {
+        type: 'category',
+        boundaryGap: false,
+        axisTick: { show: false },
+        data: [...Array(this.currentDate + 1).keys()],
+      };
+    },
+
+    yAxisConfig() {
+      return {
+        type: 'value',
+        splitLine: { show: false },
+        axisLine: { show: true },
+        axisLabel: { formatter: this.yAxisFormatter },
+      };
     },
     ...mapState(useSettingsStore, { currencySymbol: 'currency', target: 'target' }),
   },
 
   methods: {
-    toggleLegend(name: string) {
-      if (chart) {
-        chart.dispatchAction({
-          type: 'legendToggleSelect',
-          name: name,
-        });
-      }
-    },
-
-    hideTooltip(event: Event) {
-      const chartElement = chart.getDom();
-      if (!chartElement.contains(event.target as Node)) {
-        chart.dispatchAction({ type: 'hideTip' });
-        chart.dispatchAction({
-          type: 'updateAxisPointer',
-          currTrigger: 'leave',
-        });
-      }
-    },
-
-    async fetchLogGroups(): Promise<Map<number, Log[]>> {
-      const logs: Log[] = await db.logs.orderBy('tagId').toArray();
-
-      return Map.groupBy(logs, (log) => {
-        return (log as LogWithTagId).tagId;
-      });
-    },
-
-    async fetchTagForGroups(groups: Map<number, Log[]>): Promise<Tag[]> {
-      return await db.tags.where('id')
-                          .anyOf(groups.keys().toArray())
-                          .toArray();
-    },
-
-    groupByDate(logs: Log[]): Map<number, Log[]> {
-      return Map.groupBy(logs, (log) => {
-        const createdAt = new Date(log.createdAt);
-        return createdAt.getDate();
-      });
-    },
-
-    squeezeByDate(logs: Log[]): Map<number, number> {
-      const ledger: Map<number, Log[]> = this.groupByDate(logs);
-      const dailyExpenseList = new Map();
-
-      ledger.forEach((logs: Log[], date: number) => {
-        const totalAmount = logs.reduce((total: number, log: Log) => {
-          return total + log.amount;
-        }, 0);
-
-        dailyExpenseList.set(date, totalAmount);
-      });
-      return dailyExpenseList;
+    chartOptions(series: SeriesOption[]) {
+      return {
+        color: this.tags.map(tag => (tag.color)).reverse(),
+        grid: this.gridConfig,
+        legend: this.legendConfig,
+        series,
+        tooltip: this.tooltipConfig,
+        xAxis: this.xAxisConfig,
+        yAxis: this.yAxisConfig,
+      };
     },
 
     convertToDailyProgression(logs: Log[]): number[] {
@@ -119,12 +121,9 @@ export default defineNuxtComponent({
         type: 'line',
         stack: 'Total',
         areaStyle: {
-          color: new graphic.LinearGradient(1, 0, 0, 1, [
-            { offset: 0, color: '#000' },
-            { offset: 0.25, color: `${this.darkShade(tag.color, 50)}` },
-            { offset: 0.5, color: `${this.darkShade(tag.color, 20)}` },
-            { offset: 0.75, color: `${this.darkShade(tag.color, 50)}` },
-            { offset: 1, color: '#000' },
+          color: new graphic.LinearGradient(0, 0, 1, 1, [
+            { offset: 0, color: tag.color },
+            { offset: 0.789, color: '#000' },
           ]),
         },
         data: dailyProgression,
@@ -137,92 +136,117 @@ export default defineNuxtComponent({
 
     async dataset(): Promise<SeriesOption[]> {
       const dataset: SeriesOption[] = [];
-      const groups = await this.fetchLogGroups();
-      this.tags = await this.fetchTagForGroups(groups);
-      groups.forEach((logs, tagId) => {
+      const logGroups = await this.fetchLogGroups();
+      this.tags = await this.fetchTagForGroups(logGroups);
+      logGroups.forEach((logs, tagId) => {
         const dailyProgression = this.convertToDailyProgression(logs);
         const tag = this.tags.find(tag => tag.id === tagId) as Tag;
         dataset.push(this.createSeriesOption(tag, dailyProgression));
         this.totalAmount += dailyProgression[dailyProgression.length - 1];
       });
+      dataset.sort(this.datasetSortFunc);
+      this.sortTags(dataset);
 
       return dataset;
     },
 
-    chartOptions(series: SeriesOption[]) {
-      return {
-        color: this.tags.map(tag => (tag.color)),
-        legend: { show: false },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'line',
-            lineStyle: {
-              opacity: 0.5,
-              color: '#fff',
-            },
-          },
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
-        },
-        xAxis: [
-          {
-            type: 'category',
-            boundaryGap: false,
-            axisTick: {
-              show: false,
-            },
-            data: [...Array(this.currentDate + 1).keys()],
-          },
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            splitLine: {
-              show: false,
-            },
-            axisLine: {
-              show: true,
-            },
-            axisLabel: {
-              formatter: (value: string, _index: number) => {
-                const amount = parseInt(value);
-                if (amount >= 1_000_000) {
-                  return `${Math.round(amount / 10000) / 100}M`;
-                } else if (amount >= 1_000) {
-                  return `${Math.round(amount / 10) / 100}k`;
-                } else {
-                  return value;
-                }
-              },
-            },
-          },
-        ],
-        series,
-      };
+    datasetSortFunc(a: SeriesOption, b: SeriesOption) {
+      const firstData = a.data as Array<number>;
+      const secondData = b.data as Array<number>;
+      const firstDataLastElement = firstData[firstData.length - 1];
+      const secondDataLastElement = secondData[secondData.length - 1];
+
+      return firstDataLastElement - secondDataLastElement;
     },
 
+    async fetchLogGroups(): Promise<Map<number, Log[]>> {
+      const logs: Log[] = await db.logs.orderBy('tagId').toArray();
+
+      return Map.groupBy(logs, (log) => {
+        return (log as LogWithTagId).tagId;
+      });
+    },
+
+    async fetchTagForGroups(logGroups: Map<number, Log[]>): Promise<Tag[]> {
+      return await db.tags.where('id')
+                          .anyOf(logGroups.keys().toArray())
+                          .toArray();
+    },
+
+    groupByDate(logs: Log[]): Map<number, Log[]> {
+      return Map.groupBy(logs, (log) => {
+        const createdAt = new Date(log.createdAt);
+        return createdAt.getDate();
+      });
+    },
+
+    hideTooltipOnOutsideClick(event: Event) {
+      const chartElement = chart.getDom();
+      if (!chartElement.contains(event.target as Node)) {
+        chart.dispatchAction({ type: 'hideTip' });
+        chart.dispatchAction({
+          type: 'updateAxisPointer',
+          currTrigger: 'leave',
+        });
+      }
+    },
+
+    sortTags(dataset: SeriesOption[]) {
+      this.tags.sort((a: Tag, b: Tag) => (
+        dataset.findIndex(data => (data.name === b.name))
+        - dataset.findIndex(data => (data.name === a.name))
+      ));
+    },
+
+    squeezeByDate(logs: Log[]): Map<number, number> {
+      const ledger: Map<number, Log[]> = this.groupByDate(logs);
+      const dailyExpenseList = new Map();
+
+      ledger.forEach((logs: Log[], date: number) => {
+        const totalAmount = logs.reduce((total: number, log: Log) => {
+          return total + log.amount;
+        }, 0);
+
+        dailyExpenseList.set(date, totalAmount);
+      });
+      return dailyExpenseList;
+    },
+
+    toggleLegend(name: string) {
+      if (chart) {
+        chart.dispatchAction({
+          type: 'legendToggleSelect',
+          name: name,
+        });
+      }
+    },
+
+    yAxisFormatter(value: string, _index: number) {
+      const amount = parseInt(value);
+      if (amount >= 1_000_000) {
+        return `${Math.round(amount / 10_000) / 100}M`;
+      } else if (amount >= 1_000) {
+        return `${Math.round(amount / 10) / 100}k`;
+      } else {
+        return value;
+      }
+    },
     ...mapActions(useColorStore, ['darkShade']),
   },
 
   async mounted() {
     this.$emit('setTitle', 'Graph');
-
     const chartDom = this.$refs.chart as HTMLDivElement;
     chart = echarts.init(chartDom, null, { renderer: 'svg' });
     const dataset = await this.dataset();
     const option = this.chartOptions(dataset);
 
     chart.setOption(option);
-    document.addEventListener('pointerup', this.hideTooltip);
+    document.addEventListener('pointerup', this.hideTooltipOnOutsideClick);
   },
 
   unmounted() {
-    document.removeEventListener('pointerup', this.hideTooltip);
+    document.removeEventListener('pointerup', this.hideTooltipOnOutsideClick);
   },
 });
 </script>
