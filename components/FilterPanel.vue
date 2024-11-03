@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-100vw h-100vh absolute -t-94 l-0 z-9 bg-color-black opacity-0.8" @click="close" />
-    <div ref="panel" class="w-55vw h-100vh absolute -t-94 l-0 z-10
+    <div id="filter_panel" ref="panel" class="w-55vw h-100vh absolute -t-94 l-0 z-10
                             bg-color-secondary-black p-125-30-30-40">
       <div class="mb-20">
         <label class="inline-block mb-14" font="w-600">Month</label>
@@ -26,6 +26,7 @@
         <div v-for="tag in tags" :key="tag.id" class="mb-15" font="s-1em">
           <input ref="checkbox" type="checkbox"
                  class="mr-10 inline-block no-border"
+                 :data-id="tag.id!"
                  @click="toggleTagId(tag.id!)">
           <label>{{ tag.name }}</label>
         </div>
@@ -50,25 +51,40 @@ export default defineNuxtComponent({
   data: () => ({
     minimumMonth: '',
     month: '',
-    amountMinimum: null,
-    amountMaximum: null,
+    amountMinimum: '' as string | null,
+    amountMaximum: '' as string | null,
     tagIds: [] as number[],
   }),
 
   emits: ['closePanel'],
 
   computed: {
+    currentMonthTimestamps(): [number, number] {
+      const now = new Date();
+      return [
+        new Date(now.getFullYear(), now.getMonth(), 1).getTime(),
+        new Date(now.getFullYear(), now.getMonth() + 1, 0).setHours(23, 59, 59, 999),
+      ];
+    },
+
     currentMonth() {
       return this.formatDateToMonth(new Date());
     },
 
     ...mapState(useTagsStore, ['tags']),
+    ...mapWritableState(useFiltersStore, ['filters']),
   },
 
   methods: {
-    applyFilter() {
-      console.log(this.month, this.amountMaximum, this.amountMinimum, this.tagIds);
-      // this.close();
+    async applyFilter() {
+      const [startTime, endTime]
+        = this.month ? this.monthTimestamps(this.month) : this.currentMonthTimestamps;
+      const amountMax = this.amountMaximum ? parseInt(this.amountMaximum) : null;
+      const amountMin = this.amountMinimum ? parseInt(this.amountMinimum) : null;
+      const tagIds = this.tagIds;
+      this.filters = { startTime, endTime, amountMax, amountMin, tagIds };
+      await this.fetchLogs(this.filters);
+      this.close();
     },
 
     checkAllTags() {
@@ -82,6 +98,14 @@ export default defineNuxtComponent({
         duration: 0.3,
         onComplete: () => { this.$emit('closePanel'); },
       });
+    },
+
+    monthTimestamps(monthString: string): [number, number] {
+      const [year, month] = monthString.split('-').map(Number);
+      return [
+        new Date(year, month - 1, 1).getTime(),
+        new Date(year, month, 0).setHours(23, 59, 59, 999),
+      ];
     },
 
     async setMinimumValueForMonth() {
@@ -112,16 +136,27 @@ export default defineNuxtComponent({
       this.tagIds = [];
       (this.$refs.checkbox as HTMLInputElement[]).forEach(checkBox => checkBox.checked = false);
     },
+
+    ...mapActions(useLedgerStore, ['fetchLogs']),
   },
 
   async mounted() {
-    gsap.from(this.$refs.panel as HTMLDivElement, {
-      x: '-100%',
-      duration: 0.5,
-    });
+    gsap.set(this.$refs.panel as HTMLDivElement, { x: '-100%' });
     this.month = this.currentMonth;
-    this.checkAllTags();
     await this.setMinimumValueForMonth();
+    const { startTime, amountMax, amountMin, tagIds } = this.filters;
+
+    this.amountMaximum = amountMax ? amountMax.toString() : null;
+    this.amountMinimum = amountMin ? amountMin.toString() : null;
+    this.month = this.formatDateToMonth(new Date(startTime));
+    this.tagIds = tagIds;
+    setTimeout(() => {
+      (this.$refs.checkbox as HTMLInputElement[]).forEach((checkBox) => {
+        if (tagIds.includes(parseInt(checkBox.dataset.id!))) {
+          checkBox.checked = true;
+        }
+      });
+    }, 500);
   },
 });
 </script>

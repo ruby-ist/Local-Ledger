@@ -5,7 +5,7 @@
       <FilterIcon class="w-26" />
     </button>
     <Log v-for="log in logs" :key="log.id" :log="log" />
-    <FilterPanel v-if="openFilter" @close-panel="openFilter = false" />
+    <FilterPanel v-show="openFilter" @close-panel="openFilter = false" />
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default defineNuxtComponent({
 
   computed: {
     ...mapWritableState(useLedgerStore, ['logs', 'showModal']),
+    ...mapState(useFiltersStore, ['filters']),
   },
 
   emits: {
@@ -31,15 +32,20 @@ export default defineNuxtComponent({
 
   async mounted() {
     this.$emit('setTitle', 'Ledger');
-    await this.fetchLogs();
+    await this.fetchLogs(this.filters);
   },
 
   watch: {
     openFilter(value) {
-      if (value)
+      if (value) {
+        gsap.to('#filter_panel', {
+          x: 0,
+          duration: 0.5,
+        });
         this.$emit('setTitle', 'Filters');
-      else
+      } else {
         this.$emit('setTitle', 'Ledger');
+      }
     },
   },
 });

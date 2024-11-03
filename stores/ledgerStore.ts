@@ -19,8 +19,28 @@ export const useLedgerStore = defineStore('ledger', {
       this.logs.splice(index, 1);
     },
 
-    async fetchLogs() {
-      const logs = await db.logs.orderBy('createdAt').reverse().toArray();
+    async queryData(filters: Filters | null): Promise<Log[]> {
+      const { startTime, endTime, amountMin, amountMax, tagIds } = filters ? filters : DefaultFilters;
+      const query = db.logs.where('createdAt').between(startTime, endTime);
+
+      if (amountMin && amountMax) {
+        query.and(log => amountMin <= log.amount && log.amount <= amountMax);
+      } else if (amountMin) {
+        query.and(log => amountMin <= log.amount);
+      } else if (amountMax) {
+        query.and(log => log.amount <= amountMax);
+      } else if (tagIds) {
+        query.and(log => tagIds.includes((log as LogWithTagId).tagId));
+      }
+
+      const logs = await query.toArray();
+      logs.sort((a, b) => b.createdAt - a.createdAt);
+
+      return logs;
+    },
+
+    async fetchLogs(filters: null | Filters = null) {
+      const logs = await this.queryData(filters);
       const tagsStore = useTagsStore();
       await tagsStore.fetchTags();
 
