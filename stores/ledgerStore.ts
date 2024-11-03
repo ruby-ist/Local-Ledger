@@ -21,12 +21,12 @@ export const useLedgerStore = defineStore('ledger', {
 
     async fetchLogs() {
       const logs = await db.logs.orderBy('createdAt').reverse().toArray();
-      const tagIds = logs.map(log => (log as LogWithTagId).tagId);
-      const tags = await db.tags.where('id').anyOf(tagIds).toArray();
+      const tagsStore = useTagsStore();
+      await tagsStore.fetchTags();
 
       this.logs = logs.map((log: Log): Log => {
         const { description, amount, createdAt, id } = log;
-        const tag = tags.find(tag => tag.id === (log as LogWithTagId).tagId) as Tag;
+        const tag = tagsStore.tags.find(tag => tag.id === (log as LogWithTagId).tagId) as Tag;
         return { description, amount, createdAt, tag, id };
       });
     },
