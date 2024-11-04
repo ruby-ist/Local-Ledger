@@ -9,8 +9,7 @@ export type Filters = {
 const now = new Date();
 const startTime = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 const endTime = new Date(now.getFullYear(), now.getMonth() + 1, 0).setHours(23, 59, 59, 999);
-let tags: Tag[] = [];
-db.tags.toArray().then(result => tags = result);
+const tags = await db.tags.toArray();
 
 export const DefaultFilters: Filters = {
   amountMax: null as number | null,

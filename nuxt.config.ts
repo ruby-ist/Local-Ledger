@@ -24,5 +24,6 @@ export default defineNuxtConfig({
   pwa: pwaConfig,
   ssr: false,
   unocss: unoConfig,
+  vite: { build: { target: 'es2022' } },
   vue: vueConfig,
 });
