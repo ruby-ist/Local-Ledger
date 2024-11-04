@@ -7,7 +7,9 @@ export const useTagsStore = defineStore('tags', {
   actions: {
     async addTag(name: string, color: string) {
       const id = await db.tags.add({ name: name, color: color });
+      const filtersStore = useFiltersStore();
       this.tags.push({ name: name, color: color, id: id });
+      filtersStore.filters.tagIds.push(id!);
     },
 
     async fetchTags() {

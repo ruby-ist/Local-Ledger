@@ -19,27 +19,34 @@ export const useLedgerStore = defineStore('ledger', {
       this.logs.splice(index, 1);
     },
 
-    async queryData(filters: Filters | null): Promise<Log[]> {
-      const { startTime, endTime, amountMin, amountMax, tagIds } = filters ? filters : DefaultFilters;
-      const query = db.logs.where('createdAt').between(startTime, endTime);
-
+    applyAmountFilters(query: DexieLogQuery, amountMax: number | null, amountMin: number | null) {
       if (amountMin && amountMax) {
         query.and(log => amountMin <= log.amount && log.amount <= amountMax);
       } else if (amountMin) {
         query.and(log => amountMin <= log.amount);
       } else if (amountMax) {
         query.and(log => log.amount <= amountMax);
-      } else if (tagIds) {
+      }
+    },
+
+    applyTagsFilter(query: DexieLogQuery, tagIds: number[] | null) {
+      if (tagIds) {
         query.and(log => tagIds.includes((log as LogWithTagId).tagId));
       }
+    },
 
+    async queryData(filters: Filters): Promise<Log[]> {
+      const { startTime, endTime, amountMin, amountMax, tagIds } = filters;
+      const query = db.logs.where('createdAt').between(startTime, endTime);
+      this.applyAmountFilters(query, amountMax, amountMin);
+      this.applyTagsFilter(query, tagIds);
       const logs = await query.toArray();
       logs.sort((a, b) => b.createdAt - a.createdAt);
 
       return logs;
     },
 
-    async fetchLogs(filters: null | Filters = null) {
+    async fetchLogs(filters: Filters = DefaultFilters) {
       const logs = await this.queryData(filters);
       const tagsStore = useTagsStore();
       await tagsStore.fetchTags();

@@ -37,6 +37,10 @@
         <a class="inline-block mb-10" @click="checkAllTags">Select All</a>
       </div>
       <div class="right-text">
+        <button class="bg-color-black color-white no-border no-outline p-6-10 pointer"
+                border="rad-4" font="w-500" @click="clearFilters">
+          Clear
+        </button>&ensp;
         <button class="bg-color-white color-black no-border no-outline p-6-10 pointer"
                 border="rad-4" font="w-500" @click="applyFilter">
           Apply
@@ -92,6 +96,15 @@ export default defineNuxtComponent({
       (this.$refs.checkbox as HTMLInputElement[]).forEach(checkBox => checkBox.checked = true);
     },
 
+    async clearFilters() {
+      this.filters = DefaultFilters;
+      this.month = this.currentMonth;
+      this.amountMaximum = null;
+      this.amountMinimum = null;
+      this.checkAllTags();
+      await this.fetchLogs(this.filters);
+    },
+
     close() {
       gsap.to(this.$refs.panel as HTMLDivElement, {
         x: '-100%',
@@ -142,7 +155,6 @@ export default defineNuxtComponent({
 
   async mounted() {
     gsap.set(this.$refs.panel as HTMLDivElement, { x: '-100%' });
-    this.month = this.currentMonth;
     await this.setMinimumValueForMonth();
     const { startTime, amountMax, amountMin, tagIds } = this.filters;
 

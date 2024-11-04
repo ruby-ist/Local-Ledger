@@ -1,4 +1,4 @@
-import Dexie, { type EntityTable } from 'dexie';
+import Dexie, { type EntityTable, type Collection, type InsertType } from 'dexie';
 
 interface Tag {
   id?: number;
@@ -45,5 +45,6 @@ db.on('populate', (transaction) => {
   transaction.table('tags').add({ name: 'Others', color: '#d9d9d9' });
 });
 
-export type { Tag, Log, Group, LogWithTag, LogWithTagId };
+type DexieLogQuery = Collection<Log, number | undefined, InsertType<Log, 'id'>>;
+export type { Tag, Log, Group, LogWithTag, LogWithTagId, DexieLogQuery };
 export { db };
