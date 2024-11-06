@@ -3,4 +3,4 @@ import type Swiper from 'swiper';
 
 register();
 type SwiperElement = HTMLElement & { swiper: Swiper; initialize: () => void };
-export type { SwiperElement };
+export type { SwiperElement, Swiper };

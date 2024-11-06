@@ -3,7 +3,7 @@
        class="h-0 w-100p absolute b-0 l-0 no-display column bg-color-black
               align-center justify--start clip-overflow--x">
     <h2 class="mt-64">Pick a color</h2>
-    <ColorsCarousel :current-color="currentTag?.color" />
+    <ColorsCarousel />
     <input ref="nameField" v-model="name"
            class="m-30-0 p-15-20 h-20 w-100 min-h-20 max-h-40 no-resize
                   color-white center-text bg-color-secondary-black focus:no-outline"

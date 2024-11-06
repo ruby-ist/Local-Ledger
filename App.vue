@@ -14,8 +14,8 @@
     <div class="relative">
       <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" @set-title="setTitle" />
       <VerticalNavBar />
-      <LogModal v-if="showLogModal" ref="logModal" />
-      <TagModal v-if="showTagModal" ref="tagModal" />
+      <LogModal v-show="showLogModal" ref="logModal" />
+      <TagModal v-show="showTagModal" ref="tagModal" />
     </div>
   </div>
 </template>
@@ -45,14 +45,34 @@ export default defineNuxtComponent({
     }
   },
 
-  updated() {
-    if (this.showTagModal) {
-      gsap.to('#tag-modal', { height: '100%', display: 'flex', duration: 0.5 });
-    }
+  watch: {
+    showLogModal(value) {
+      if (value) {
+        gsap.to('#log-modal', {
+          height: '100%',
+          display: 'flex',
+          duration: 0.5,
+          onUpdate: () => {
+            const swiperEl = document.querySelector('#log-swiper') as SwiperElement;
+            swiperEl.swiper.update();
+          },
+        });
+      }
+    },
 
-    if (this.showLogModal) {
-      gsap.to('#log-modal', { height: '100%', display: 'flex', duration: 0.5 });
-    }
+    showTagModal() {
+      if (this.showTagModal) {
+        gsap.to('#tag-modal', {
+          height: '100%',
+          display: 'flex',
+          duration: 0.5,
+          onUpdate: () => {
+            const swiperEl = document.querySelector('#tag-swiper') as SwiperElement;
+            swiperEl.swiper.update();
+          },
+        });
+      }
+    },
   },
 });
 </script>

@@ -5,7 +5,7 @@
     <h2 class="mt-64">
       Tag
     </h2>
-    <LogsCarousel :current-tag="currentTag()" />
+    <LogsCarousel />
     <div class="flex align-center" font="s-1.5em">
       <span>{{ currencySymbol }}</span>
       <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
@@ -97,12 +97,6 @@ export default defineNuxtComponent({
         (this.$refs.amountField as HTMLInputElement).reportValidity()
         && (this.$refs.descriptionField as HTMLTextAreaElement).reportValidity()
       );
-    },
-
-    currentTag(): Tag | null {
-      if (this.currentLog) return (this.currentLog as LogWithTag).tag;
-      if (this.selectedTag) return this.selectedTag;
-      return null;
     },
 
     async createLog() {
