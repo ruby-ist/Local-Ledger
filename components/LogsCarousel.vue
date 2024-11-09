@@ -1,8 +1,5 @@
 <template>
   <div class="flex align-center justify--space-around w-100p">
-    <button class="no-bg no-border no-outline pointer" @click="swiper.slidePrev()">
-      <PrevIcon class="w-22" />
-    </button>
     <swiper-container id="log-swiper" ref="swiper" class="h-120 w-120 m-20-0" effect="cards">
       <swiper-slide v-for="(tag, index) in tags"
                     :key="index" border="rad-18" class="bg-gradient-color--gradient centered-grid"
@@ -11,9 +8,6 @@
         {{ tag.name }}
       </swiper-slide>
     </swiper-container>
-    <button class="no-bg no-border no-outline pointer" @click="swiper.slideNext()">
-      <NextIcon class="w-22" />
-    </button>
   </div>
 </template>
 
