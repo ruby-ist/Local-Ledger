@@ -1,11 +1,7 @@
 <template>
   <div class="p-10-0-10-26 clip-overflow--x">
-    <button class="no-border no-bg no-outlin absolute -t-56 r-28 pointer"
-            @click="openFilter = true">
-      <FilterIcon class="w-26" />
-    </button>
-    <Log v-for="log in logs" :key="log.id" :log="log" />
     <FilterPanel v-show="openFilter" @close-panel="openFilter = false" />
+    <Log v-for="log in logs" :key="log.id" :log="log" />
   </div>
 </template>
 
@@ -17,13 +13,8 @@ export default defineNuxtComponent({
 
   computed: {
     ...mapWritableState(useLedgerStore, ['logs', 'showModal']),
+    ...mapWritableState(useHeaderStore, ['title', 'headerButton', 'headerButtonCallBack']),
     ...mapState(useFiltersStore, ['filters']),
-  },
-
-  emits: {
-    setTitle(payload: string) {
-      return payload.length > 0;
-    },
   },
 
   methods: {
@@ -31,8 +22,17 @@ export default defineNuxtComponent({
   },
 
   async mounted() {
-    this.$emit('setTitle', 'Ledger');
+    this.title = 'Ledger';
+    this.headerButton = 'Filter';
+    this.headerButtonCallBack = () => {
+      this.openFilter = true;
+    };
     await this.fetchLogs(this.filters);
+  },
+
+  beforeUnmount() {
+    this.headerButton = null;
+    this.headerButtonCallBack = () => {};
   },
 
   watch: {
@@ -42,9 +42,9 @@ export default defineNuxtComponent({
           x: 0,
           duration: 0.5,
         });
-        this.$emit('setTitle', 'Filters');
+        this.title = 'Filters';
       } else {
-        this.$emit('setTitle', 'Ledger');
+        this.title = 'Ledger';
       }
     },
   },

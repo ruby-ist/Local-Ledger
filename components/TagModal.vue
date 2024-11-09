@@ -13,8 +13,6 @@
             border="none rad-8" font="s-1em" @click="updateTag">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="createTag">Add</button>
-    <a class="pointer absolute -t-64 r-32 z-2 color-white bg-color-black p-2"
-       font="s-2.5em fam-monospace" @click="closeModal">x</a>
   </div>
 </template>
 
@@ -22,6 +20,10 @@
 export default defineNuxtComponent({
   data: () => ({
     name: '',
+    prevHeaderFunctionalities: {
+      headerButton: null as null | string,
+      headerButtonCallBack: () => { },
+    },
   }),
 
   computed: {
@@ -32,12 +34,7 @@ export default defineNuxtComponent({
     },
 
     ...mapWritableState(useTagsStore, ['tags', 'showModal', 'currentTag']),
-  },
-
-  mounted() {
-    if (this.currentTag) {
-      this.name = this.currentTag.name;
-    }
+    ...mapWritableState(useHeaderStore, ['headerButton', 'headerButtonCallBack']),
   },
 
   methods: {
@@ -77,7 +74,34 @@ export default defineNuxtComponent({
       }
     },
 
+    savePrevHeaderFunctionalities() {
+      this.prevHeaderFunctionalities = {
+        headerButton: this.headerButton,
+        headerButtonCallBack: this.headerButtonCallBack,
+      };
+    },
+
+    setHeaderFunctionalities() {
+      this.headerButton = 'Close';
+      this.headerButtonCallBack = () => {
+        const { headerButton, headerButtonCallBack } = this.prevHeaderFunctionalities;
+        this.headerButton = headerButton;
+        this.headerButtonCallBack = headerButtonCallBack;
+        this.closeModal();
+      };
+    },
+
     ...mapActions(useTagsStore, ['addTag', 'putTag']),
+  },
+
+  watch: {
+    showModal(value) {
+      if (value) {
+        if (this.currentTag) this.name = this.currentTag.name;
+        this.savePrevHeaderFunctionalities();
+        this.setHeaderFunctionalities();
+      }
+    },
   },
 });
 </script>

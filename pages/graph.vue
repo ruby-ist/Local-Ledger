@@ -24,12 +24,6 @@ export default defineNuxtComponent({
     totalAmount: 0,
   }),
 
-  emits: {
-    setTitle(payload: string) {
-      return payload.length > 0;
-    },
-  },
-
   computed: {
     currentDate(): number {
       // return (new Date()).getDate();
@@ -87,6 +81,7 @@ export default defineNuxtComponent({
       };
     },
     ...mapState(useSettingsStore, { currencySymbol: 'currency', target: 'target' }),
+    ...mapWritableState(useHeaderStore, ['title']),
   },
 
   methods: {
@@ -235,7 +230,7 @@ export default defineNuxtComponent({
   },
 
   async mounted() {
-    this.$emit('setTitle', 'Graph');
+    this.title = 'Graph';
     const chartDom = this.$refs.chart as HTMLDivElement;
     chart = echarts.init(chartDom, null, { renderer: 'svg' });
     const dataset = await this.dataset();

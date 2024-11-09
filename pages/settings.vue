@@ -75,14 +75,9 @@ export default defineNuxtComponent({
     settings: defaultSettings as AppSettings,
   }),
 
-  emits: {
-    setTitle(payload: string) {
-      return payload.length > 0;
-    },
-  },
-
   computed: {
     ...mapWritableState(useSettingsStore, ['currency']),
+    ...mapWritableState(useHeaderStore, ['title']),
   },
 
   methods: {
@@ -98,7 +93,7 @@ export default defineNuxtComponent({
   },
 
   mounted() {
-    this.$emit('setTitle', 'Settings');
+    this.title = 'Settings';
     this.settings = JSON.parse(localStorage.getItem('appSettings') as string);
   },
 });

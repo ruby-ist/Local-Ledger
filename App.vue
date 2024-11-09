@@ -10,12 +10,11 @@
   <NuxtPwaAssets />
 
   <div class="h-100vh hidden-overflow">
-    <PageTitle :title="title" />
+    <Header />
     <div class="relative">
-      <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" @set-title="setTitle" />
+      <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" />
       <VerticalNavBar />
-      <LogModal v-show="showLogModal" ref="logModal" />
-      <TagModal v-show="showTagModal" ref="tagModal" />
+      <LogModal v-show="showModal" ref="logModal" />
     </div>
   </div>
 </template>
@@ -24,19 +23,8 @@
 import '~/utils/swiper';
 
 export default defineNuxtComponent({
-  data: () => ({
-    title: '',
-  }),
-
   computed: {
-    ...mapState(useTagsStore, { showTagModal: 'showModal' }),
-    ...mapState(useLedgerStore, { showLogModal: 'showModal' }),
-  },
-
-  methods: {
-    setTitle(title: string) {
-      this.title = title;
-    },
+    ...mapState(useLedgerStore, ['showModal']),
   },
 
   beforeMount() {
@@ -46,7 +34,7 @@ export default defineNuxtComponent({
   },
 
   watch: {
-    showLogModal(value) {
+    showModal(value) {
       if (value) {
         gsap.to('#log-modal', {
           height: '100%',
@@ -54,20 +42,6 @@ export default defineNuxtComponent({
           duration: 0.5,
           onUpdate: () => {
             const swiperEl = document.querySelector('#log-swiper') as SwiperElement;
-            swiperEl.swiper.update();
-          },
-        });
-      }
-    },
-
-    showTagModal() {
-      if (this.showTagModal) {
-        gsap.to('#tag-modal', {
-          height: '100%',
-          display: 'flex',
-          duration: 0.5,
-          onUpdate: () => {
-            const swiperEl = document.querySelector('#tag-swiper') as SwiperElement;
             swiperEl.swiper.update();
           },
         });

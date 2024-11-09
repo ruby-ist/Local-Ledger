@@ -13,22 +13,18 @@
              placeholder="0" font="s-1.5em fam-monospace" required="true" inputmode="numeric" pattern="\d+"
              @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
+    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
+           class="m-30-0 color-white bg-color-black no-border no-outline max-content">
     <textarea ref="descriptionField" v-model="description"
-              class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
+              class="mb-60 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
                      color-white center-text bg-color-secondary-black focus:no-outline"
               wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
               spellcheck="false" border="none rad-10" font="s-1rem" required="true"
               @input="adjustHeight" />
-    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
-           class="mb-60 color-white bg-color-black no-border no-outline max-content">
     <button v-if="currentLog" class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="updateLog">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="createLog">Add</button>
-    <a class="pointer absolute -t-63 r-36 z-2 color-white" font="s-2em fam-monospace"
-       @click="closeModal({ dataChanged: false })">
-      x
-    </a>
   </div>
 </template>
 
@@ -39,6 +35,11 @@ export default defineNuxtComponent({
     inputWidth: '1ch',
     description: '',
     createdAt: '',
+    prevHeaderFunctionalities: {
+      title: '',
+      headerButton: null as null | string,
+      headerButtonCallBack: () => {},
+    },
   }),
 
   computed: {
@@ -48,18 +49,7 @@ export default defineNuxtComponent({
     },
     ...mapState(useSettingsStore, { currencySymbol: 'currency' }),
     ...mapWritableState(useLedgerStore, ['showModal', 'currentLog', 'selectedTag']),
-  },
-
-  mounted() {
-    let dateTime = new Date();
-
-    if (this.currentLog) {
-      this.amount = this.currentLog.amount.toString();
-      this.description = this.currentLog.description;
-      dateTime = new Date(this.currentLog.createdAt);
-      this.updateWidth();
-    }
-    this.createdAt = this.formatDateForDatetimePicker(dateTime);
+    ...mapWritableState(useHeaderStore, ['title', 'headerButton', 'headerButtonCallBack']),
   },
 
   methods: {
@@ -166,7 +156,44 @@ export default defineNuxtComponent({
 
       return date.getTime();
     },
+
+    savePrevHeaderFunctionlities() {
+      this.prevHeaderFunctionalities = {
+        title: this.title,
+        headerButton: this.headerButton,
+        headerButtonCallBack: this.headerButtonCallBack,
+      };
+    },
+
+    setHeaderFunctionalities() {
+      this.title = 'Log';
+      this.headerButton = 'Close';
+      this.headerButtonCallBack = () => {
+        const { title, headerButton, headerButtonCallBack } = this.prevHeaderFunctionalities;
+        this.title = title;
+        this.headerButton = headerButton;
+        this.headerButtonCallBack = headerButtonCallBack;
+        this.closeModal({ dataChanged: false });
+      };
+    },
     ...mapActions(useLedgerStore, ['addLog', 'putLog']),
+  },
+
+  watch: {
+    showModal(value) {
+      if (value) {
+        let dateTime = new Date();
+        if (this.currentLog) {
+          this.amount = this.currentLog.amount.toString();
+          this.description = this.currentLog.description;
+          dateTime = new Date(this.currentLog.createdAt);
+          this.updateWidth();
+        }
+        this.createdAt = this.formatDateForDatetimePicker(dateTime);
+        this.savePrevHeaderFunctionlities();
+        this.setHeaderFunctionalities();
+      }
+    },
   },
 });
 </script>

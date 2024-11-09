@@ -10,14 +10,9 @@ export default defineNuxtComponent({
     groups: [] as Group[],
   }),
 
-  emits: {
-    setTitle(payload: string) {
-      return payload.length > 0;
-    },
-  },
-
   computed: {
     ...mapState(useLedgerStore, ['logs']),
+    ...mapWritableState(useHeaderStore, ['title']),
   },
 
   methods: {
@@ -25,7 +20,7 @@ export default defineNuxtComponent({
   },
 
   async mounted() {
-    this.$emit('setTitle', 'Groups');
+    this.title = 'Groups';
     await this.fetchLogs();
   },
 

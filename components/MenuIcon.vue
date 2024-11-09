@@ -1,8 +1,8 @@
 <template>
   <div class="menu-icon m-16-0 flex column align-center justify--space-around pointer"
-       :class="{ active: active }" @click="markAsActive">
+       :class="{ active: active }">
     <slot />
-    <span class="m-5-0" font="s-0.8em w-600">{{ name }}</span>
+    <span class="m-5-0 color-color" font="s-0.8em w-600">{{ name }}</span>
   </div>
 </template>
 
@@ -10,35 +10,26 @@
 export default defineNuxtComponent({
   props: {
     name: String,
-    active: Boolean,
   },
-  methods: {
-    markAsActive(event: MouseEvent) {
-      document.querySelector('.menu-icon.active')?.classList.remove('active');
-      (event.currentTarget as HTMLDivElement).classList.add('active');
+  computed: {
+    active() {
+      const title = this.title === 'Settings' ? 'Tweak' : this.title;
+      return this.name === title;
     },
+    ...mapState(useHeaderStore, ['title']),
   },
 });
 </script>
 
-<style lang="scss">
+<style>
 .menu-icon {
-  --color: #535353;
+  --color: var(--grey);
 
-  svg {
-    width: 22px;
-
-    path {
-      fill: var(--color);
-    }
+  path {
+    fill: var(--color);
   }
 
-  span {
-    color: var(--color);
-  }
-
-  &.active,
-  &:hover {
+  &.active, &:hover {
     --color: white;
   }
 }

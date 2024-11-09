@@ -4,31 +4,31 @@
        border="rad-25-0-0-25">
     <NuxtLink to="graph">
       <MenuIcon name="Graph">
-        <GraphIcon />
+        <GraphIcon class="w-22" />
       </MenuIcon>
     </NuxtLink>
     <NuxtLink to="groups">
-      <MenuIcon name="Groups" active>
-        <GroupIcon />
+      <MenuIcon name="Groups">
+        <GroupIcon class="w-22" />
       </MenuIcon>
     </NuxtLink>
     <NuxtLink to="ledger">
       <MenuIcon name="Ledger">
-        <LedgerIcon />
+        <LedgerIcon class="w-22" />
       </MenuIcon>
     </NuxtLink>
     <NuxtLink to="tags">
       <MenuIcon name="Tags">
-        <TagIcon />
+        <TagIcon class="w-22" />
       </MenuIcon>
     </NuxtLink>
     <NuxtLink to="settings">
       <MenuIcon name="Tweak">
-        <SettingsIcon />
+        <SettingsIcon class="w-22" />
       </MenuIcon>
     </NuxtLink>
-    <MenuIcon name="Add" @click="openLogModal">
-      <AddIcon />
+    <MenuIcon name="Add" @click="showModal = true">
+      <AddIcon class="w-22" />
     </MenuIcon>
   </nav>
 </template>
@@ -38,16 +38,10 @@ export default defineComponent({
   computed: {
     ...mapWritableState(useLedgerStore, ['showModal']),
   },
-
-  methods: {
-    openLogModal() {
-      this.showModal = true;
-    },
-  },
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 nav {
   bottom: calc(50% - 94px);
   transform: translateY(calc(50% - 47px));
