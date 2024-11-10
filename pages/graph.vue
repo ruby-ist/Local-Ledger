@@ -1,15 +1,27 @@
 <template>
   <div>
+    <input v-model="month" type="month"
+           :max="currentMonth" :min="minimumMonth"
+           class="block p-10 color-white bg-color-secondary-black
+                  no-outline max-w-150 no-border center-text absolute r-30 -t-20"
+           border="rad-5" font="s-1em">
     <div ref="chart" class="w-280 h-300 ml-20 mb-40" />
     <div class="ml-50">
       <h3 class="pl-15">Tags</h3>
-      <div class="flex row wrap mb-40">
+      <div v-if="tags.length !== 0" class="flex row wrap mb-40">
         <GraphLegend v-for="tag in tags" :key="tag.id" :tag="tag" @toggle-legend="toggleLegend" />
+      </div>
+      <div v-else class="pl-15 mb-50">
+        <em>No Data Found.</em>
       </div>
       <div font="s-1.1rem">
         <div class="mb-15"><b>Spent:&ensp;</b>{{ currencySymbol + totalAmount }}</div>
-        <div class="mb-15"><b>Remaining:&ensp;</b>{{ currencySymbol + (target - totalAmount) }}</div>
-        <div class="mb-15"><b>Days Left:&ensp;</b>{{ endDateOfMonth - currentDate }}</div>
+        <div v-if="month === currentMonth" class="mb-15"><b>Remaining:&ensp;</b>{{ currencySymbol + (target - totalAmount) }}</div>
+        <div v-if="month === currentMonth" class="mb-15"><b>Days Left:&ensp;</b>{{ monthEndDate - currentDate }}</div>
+        <div v-if="month !== currentMonth && totalAmount > target" class="mb-15">
+          <b>Exceeded:&ensp;</b>
+          {{ currencySymbol + (totalAmount - target) }}
+        </div>
       </div>
     </div>
   </div>
@@ -26,13 +38,12 @@ export default defineNuxtComponent({
 
   computed: {
     currentDate(): number {
-      // return (new Date()).getDate();
-      return 7;
+      return this.month === currentMonth ? (new Date()).getDate() : this.monthEndDate;
     },
 
-    endDateOfMonth(): number {
-      const today = new Date();
-      const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    monthEndDate(): number {
+      const date = new Date(this.month);
+      const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
       return monthEnd.getDate();
     },
 
@@ -69,6 +80,7 @@ export default defineNuxtComponent({
         boundaryGap: false,
         axisTick: { show: false },
         data: [...Array(this.currentDate + 1).keys()],
+        axisLabel: { showMaxLabel: true },
       };
     },
 
@@ -82,6 +94,7 @@ export default defineNuxtComponent({
     },
     ...mapState(useSettingsStore, { currencySymbol: 'currency', target: 'target' }),
     ...mapWritableState(useHeaderStore, ['title']),
+    ...mapWritableState(useFiltersStore, { month: 'graphMonth' }),
   },
 
   methods: {
@@ -133,6 +146,7 @@ export default defineNuxtComponent({
       const dataset: SeriesOption[] = [];
       const logGroups = await this.fetchLogGroups();
       this.tags = await this.fetchTagForGroups(logGroups);
+      this.totalAmount = 0;
       logGroups.forEach((logs, tagId) => {
         const dailyProgression = this.convertToDailyProgression(logs);
         const tag = this.tags.find(tag => tag.id === tagId) as Tag;
@@ -155,7 +169,10 @@ export default defineNuxtComponent({
     },
 
     async fetchLogGroups(): Promise<Map<number, Log[]>> {
-      const logs: Log[] = await db.logs.orderBy('tagId').toArray();
+      const [startTime, endTime] = monthTimestamps(this.month);
+      const logs: Log[] = await db.logs.where('createdAt')
+                                       .between(startTime, endTime)
+                                       .toArray();
 
       return Map.groupBy(logs, (log) => {
         return (log as LogWithTagId).tagId;
@@ -240,8 +257,19 @@ export default defineNuxtComponent({
     document.addEventListener('pointerup', this.hideTooltipOnOutsideClick);
   },
 
-  unmounted() {
+  beforeUnmount() {
     document.removeEventListener('pointerup', this.hideTooltipOnOutsideClick);
+  },
+
+  watch: {
+    async month(value) {
+      if (/^\d{4}-(0[1-9]|1[0-2])$/.test(value)) {
+        const dataset = await this.dataset();
+        const option = this.chartOptions(dataset);
+
+        chart.setOption(option, true);
+      }
+    },
   },
 });
 </script>

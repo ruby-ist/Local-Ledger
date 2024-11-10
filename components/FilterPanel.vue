@@ -53,8 +53,7 @@
 <script lang="ts">
 export default defineNuxtComponent({
   data: () => ({
-    minimumMonth: '',
-    month: '',
+    month: currentMonth,
     amountMinimum: '' as string | null,
     amountMaximum: '' as string | null,
     tagIds: [] as number[],
@@ -63,32 +62,19 @@ export default defineNuxtComponent({
   emits: ['closePanel'],
 
   computed: {
-    currentMonthTimestamps(): [number, number] {
-      const now = new Date();
-      return [
-        new Date(now.getFullYear(), now.getMonth(), 1).getTime(),
-        new Date(now.getFullYear(), now.getMonth() + 1, 0).setHours(23, 59, 59, 999),
-      ];
-    },
-
-    currentMonth() {
-      return this.formatDateToMonth(new Date());
-    },
-
     ...mapState(useTagsStore, ['tags']),
     ...mapWritableState(useFiltersStore, ['filters']),
   },
 
   methods: {
     async applyFilter() {
-      const [startTime, endTime]
-        = this.month ? this.monthTimestamps(this.month) : this.currentMonthTimestamps;
+      const [startTime, endTime] = monthTimestamps(this.month);
       const amountMax = this.amountMaximum ? parseInt(this.amountMaximum) : null;
       const amountMin = this.amountMinimum ? parseInt(this.amountMinimum) : null;
       const tagIds = this.tagIds;
       this.filters = { startTime, endTime, amountMax, amountMin, tagIds };
       await this.fetchLogs(this.filters);
-      this.close();
+      setTimeout(this.close, 375);
     },
 
     checkAllTags() {
@@ -98,7 +84,7 @@ export default defineNuxtComponent({
 
     async clearFilters() {
       this.filters = DefaultFilters;
-      this.month = this.currentMonth;
+      this.month = currentMonth;
       this.amountMaximum = null;
       this.amountMinimum = null;
       this.checkAllTags();
@@ -111,29 +97,6 @@ export default defineNuxtComponent({
         duration: 0.3,
         onComplete: () => { this.$emit('closePanel'); },
       });
-    },
-
-    monthTimestamps(monthString: string): [number, number] {
-      const [year, month] = monthString.split('-').map(Number);
-      return [
-        new Date(year, month - 1, 1).getTime(),
-        new Date(year, month, 0).setHours(23, 59, 59, 999),
-      ];
-    },
-
-    async setMinimumValueForMonth() {
-      const records = await db.logs.orderBy('createdAt').limit(1).toArray();
-      const oldestLog = records[0];
-      if (oldestLog)
-        this.minimumMonth = this.formatDateToMonth(new Date(oldestLog.createdAt));
-      else
-        this.minimumMonth = this.currentMonth;
-    },
-
-    formatDateToMonth(date: Date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      return `${year}-${month}`;
     },
 
     toggleTagId(id: number) {
@@ -155,12 +118,11 @@ export default defineNuxtComponent({
 
   async mounted() {
     gsap.set(this.$refs.panel as HTMLDivElement, { x: '-100%' });
-    await this.setMinimumValueForMonth();
     const { startTime, amountMax, amountMin, tagIds } = this.filters;
 
     this.amountMaximum = amountMax ? amountMax.toString() : null;
     this.amountMinimum = amountMin ? amountMin.toString() : null;
-    this.month = this.formatDateToMonth(new Date(startTime));
+    this.month = formatDateToMonth(new Date(startTime));
     this.tagIds = tagIds;
     setTimeout(() => {
       (this.$refs.checkbox as HTMLInputElement[]).forEach((checkBox) => {

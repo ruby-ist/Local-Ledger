@@ -21,5 +21,6 @@ export const DefaultFilters: Filters = {
 export const useFiltersStore = defineStore('filters', {
   state: () => ({
     filters: DefaultFilters,
+    graphMonth: currentMonth,
   }),
 });

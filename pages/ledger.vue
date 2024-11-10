@@ -40,7 +40,7 @@ export default defineNuxtComponent({
       if (value) {
         gsap.to('#filter_panel', {
           x: 0,
-          duration: 0.5,
+          duration: 0.3,
         });
         this.title = 'Filters';
       } else {
