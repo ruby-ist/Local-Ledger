@@ -72,7 +72,7 @@
 export default defineNuxtComponent({
   data: () => ({
     edit: false,
-    settings: defaultSettings as AppSettings,
+    settings: DEFAULT_SETTINGS as AppSettings,
   }),
 
   computed: {

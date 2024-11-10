@@ -29,7 +29,7 @@ export default defineNuxtComponent({
 
   beforeMount() {
     if (!localStorage.getItem('appSettings')) {
-      localStorage.setItem('appSettings', JSON.stringify(defaultSettings));
+      localStorage.setItem('appSettings', JSON.stringify(DEFAULT_SETTINGS));
     }
   },
 

@@ -83,7 +83,7 @@ export default defineNuxtComponent({
     },
 
     async clearFilters() {
-      this.filters = DefaultFilters;
+      this.filters = DEFAULT_FILTERS;
       this.month = currentMonth;
       this.amountMaximum = null;
       this.amountMinimum = null;

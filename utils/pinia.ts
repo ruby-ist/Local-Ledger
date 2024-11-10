@@ -6,7 +6,7 @@ export type AppSettings = {
   duration: 'Per month' | 'Per week';
 };
 
-export const defaultSettings: AppSettings = {
+export const DEFAULT_SETTINGS: AppSettings = {
   currency: '₹',
   target: 50000,
   duration: 'Per month',

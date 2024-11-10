@@ -11,7 +11,7 @@ const startTime = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 const endTime = new Date(now.getFullYear(), now.getMonth() + 1, 0).setHours(23, 59, 59, 999);
 const tags = await db.tags.toArray();
 
-export const DefaultFilters: Filters = {
+export const DEFAULT_FILTERS: Filters = {
   amountMax: null as number | null,
   amountMin: null as number | null,
   tagIds: tags.map(tag => tag.id!),
@@ -20,7 +20,7 @@ export const DefaultFilters: Filters = {
 
 export const useFiltersStore = defineStore('filters', {
   state: () => ({
-    filters: DefaultFilters,
+    filters: DEFAULT_FILTERS,
     graphMonth: currentMonth,
   }),
 });

@@ -46,7 +46,7 @@ export const useLedgerStore = defineStore('ledger', {
       return logs;
     },
 
-    async fetchLogs(filters: Filters = DefaultFilters) {
+    async fetchLogs(filters: Filters = DEFAULT_FILTERS) {
       const logs = await this.queryData(filters);
       const tagsStore = useTagsStore();
       await tagsStore.fetchTags();
