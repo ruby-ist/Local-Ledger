@@ -42,8 +42,6 @@ export default defineNuxtComponent({
 
     async exportLogsToCSV() {
       try {
-        const id = await registerBiometric();
-        await verifyBiometric(id);
         const logs = await db.logs.toArray();
         const tags = await db.tags.toArray();
 
