@@ -22,7 +22,7 @@
         <TagIcon class="w-22" />
       </MenuIcon>
     </NuxtLink>
-    <NuxtLink to="settings">
+    <NuxtLink to="tweak">
       <MenuIcon name="Tweak">
         <SettingsIcon class="w-22" />
       </MenuIcon>

@@ -6,6 +6,6 @@
 
 <style scoped>
 path {
-  fill: white;
+  fill: green;
 }
 </style>

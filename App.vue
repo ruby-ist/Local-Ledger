@@ -27,10 +27,16 @@ export default defineNuxtComponent({
     ...mapState(useLedgerStore, ['showModal']),
   },
 
-  beforeMount() {
+  async beforeMount() {
     if (!localStorage.getItem('appSettings')) {
       localStorage.setItem('appSettings', JSON.stringify(DEFAULT_SETTINGS));
     }
+
+    // This should be available by default.
+    // If any tags got deleted, the logs of that tags should fallback to this one
+    // It should not be edited or Deleted
+    const othersTag = await db.tags.get(1);
+    if (!othersTag) await db.tags.add({ name: 'Others', color: '#d9d9d9', id: 1 });
   },
 
   watch: {

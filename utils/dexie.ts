@@ -41,10 +41,6 @@ db.version(1).stores({
   logs: '++id, createdAt, tagId, amount',
 });
 
-db.on('populate', (transaction) => {
-  transaction.table('tags').add({ name: 'Others', color: '#d9d9d9' });
-});
-
 type DexieLogQuery = Collection<Log, number | undefined, InsertType<Log, 'id'>>;
 export type { Tag, Log, Group, LogWithTag, LogWithTagId, DexieLogQuery };
 export { db };

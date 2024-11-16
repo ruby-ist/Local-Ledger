@@ -1,6 +1,6 @@
 <template>
   <div class="menu-icon m-16-0 flex column align-center justify--space-around pointer"
-       :class="{ active: active }">
+       :class="{ active: name === title }">
     <slot />
     <span class="m-5-0 color-color" font="s-0.8em w-600">{{ name }}</span>
   </div>
@@ -12,10 +12,6 @@ export default defineNuxtComponent({
     name: String,
   },
   computed: {
-    active() {
-      const title = this.title === 'Settings' ? 'Tweak' : this.title;
-      return this.name === title;
-    },
     ...mapState(useHeaderStore, ['title']),
   },
 });

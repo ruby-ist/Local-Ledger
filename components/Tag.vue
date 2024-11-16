@@ -1,5 +1,5 @@
 <template>
-  <div class="tags p-20-0-20-36 flex row align-center justify--space-between">
+  <div class="p-24-0-24-36 flex row align-center justify--space-between">
     <span font="s-1.3em w-500">{{ tag.name }}</span>
     <div class="w-50p flex row align-center justify--space-around">
       <Badge ref="box" class="mr-10 h-20 w-20 pointer" :shade="50"
