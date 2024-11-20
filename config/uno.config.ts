@@ -144,6 +144,12 @@ export default defineConfig({
       }
     }],
 
+    // text ellipsis rule
+    ['text-ellipsis', { 'text-overflow': 'ellipsis' }],
+
+    // word break rule
+    ['break-all-words', { 'word-break': 'break-all' }],
+
     // no scroll bar rule
     [/^no-scroll-bar$/,
       () => {

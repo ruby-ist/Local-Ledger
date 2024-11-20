@@ -17,7 +17,7 @@
   </svg>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 path {
   fill: #535353;
 }

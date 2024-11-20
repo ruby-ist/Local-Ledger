@@ -4,7 +4,9 @@
            :style="`--tag-color: ${tag.color}`" @click="toggleCurrentLegend" />
     <div v-else class="w-15 h-15 bg-color-grey inline-block mr-10 pointer" border="rad-3"
          @click="toggleCurrentLegend" />
-    <span :class="{ 'color-grey': !enabled }">{{ tag.name }}</span>
+    <span :class="{ 'color-grey': !enabled }" class="w-60 hidden-overflow--x text-ellipsis">
+      {{ tag.name }}
+    </span>
   </div>
 </template>
 

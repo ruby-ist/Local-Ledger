@@ -71,7 +71,7 @@ export default defineNuxtComponent({
       const [startTime, endTime] = monthTimestamps(this.month);
       const amountMax = this.amountMaximum ? parseInt(this.amountMaximum) : null;
       const amountMin = this.amountMinimum ? parseInt(this.amountMinimum) : null;
-      const tagIds = this.tagIds;
+      const tagIds = Array.from(this.tagIds);
       this.filters = { startTime, endTime, amountMax, amountMin, tagIds };
       await this.fetchLogs(this.filters);
       setTimeout(this.close, 375);
@@ -83,7 +83,7 @@ export default defineNuxtComponent({
     },
 
     async clearFilters() {
-      this.filters = DEFAULT_FILTERS;
+      this.filters = structuredClone(DEFAULT_FILTERS);
       this.month = currentMonth;
       this.amountMaximum = null;
       this.amountMinimum = null;
@@ -123,7 +123,7 @@ export default defineNuxtComponent({
     this.amountMaximum = amountMax ? amountMax.toString() : null;
     this.amountMinimum = amountMin ? amountMin.toString() : null;
     this.month = formatDateToMonth(new Date(startTime));
-    this.tagIds = tagIds;
+    this.tagIds = Array.from(tagIds);
     setTimeout(() => {
       (this.$refs.checkbox as HTMLInputElement[]).forEach((checkBox) => {
         if (tagIds.includes(parseInt(checkBox.dataset.id!))) {

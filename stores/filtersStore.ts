@@ -20,7 +20,7 @@ export const DEFAULT_FILTERS: Filters = {
 
 export const useFiltersStore = defineStore('filters', {
   state: () => ({
-    filters: DEFAULT_FILTERS,
+    filters: structuredClone(DEFAULT_FILTERS),
     graphMonth: currentMonth,
   }),
 });

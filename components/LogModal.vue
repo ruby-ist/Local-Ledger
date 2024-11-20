@@ -5,7 +5,7 @@
     <h2 class="mt-64">
       Tag
     </h2>
-    <LogsCarousel />
+    <TagsCarousel />
     <div class="flex align-center" font="s-1.5em">
       <span>{{ currencySymbol }}</span>
       <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"

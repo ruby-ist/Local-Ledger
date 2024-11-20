@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="m-24-12-28-0 h-40 flex row justify--space-between align-center">
+    <div ref="fileNameParent" class="m-24-12-28-0 h-40 flex row justify--space-between align-center">
       <span>
         {{ fileName }}
       </span>
@@ -39,7 +39,11 @@ export default defineNuxtComponent({
 
   computed: {
     fileName() {
-      return this.fileSelected ? this.inputFileName : 'Select File';
+      if (!this.fileSelected) return 'Select File';
+      const maxLength = Math.round((this.$refs.fileNameParent as HTMLDivElement)
+                                        .getBoundingClientRect()
+                                        .width / 10) - 5;
+      return truncateMiddle(this.inputFileName, maxLength, 7);
     },
 
     disabled() {
@@ -157,7 +161,7 @@ export default defineNuxtComponent({
     async afterImportCallback() {
       const tags = await db.tags.toArray();
       DEFAULT_FILTERS.tagIds = tags.map(tag => tag.id!);
-      this.filters = DEFAULT_FILTERS;
+      this.filters = structuredClone(DEFAULT_FILTERS);
     },
 
     async importCSVToDatabase() {

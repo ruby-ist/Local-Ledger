@@ -5,7 +5,7 @@
                     :key="index" border="rad-18" class="bg-gradient-color--gradient centered-grid"
                     font="w-500 s-1.15rem" :data-id="tag.id"
                     :style="`--color: ${tag.color}; --gradient: ${darkShade(tag.color, 60)}`">
-        {{ tag.name }}
+        <div class="m-10 center-text break-all-words">{{ tag.name }}</div>
       </swiper-slide>
     </swiper-container>
   </div>

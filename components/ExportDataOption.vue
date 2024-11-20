@@ -23,7 +23,7 @@ export default defineNuxtComponent({
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
 
-    const timestamp = `${year}_${month}_${day}_${hours}_${minutes}`;
+    const timestamp = `${year}-${month}-${day}_${hours}-${minutes}`;
 
     return {
       fileName: `Backup_${timestamp}`,

@@ -17,6 +17,7 @@
     "@vite-pwa/nuxt": "^0.10.5",
     "dexie": "^4.0.8",
     "echarts": "^5.5.1",
+    "gsap": "^3.12.5",
     "nuxt": "^3.13.0",
     "swiper": "^11.1.12",
     "vue": "^3.3.4"
@@ -25,8 +26,6 @@
     "@nuxt/eslint": "^0.5.2",
     "@unocss/nuxt": "^0.62.2",
     "@vite-pwa/assets-generator": "^0.2.6",
-    "eslint": "^9.9.0",
-    "gsap": "^3.12.5",
-    "sass": "^1.77.8"
+    "eslint": "^9.9.0"
   }
 }
