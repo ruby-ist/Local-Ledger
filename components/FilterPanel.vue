@@ -27,7 +27,7 @@
           <input ref="checkbox" type="checkbox"
                  class="mr-10 inline-block no-border"
                  :data-id="tag.id!"
-                 @click="toggleTagId(tag.id!)">
+                 checked @click="toggleTagId(tag.id!)">
           <label>{{ tag.name }}</label>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default defineNuxtComponent({
       this.amountMaximum = null;
       this.amountMinimum = null;
       this.checkAllTags();
-      await this.fetchLogs(this.filters);
+      await this.fetchLogs();
     },
 
     close() {
@@ -118,19 +118,10 @@ export default defineNuxtComponent({
 
   async mounted() {
     gsap.set(this.$refs.panel as HTMLDivElement, { x: '-100%' });
-    const { startTime, amountMax, amountMin, tagIds } = this.filters;
+  },
 
-    this.amountMaximum = amountMax ? amountMax.toString() : null;
-    this.amountMinimum = amountMin ? amountMin.toString() : null;
-    this.month = formatDateToMonth(new Date(startTime));
-    this.tagIds = Array.from(tagIds);
-    setTimeout(() => {
-      (this.$refs.checkbox as HTMLInputElement[]).forEach((checkBox) => {
-        if (tagIds.includes(parseInt(checkBox.dataset.id!))) {
-          checkBox.checked = true;
-        }
-      });
-    }, 500);
+  beforeUnmount() {
+    this.clearFilters();
   },
 });
 </script>

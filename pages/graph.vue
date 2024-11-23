@@ -33,6 +33,7 @@ let chart: ECharts;
 export default defineNuxtComponent({
   data: () => ({
     tags: [] as Tag[],
+    month: currentMonth,
     totalAmount: 0,
   }),
 
@@ -94,7 +95,6 @@ export default defineNuxtComponent({
     },
     ...mapState(useSettingsStore, { currencySymbol: 'currency', target: 'target' }),
     ...mapWritableState(useHeaderStore, ['title']),
-    ...mapWritableState(useFiltersStore, { month: 'graphMonth' }),
   },
 
   methods: {

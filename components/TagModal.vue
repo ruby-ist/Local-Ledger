@@ -27,24 +27,27 @@ export default defineNuxtComponent({
   }),
 
   computed: {
+    ...mapWritableState(useTagsStore, ['tags', 'showModal', 'currentTag']),
+    ...mapWritableState(useHeaderStore, ['headerButton', 'headerButtonCallBack']),
+  },
+
+  methods: {
     color() {
       const activeSlide = document.querySelector('#tag-modal .swiper-slide-active') as Element;
       const styles = getComputedStyle(activeSlide);
       return styles.getPropertyValue('--color');
     },
 
-    ...mapWritableState(useTagsStore, ['tags', 'showModal', 'currentTag']),
-    ...mapWritableState(useHeaderStore, ['headerButton', 'headerButtonCallBack']),
-  },
+    closeModal({ formSubmission } = { formSubmission: false }) {
+      if (formSubmission) this.headerButtonCallBack();
 
-  methods: {
-    closeModal() {
       gsap.to('#tag-modal', {
         height: '0',
         display: 'none',
         duration: 0.5,
         onComplete: () => {
           this.currentTag = null;
+          this.name = '';
           this.showModal = false;
         },
       });
@@ -57,18 +60,18 @@ export default defineNuxtComponent({
     async createTag() {
       if (!this.validFields()) return;
 
-      await this.addTag(this.name, this.color);
-      this.closeModal();
+      await this.addTag(this.name, this.color());
+      this.closeModal({ formSubmission: true });
     },
 
     async updateTag() {
       if (this.currentTag) {
         await this.putTag({
           name: this.name,
-          color: this.color,
+          color: this.color(),
           id: this.currentTag.id,
         });
-        this.closeModal();
+        this.closeModal({ formSubmission: true });
       } else {
         await this.createTag();
       }

@@ -14,7 +14,7 @@
              @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
     <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
-           class="m-30-0 color-white bg-color-black no-border no-outline max-content">
+           class="m-30-0 color-white bg-color-black no-border no-outline max-content" step="1">
     <textarea ref="descriptionField" v-model="description"
               class="mb-60 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
                      color-white center-text bg-color-secondary-black focus:no-outline"
@@ -43,16 +43,17 @@ export default defineNuxtComponent({
   }),
 
   computed: {
-    tagId(): number {
-      const activeSlide = document.querySelector('#log-modal .swiper-slide-active') as HTMLElement;
-      return parseInt(activeSlide.dataset.id as string);
-    },
     ...mapState(useSettingsStore, { currencySymbol: 'currency' }),
     ...mapWritableState(useLedgerStore, ['showModal', 'currentLog', 'selectedTag']),
     ...mapWritableState(useHeaderStore, ['title', 'headerButton', 'headerButtonCallBack']),
   },
 
   methods: {
+    tagId(): number {
+      const activeSlide = document.querySelector('#log-modal .swiper-slide-active') as HTMLElement;
+      return parseInt(activeSlide.dataset.id as string);
+    },
+
     updateWidth() {
       const length = this.amount.length > 0 ? this.amount.length : 1;
       const width = length.toString() + 'ch';
@@ -95,11 +96,11 @@ export default defineNuxtComponent({
       const newLog: LogWithTagId = {
         description: this.description,
         amount: parseInt(this.amount),
-        createdAt: this.convertToEpochTime(this.createdAt),
-        tagId: this.tagId,
+        createdAt: convertToEpochTime(this.createdAt),
+        tagId: this.tagId(),
       };
       await this.addLog(newLog);
-      this.closeModal({ dataChanged: true });
+      this.closeModal({ formSubmission: true });
     },
 
     async updateLog() {
@@ -107,11 +108,11 @@ export default defineNuxtComponent({
         await this.putLog({
           description: this.description,
           amount: parseInt(this.amount),
-          createdAt: this.convertToEpochTime(this.createdAt),
-          tagId: this.tagId,
+          createdAt: convertToEpochTime(this.createdAt),
+          tagId: this.tagId(),
           id: this.currentLog.id,
         });
-        this.closeModal({ dataChanged: true });
+        this.closeModal({ formSubmission: true });
       } else {
         await this.createLog();
       }
@@ -125,8 +126,16 @@ export default defineNuxtComponent({
       }
     },
 
-    closeModal({ dataChanged } = { dataChanged: false }) {
-      // ToDo: move the close button to header componenet
+    clearFormValues() {
+      this.amount = '';
+      this.inputWidth = '1ch';
+      this.description = '';
+      this.createdAt = '';
+    },
+
+    closeModal({ formSubmission } = { formSubmission: false }) {
+      if (formSubmission) this.headerButtonCallBack();
+
       gsap.to('#log-modal', {
         height: 0,
         display: 'none',
@@ -135,26 +144,10 @@ export default defineNuxtComponent({
           this.currentLog = null;
           this.selectedTag = null;
           this.showModal = false;
-          if (dataChanged) this.conditionalRedirect();
+          this.clearFormValues();
+          if (formSubmission) this.conditionalRedirect();
         },
       });
-    },
-
-    formatDateForDatetimePicker(date: Date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 because months are 0-based
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-
-      return `${year}-${month}-${day}T${hours}:${minutes}`;
-    },
-
-    convertToEpochTime(datetimeStr: string): number {
-      const formattedStr = datetimeStr.replace('T', ' ');
-      const date = new Date(formattedStr);
-
-      return date.getTime();
     },
 
     savePrevHeaderFunctionlities() {
@@ -173,7 +166,7 @@ export default defineNuxtComponent({
         this.title = title;
         this.headerButton = headerButton;
         this.headerButtonCallBack = headerButtonCallBack;
-        this.closeModal({ dataChanged: false });
+        this.closeModal({ formSubmission: false });
       };
     },
     ...mapActions(useLedgerStore, ['addLog', 'putLog']),
@@ -189,7 +182,7 @@ export default defineNuxtComponent({
           dateTime = new Date(this.currentLog.createdAt);
           this.updateWidth();
         }
-        this.createdAt = this.formatDateForDatetimePicker(dateTime);
+        this.createdAt = formatDateForDatetimePicker(dateTime);
         this.savePrevHeaderFunctionlities();
         this.setHeaderFunctionalities();
       }

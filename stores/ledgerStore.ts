@@ -10,7 +10,28 @@ export const useLedgerStore = defineStore('ledger', {
       const id = await db.logs.add(newLog);
       const tag = await db.tags.get(newLog.tagId) as Tag;
       const { description, amount, createdAt } = newLog;
-      this.logs.unshift({ description, amount, createdAt, tag, id });
+      if (!this.fallsUnderCurrentFilter({ description, amount, createdAt, tagId: tag.id! })) return;
+
+      const index = this.logs.findIndex(log => log.createdAt < createdAt);
+      if (index === -1) {
+        this.logs.push({ description, amount, createdAt, tag, id });
+      } else {
+        this.logs.splice(index, 0, { description, amount, createdAt, tag, id });
+      }
+    },
+
+    fallsUnderCurrentFilter(log: LogWithTagId): boolean {
+      const filterStore = useFiltersStore();
+      const filters = filterStore.filters;
+      if (log.createdAt < filters.startTime || log.createdAt > filters.endTime) {
+        return false;
+      } else if (filters.amountMin && log.amount < filters.amountMin) {
+        return false;
+      } else if (filters.amountMax && log.amount > filters.amountMax) {
+        return false;
+      } else {
+        return filters.tagIds.includes(log.tagId);
+      }
     },
 
     async deleteLog(id: number) {
@@ -29,10 +50,8 @@ export const useLedgerStore = defineStore('ledger', {
       }
     },
 
-    applyTagsFilter(query: DexieLogQuery, tagIds: number[] | null) {
-      if (tagIds) {
-        query.and(log => tagIds.includes((log as LogWithTagId).tagId));
-      }
+    applyTagsFilter(query: DexieLogQuery, tagIds: number[]) {
+      query.and(log => tagIds.includes((log as LogWithTagId).tagId));
     },
 
     async queryData(filters: Filters): Promise<Log[]> {

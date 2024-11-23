@@ -4,9 +4,9 @@
     <h3 class="m-0-0-42-0" font="s-1.35em w-700">
       <span>{{ currencySymbol }}</span>&nbsp;{{ group.amount }}
     </h3>
-    <div font="s-0.9em w-500">
+    <a font="s-0.9em w-500 block color-white pointer" @click="applyFilter">
       {{ group.name }}
-    </div>
+    </a>
     <button class="p-8 pointer centered-grid absolute b-14 r-14
                    bg-color-background-shade color-background-color"
             border="none rad-50p" @click="openLogModal">
@@ -27,6 +27,7 @@ export default defineNuxtComponent({
   computed: {
     ...mapState(useSettingsStore, { currencySymbol: 'currency' }),
     ...mapWritableState(useLedgerStore, ['showModal', 'selectedTag']),
+    ...mapWritableState(useFiltersStore, ['filters']),
   },
 
   methods: {
@@ -34,6 +35,13 @@ export default defineNuxtComponent({
       const { name, color, id } = this.group;
       this.selectedTag = { name, color, id };
       this.showModal = true;
+    },
+
+    applyFilter() {
+      this.filters = structuredClone(DEFAULT_FILTERS);
+      this.filters.tagIds = [this.group.id];
+      // @ts-expect-error nuxt type checking is broken
+      this.$router.push('/ledger');
     },
     ...mapActions(useColorStore, ['darkShade']),
   },
