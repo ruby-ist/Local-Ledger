@@ -6,9 +6,9 @@ const config: Partial<ModuleOptions> = {
     globPatterns: ['**/*.{js,css,html,svg}'],
   },
   manifest: {
-    name: 'Expense Tracker',
-    short_name: 'Expa',
-    description: 'My Awesome App description',
+    name: 'Ledger',
+    short_name: 'Ledger',
+    description: 'Expense tracker',
     theme_color: '#000',
     icons: [
       {
