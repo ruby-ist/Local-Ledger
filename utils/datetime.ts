@@ -36,4 +36,4 @@ const records = await db.logs.orderBy('createdAt').limit(1).toArray();
 const oldestLog = records[0];
 export const minimumMonth = oldestLog
   ? formatDateToMonth(new Date(oldestLog.createdAt))
-  : currentMonth;
+  : undefined;

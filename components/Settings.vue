@@ -61,7 +61,7 @@ export default defineNuxtComponent({
   }),
 
   computed: {
-    ...mapWritableState(useSettingsStore, ['currency']),
+    ...mapWritableState(useSettingsStore, ['currency', 'target']),
   },
 
   methods: {
@@ -71,6 +71,7 @@ export default defineNuxtComponent({
 
     saveSettings() {
       this.currency = this.settings.currency;
+      this.target = this.settings.target;
       localStorage.setItem('appSettings', JSON.stringify(this.settings));
       this.edit = false;
     },

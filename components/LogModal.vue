@@ -2,25 +2,25 @@
   <div id="log-modal"
        class="h-0 w-100p absolute b-0 l-0 no-display column bg-color-black
               align-center justify--start clip-overflow--x z-1">
-    <h2 class="mt-64">
+    <h2 class="mt-48">
       Tag
     </h2>
     <TagsCarousel />
     <div class="flex align-center" font="s-1.5em">
       <span>{{ currencySymbol }}</span>
       <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
-             maxlength="6" class="no-bg focus:no-outline color-white" border="none" type="text"
+             maxlength="5" class="no-bg focus:no-outline color-white" border="none" type="text"
              placeholder="0" font="s-1.5em fam-monospace" required="true" inputmode="numeric" pattern="\d+"
              @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
     </div>
-    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
-           class="m-30-0 color-white bg-color-black no-border no-outline max-content" step="1">
     <textarea ref="descriptionField" v-model="description"
-              class="mb-60 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
+              class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
                      color-white center-text bg-color-secondary-black focus:no-outline"
               wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
               spellcheck="false" border="none rad-10" font="s-1rem" required="true"
               @input="adjustHeight" />
+    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
+           class="mb-60 color-white bg-color-black no-border no-outline max-content" step="1">
     <button v-if="currentLog" class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="updateLog">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
@@ -61,10 +61,7 @@ export default defineNuxtComponent({
     },
 
     checkNumeric(e: KeyboardEvent) {
-      const code = e.code;
-      if (!code.startsWith('Digit') || this.amount.startsWith('0')) {
-        e.preventDefault();
-      }
+      if (!/^[0-9]$/.test(e.key)) e.preventDefault();
     },
 
     checkContentValue(e: ClipboardEvent) {
