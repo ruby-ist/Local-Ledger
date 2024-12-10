@@ -58,12 +58,18 @@ export default defineNuxtComponent({
 
   watch: {
     showModal(value) {
-      const currentTag = this.currentTag();
-      if (value && currentTag) {
-        setTimeout(() => this.swiper.update, 1000);
-        const index = this.tags.findIndex(tag => (tag.id === currentTag.id));
-        this.swiper.slideToLoop(index);
+      if (!value) return;
+
+      if (this.tags.length === 2) {
+        this.swiper.setProgress(0);
+        this.swiper.update();
       }
+      const currentTag = this.currentTag();
+      if (!currentTag) return;
+
+      setTimeout(() => this.swiper.update, 1000);
+      const index = this.tags.findIndex(tag => (tag.id === currentTag.id));
+      this.swiper.slideToLoop(index);
     },
   },
 });

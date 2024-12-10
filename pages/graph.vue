@@ -70,6 +70,14 @@ export default defineNuxtComponent({
             opacity: 0.5,
             color: '#fff',
           },
+        }, // @ts-expect-error for echarts params type
+        position: function (pos, _params, _dom, _rect, size) {
+          const obj: { top: number; left?: number; right?: number } = { top: 100 };
+          if (pos[0] < size.viewSize[0] / 2)
+            obj.left = pos[0] + 20;
+          else
+            obj.right = size.viewSize[0] - pos[0] + 20;
+          return obj;
         },
         order: 'seriesDesc',
       };

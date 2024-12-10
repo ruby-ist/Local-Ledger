@@ -34,6 +34,7 @@ export function convertToEpochTime(datetimeStr: string): number {
 
 const records = await db.logs.orderBy('createdAt').limit(1).toArray();
 const oldestLog = records[0];
-export const minimumMonth = oldestLog
+const oldestLogMonth = oldestLog
   ? formatDateToMonth(new Date(oldestLog.createdAt))
   : undefined;
+export const minimumMonth = oldestLogMonth === currentMonth ? undefined : oldestLogMonth;
