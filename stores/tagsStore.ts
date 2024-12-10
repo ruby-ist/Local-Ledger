@@ -10,6 +10,7 @@ export const useTagsStore = defineStore('tags', {
       const filtersStore = useFiltersStore();
       this.tags.push({ name: name, color: color, id: id });
       filtersStore.filters.tagIds.push(id!);
+      DEFAULT_FILTERS.tagIds.push(id!);
     },
 
     async fetchTags() {
@@ -28,6 +29,7 @@ export const useTagsStore = defineStore('tags', {
       await db.logs.where('tagId').equals(id).modify({ tagId: 1 });
       await db.tags.delete(id);
       this.tags.splice(index, 1);
+      DEFAULT_FILTERS.tagIds.splice(DEFAULT_FILTERS.tagIds.indexOf(id), 1);
     },
   },
 });
