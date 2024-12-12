@@ -150,6 +150,9 @@ export default defineConfig({
     // word break rule
     ['break-all-words', { 'word-break': 'break-all' }],
 
+    // white space rule
+    [/^ws-(wrap|nowrap|break-spaces)$/, ([, value]) => ({ 'white-space': value })],
+
     // no scroll bar rule
     [/^no-scroll-bar$/,
       () => {

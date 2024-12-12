@@ -2,8 +2,8 @@
   <div>
     <input v-model="month" type="month"
            :max="currentMonth" :min="minimumMonth"
-           class="block p-10 color-white bg-color-secondary-black
-                  no-outline max-w-150 no-border center-text absolute r-30 t-0"
+           class="block p-12-0-10-40 color-white bg-color-secondary-black
+                  no-outline max-content no-border center-text absolute r-30 t-0"
            border="rad-5" font="s-1em">
     <div ref="chart" class="w-280 h-300 ml-20 mb-40" />
     <div class="ml-50">
@@ -281,3 +281,13 @@ export default defineNuxtComponent({
   },
 });
 </script>
+
+<style scoped>
+input[type="month"] {
+  appearance: none;
+  background-image: url('~/assets/images/calendar-grey.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 32px 16px;
+}
+</style>

@@ -69,7 +69,7 @@ export default defineNuxtComponent({
   methods: {
     autoSwipe() {
       if (this.$refs.slider) {
-        const x = this.swipeOpen ? 0 : -125;
+        const x = this.swipeOpen ? 0 : -144;
         gsap.to(this.$refs.slider, { x: x, duration: 0.1 });
         this.swipeOpen = !this.swipeOpen;
       }
@@ -83,7 +83,7 @@ export default defineNuxtComponent({
       if (this.$refs.slider) {
         let x = event.touches[0].pageX - this.initialPosition;
         x = x < 0 ? x : 0;
-        if (x >= -125 && x <= 0) {
+        if (x >= -144 && x <= 0) {
           this.currentPosition = x;
           gsap.to(this.$refs.slider, { x: x, duration: 0.1 });
         }
@@ -92,8 +92,8 @@ export default defineNuxtComponent({
 
     finishSwipe() {
       if (this.$refs.slider) {
-        if (this.currentPosition < -67.5) {
-          gsap.to(this.$refs.slider, { x: -125, duration: 0.1 });
+        if (this.currentPosition < -72) {
+          gsap.to(this.$refs.slider, { x: -144, duration: 0.1 });
           this.swipeOpen = true;
         }
         else {

@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar p-22-12-22-20 flex column wrap
-              justify--space-around fixed r-0 bg-color-secondary-black"
+  <nav id="navbar" class="navbar p-22-12-22-20 flex column wrap fixed r-0
+                          justify--space-around bg-color-secondary-black"
        border="rad-25-0-0-25">
     <NuxtLink to="graph">
       <MenuIcon name="Graph">

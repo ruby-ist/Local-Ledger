@@ -2,7 +2,7 @@
   <div>
     <div class="m-24-12-28-0 h-40 flex row align-center">
       <input v-model="fileName" class="no-border no-outline no-bg color-white w-80p pb-5 mr-10"
-             border-bottom="1px solid color-white">
+             border-bottom="1px solid color-white" @focusin="hideNavBar" @focusout="showNavBar">
       <span>.csv</span>
     </div>
     <a class="p-8-12 inline-block no-border bg-color-white color-black pointer"
@@ -65,6 +65,14 @@ export default defineNuxtComponent({
       } catch (error) {
         console.error('Error exporting logs to CSV:', error);
       }
+    },
+
+    hideNavBar() {
+      gsap.to('#navbar', { x: '100%', duration: 0.5 });
+    },
+
+    showNavBar() {
+      gsap.to('#navbar', { x: '0', duration: 0.5 });
     },
   },
 });

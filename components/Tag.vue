@@ -1,6 +1,6 @@
 <template>
   <div class="p-24-0-24-36 flex row align-center justify--space-between">
-    <span font="s-1.3em w-500" class="w-48p hidden-overflow--x text-ellipsis">
+    <span font="s-1.3em w-500" class="w-48p hidden-overflow--x ws-nowrap text-ellipsis">
       {{ tag.name }}
     </span>
     <div class="w-50p flex row align-center justify--space-around">

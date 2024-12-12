@@ -7,7 +7,7 @@
         <label class="inline-block mb-14" font="w-600">Month</label>
         <input v-model="month" type="month"
                :max="currentMonth" :min="minimumMonth"
-               class="block w-70p p-5-10 color-white bg-color-grey no-outline"
+               class="block max-content p-7-10-5-10 color-white no-outline"
                border="0.5 solid color-black rad-5" font="s-1em">
       </div>
       <div class="mb-20">
@@ -125,3 +125,13 @@ export default defineNuxtComponent({
   },
 });
 </script>
+
+<style scoped>
+input[type="month"] {
+  appearance: none;
+  background: grey url('~/assets/images/calendar-white.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 24px 16px;
+}
+</style>
