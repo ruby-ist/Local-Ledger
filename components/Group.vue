@@ -43,7 +43,7 @@ export default defineNuxtComponent({
       // @ts-expect-error nuxt type checking is broken
       this.$router.push('/ledger');
     },
-    ...mapActions(useColorStore, ['darkShade']),
+    ...mapActions(useColorsStore, ['darkShade']),
   },
 
   mounted() {

@@ -17,7 +17,7 @@ export default defineNuxtComponent({
       this.$el.style.setProperty('--shade', this.darkShade(color, this.shade));
     },
 
-    ...mapActions(useColorStore, ['darkShade']),
+    ...mapActions(useColorsStore, ['darkShade']),
   },
 
   mounted() {

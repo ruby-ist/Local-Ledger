@@ -32,7 +32,7 @@ export default defineNuxtComponent({
       return null;
     },
 
-    ...mapActions(useColorStore, ['darkShade']),
+    ...mapActions(useColorsStore, ['darkShade']),
     ...mapActions(useTagsStore, ['fetchTags']),
   },
 

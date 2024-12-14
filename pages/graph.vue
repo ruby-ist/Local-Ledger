@@ -251,7 +251,7 @@ export default defineNuxtComponent({
         return value;
       }
     },
-    ...mapActions(useColorStore, ['darkShade']),
+    ...mapActions(useColorsStore, ['darkShade']),
   },
 
   async mounted() {

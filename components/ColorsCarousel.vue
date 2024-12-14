@@ -13,12 +13,12 @@ export default defineNuxtComponent({
   }),
 
   computed: {
-    ...mapState(useColorStore, ['colors']),
+    ...mapState(useColorsStore, ['colors']),
     ...mapState(useTagsStore, ['showModal', 'currentTag']),
   },
 
   methods: {
-    ...mapActions(useColorStore, ['darkShade']),
+    ...mapActions(useColorsStore, ['darkShade']),
   },
 
   mounted() {

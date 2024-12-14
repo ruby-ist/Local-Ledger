@@ -26,7 +26,7 @@ export default defineNuxtComponent({
   }
 
   &.active, &:hover {
-    --color: white;
+    --color: var(--white);
   }
 }
 </style>

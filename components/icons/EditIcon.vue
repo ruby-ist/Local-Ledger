@@ -9,6 +9,6 @@
 
 <style scoped>
 path {
-  fill: white;
+  fill: var(--white);
 }
 </style>

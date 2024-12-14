@@ -50,7 +50,7 @@ export default defineNuxtComponent({
       return !this.fileSelected || this.inProcess;
     },
 
-    ...mapState(useColorStore, ['colors']),
+    ...mapState(useColorsStore, ['colors']),
     ...mapWritableState(useFiltersStore, ['filters']),
   },
 
