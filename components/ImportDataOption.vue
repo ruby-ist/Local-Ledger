@@ -176,11 +176,14 @@ export default defineNuxtComponent({
         await this.importLogsToDatabase(logsToImport);
         await this.afterImportCallback();
         this.importCompleted = true;
-      } catch (error) {
-        console.error('Error importing CSV:', error);
+      } catch {
+        this.raiseError('Failed to import data. Please make sure the file is in csv format\
+                         and the data is in same format as the exported data.', 5);
       }
       this.inProcess = false;
     },
+
+    ...mapActions(useErrorStore, ['raiseError']),
   },
 });
 </script>

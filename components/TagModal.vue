@@ -60,9 +60,16 @@ export default defineNuxtComponent({
 
     async createTag() {
       if (!this.validFields()) return;
-
-      await this.addTag(this.name, this.color());
-      this.closeModal({ formSubmission: true });
+      try {
+        await this.addTag(this.name, this.color());
+        this.closeModal({ formSubmission: true });
+      } catch (error) {
+        if (error.name === 'ConstraintError') {
+          this.raiseError('Tag already exists!');
+        } else {
+          this.raiseError('Something went wrong');
+        }
+      }
     },
 
     async updateTag() {
@@ -98,6 +105,7 @@ export default defineNuxtComponent({
     },
 
     ...mapActions(useTagsStore, ['addTag', 'putTag']),
+    ...mapActions(useErrorStore, ['raiseError']),
   },
 
   watch: {

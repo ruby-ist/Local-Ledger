@@ -69,12 +69,13 @@ export default defineNuxtComponent({
     },
 
     checkContentValue(e: ClipboardEvent) {
+      e.preventDefault();
       const clipboardData = e.clipboardData;
       const pastedData = clipboardData?.getData('text');
-      if (isNaN(Number(pastedData))) {
-        e.preventDefault();
+      if (Number(pastedData)) {
+        this.amount = pastedData?.replace(/^0+/, '') || '';
+        this.updateWidth();
       }
-      // ToDo: strip prefix zero from pasted data
     },
 
     validFields(): boolean {
