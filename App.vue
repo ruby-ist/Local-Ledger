@@ -37,6 +37,8 @@ export default defineNuxtComponent({
     // It should not be edited or Deleted
     const othersTag = await db.tags.get(1);
     if (!othersTag) await db.tags.add({ name: 'Others', color: '#9fb3c0', id: 1 });
+    else await db.tags.put({ name: 'Others', color: '#9fb3c0', id: 1 });
+    // TODO: remove else block
   },
 
   watch: {

@@ -11,15 +11,17 @@
       <input ref="amountField" v-model="amount" :style="{ width: inputWidth }" autocomplete="off"
              maxlength="5" class="no-bg focus:no-outline color-white" border="none" type="text"
              placeholder="0" font="s-1.5em fam-monospace" required="true" inputmode="numeric" pattern="\d+"
-             @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue">
+             data-error-message="Please enter a positive numeric value"
+             @input="updateWidth" @keypress="checkNumeric" @paste="checkContentValue"
+             @invalid="setErrorMessage">
     </div>
-    <textarea ref="descriptionField" v-model="description"
-              class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
-                     color-white center-text bg-color-secondary-black focus:no-outline"
-              wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
-              spellcheck="false" border="none rad-10" font="s-1rem" required="true"
-              @input="adjustHeight" />
-    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em"
+    <input ref="descriptionField" v-model="description"
+           class="m-30-0 p-15-20 h-20 min-h-20 max-h-40 no-resize w-150
+           color-white center-text bg-color-secondary-black focus:no-outline"
+           wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
+           spellcheck="false" border="none rad-10" font="s-1rem" required="true"
+           @keydown.enter="removeFocus">
+    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em" required="true"
            class="mb-60 color-white bg-color-black no-border no-outline max-content" step="1">
     <button v-if="currentLog" class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="updateLog">Update</button>
@@ -58,6 +60,8 @@ export default defineNuxtComponent({
       const length = this.amount.length > 0 ? this.amount.length : 1;
       const width = length.toString() + 'ch';
       this.inputWidth = width;
+      // clear custom error message
+      (this.$refs.amountField as HTMLInputElement).setCustomValidity('');
     },
 
     checkNumeric(e: KeyboardEvent) {
@@ -73,18 +77,16 @@ export default defineNuxtComponent({
       // ToDo: strip prefix zero from pasted data
     },
 
-    adjustHeight(e: Event) {
-      const target = e.target as HTMLTextAreaElement;
-      target.style.height = target.style.minHeight;
-      // 30 is top and bottom padding
-      target.style.height = (target.scrollHeight - 30) + 'px';
-    },
-
     validFields(): boolean {
-      return (
-        (this.$refs.amountField as HTMLInputElement).reportValidity()
-        && (this.$refs.descriptionField as HTMLTextAreaElement).reportValidity()
-      );
+      const amountField = this.$refs.amountField as HTMLInputElement;
+      const descriptionField = this.$refs.descriptionField as HTMLTextAreaElement;
+      const dateTimePicker = this.$refs.dateTimePicker as HTMLInputElement;
+      if (amountField.value === '0')
+        amountField.setCustomValidity('Please enter a positive numeric value');
+
+      return amountField.reportValidity()
+        && descriptionField.reportValidity()
+        && dateTimePicker.reportValidity();
     },
 
     async createLog() {
@@ -101,6 +103,8 @@ export default defineNuxtComponent({
     },
 
     async updateLog() {
+      if (!this.validFields()) return;
+
       if (this.currentLog) {
         await this.putLog({
           description: this.description,
@@ -187,3 +191,17 @@ export default defineNuxtComponent({
   },
 });
 </script>
+
+<style scoped>
+@supports not (-moz-appearance: none) {
+  input[type="datetime-local"] {
+    appearance: none;
+    background-image: url('~/assets/images/calendar-grey.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 32px 16px;
+    padding-left: 36px;
+    padding-top: 4px;
+  }
+}
+</style>

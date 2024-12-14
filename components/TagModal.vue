@@ -7,8 +7,9 @@
     <input ref="nameField" v-model="name"
            class="m-30-0 p-15-20 h-20 w-100 min-h-20 max-h-40 no-resize
                   color-white center-text bg-color-secondary-black focus:no-outline"
-           maxlength="30" placeholder="Name" autocomplete="off"
-           spellcheck="false" border="none rad-10" font="s-1rem" required="true">
+           maxlength="25" placeholder="Name" autocomplete="off"
+           spellcheck="false" border="none rad-10" font="s-1rem" required="true"
+           @keydown.enter="removeFocus">
     <button v-if="currentTag" class="p-8-16 pointer bg-color-white"
             border="none rad-8" font="s-1em" @click="updateTag">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
@@ -65,6 +66,8 @@ export default defineNuxtComponent({
     },
 
     async updateTag() {
+      if (!this.validFields()) return;
+
       if (this.currentTag) {
         await this.putTag({
           name: this.name,

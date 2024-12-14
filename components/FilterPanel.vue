@@ -5,21 +5,26 @@
                             bg-color-secondary-black p-125-30-30-40">
       <div class="mb-20">
         <label class="inline-block mb-14" font="w-600">Month</label>
-        <input v-model="month" type="month"
-               :max="currentMonth" :min="minimumMonth"
+        <input ref="monthInput" v-model="month"
+               type="month" :max="currentMonth"
+               :min="minimumMonth" pattern="\d{4,4}-\d{2,2}"
                class="block max-content p-7-10-5-10 color-white no-outline"
-               border="0.5 solid color-black rad-5" font="s-1em">
+               border="0.5 solid color-black rad-5" font="s-1em" required="true"
+               data-error-message="Please enter a valid month value in format of YYYY-MM"
+               @invalid="setErrorMessage" @input="clearErrorMessage">
       </div>
       <div class="mb-20">
         <label class="block mb-14" font="w-600">Range</label>
-        <input v-model="amountMinimum" type="text" placeholder="From"
+        <input ref="amountMinInput" v-model="amountMinimum" type="text" placeholder="From"
                class="w-35p inline-block mr-5p p-5-10 color-white bg-color-grey no-outline"
                border="0.5 solid color-black rad-5" font="s-1em"
-               inputmode="numeric" pattern="\d+">
-        <input v-model="amountMaximum" type="text" placeholder="To"
+               inputmode="numeric" pattern="\d*" data-error-message="Please enter a postive numeric value"
+               @invalid="setErrorMessage" @input="clearErrorMessage" @keydown.enter="removeFocus">
+        <input ref="amountMaxInput" v-model="amountMaximum" type="text" placeholder="To"
                class="w-35p inline-block p-5-10 color-white bg-color-grey no-outline"
                border="0.5 solid color-black rad-5" font="s-1em"
-               inputmode="numeric" pattern="\d+">
+               inputmode="numeric" pattern="\d*" data-error-message="Please enter a postive numeric value"
+               @invalid="setErrorMessage" @input="clearErrorMessage" @keydown.enter="removeFocus">
       </div>
       <div class="mb-20">
         <label class="inline-block mb-14" font="w-600">Tags</label>
@@ -56,7 +61,7 @@ export default defineNuxtComponent({
     month: currentMonth,
     amountMinimum: '' as string | null,
     amountMaximum: '' as string | null,
-    tagIds: [] as number[],
+    tagIds: Array.from(DEFAULT_FILTERS.tagIds),
   }),
 
   emits: ['closePanel'],
@@ -68,6 +73,8 @@ export default defineNuxtComponent({
 
   methods: {
     async applyFilter() {
+      if (!this.validFields()) return;
+
       const [startTime, endTime] = monthTimestamps(this.month);
       const amountMax = this.amountMaximum ? parseInt(this.amountMaximum) : null;
       const amountMin = this.amountMinimum ? parseInt(this.amountMinimum) : null;
@@ -111,6 +118,18 @@ export default defineNuxtComponent({
     unCheckAllTags() {
       this.tagIds = [];
       (this.$refs.checkbox as HTMLInputElement[]).forEach(checkBox => checkBox.checked = false);
+    },
+
+    validFields() {
+      const { monthInput, amountMinInput, amountMaxInput } = this.$refs as {
+        monthInput: HTMLInputElement;
+        amountMinInput: HTMLInputElement;
+        amountMaxInput: HTMLInputElement;
+      };
+      console.log(amountMinInput.reportValidity());
+      return monthInput.reportValidity()
+        && amountMinInput.reportValidity()
+        && amountMaxInput.reportValidity();
     },
 
     ...mapActions(useLedgerStore, ['fetchLogs']),
