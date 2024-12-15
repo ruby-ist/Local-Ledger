@@ -11,7 +11,7 @@
 export default defineNuxtComponent({
   methods: {
     hideToast() {
-      gsap.to(this.$refs.toast, { opacity: 0, display: 'none', duration: 0.5 });
+      gsap.to(this.$refs.toast!, { opacity: 0, display: 'none', duration: 0.5 });
     },
   },
 });

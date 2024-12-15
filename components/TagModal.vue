@@ -8,7 +8,7 @@
            class="m-30-0 p-15-20 h-20 w-100 min-h-20 max-h-40 no-resize
                   color-white center-text bg-color-secondary-black focus:no-outline"
            maxlength="25" placeholder="Name" autocomplete="off"
-           spellcheck="false" border="none rad-10" font="s-1rem" required="true"
+           spellcheck="false" border="none rad-10" font="s-1.1rem" required="true"
            @keydown.enter="removeFocus">
     <button v-if="currentTag" class="p-8-16 pointer bg-color-white"
             border="none rad-8" font="s-1em" @click="updateTag">Update</button>
@@ -63,7 +63,7 @@ export default defineNuxtComponent({
       try {
         await this.addTag(this.name, this.color());
         this.closeModal({ formSubmission: true });
-      } catch (error) {
+      } catch (error) { // @ts-expect-error dexie throws error as object
         if (error.name === 'ConstraintError') {
           this.raiseError('Tag already exists!');
         } else {

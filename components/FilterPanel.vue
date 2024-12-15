@@ -153,4 +153,8 @@ input[type="month"] {
   background-position: right center;
   background-size: 24px 16px;
 }
+
+input[type='text']::placeholder {
+  color: var(--white);
+}
 </style>

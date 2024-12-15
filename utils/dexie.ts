@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable, type Collection, type InsertType } from 'dexie';
+import ConstraintError from 'dexie';
 
 interface Tag {
   id?: number;
@@ -43,4 +44,4 @@ db.version(1).stores({
 
 type DexieLogQuery = Collection<Log, number | undefined, InsertType<Log, 'id'>>;
 export type { Tag, Log, Group, LogWithTag, LogWithTagId, DexieLogQuery };
-export { db };
+export { db, ConstraintError };

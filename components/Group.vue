@@ -1,16 +1,16 @@
 <template>
-  <div ref="group" class="m-12-0 p-20-25-22 w-188 relative border-rad-16
+  <div ref="group" class="m-12-0 p-24-28-28 w-73p relative border-rad-16
                           bg-gradient-background-color--background-shade">
-    <h3 class="m-0-0-42-0" font="s-1.35em w-700">
-      <span>{{ currencySymbol }}</span>&nbsp;{{ group.amount }}
+    <h3 class="m-0-0-48-0" font="s-1.7em w-900">
+      <span>{{ currencySymbol }}</span>&nbsp;&nbsp;{{ group.amount }}
     </h3>
-    <a font="s-0.9em w-500 block color-white pointer" @click="applyFilter">
+    <a font="s-1.1em w-500 block color-white pointer" @click="applyFilter">
       {{ group.name }}
     </a>
-    <button class="p-8 pointer centered-grid absolute b-14 r-14
+    <button class="p-10 pointer centered-grid absolute b-20 r-20
                    bg-color-background-shade color-background-color"
             border="none rad-50p" @click="openLogModal">
-      <AddButtonIcon :color="group.color" class="w-16" />
+      <AddButtonIcon :color="group.color" class="w-20" />
     </button>
   </div>
 </template>
