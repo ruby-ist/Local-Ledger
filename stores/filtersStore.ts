@@ -1,6 +1,7 @@
 export type Filters = {
   amountMax: number | null;
   amountMin: number | null;
+  keyword: string | null;
   startTime: number;
   endTime: number;
   tagIds: number[];
@@ -14,6 +15,7 @@ const tags = await db.tags.toArray();
 export const DEFAULT_FILTERS: Filters = {
   amountMax: null as number | null,
   amountMin: null as number | null,
+  keyword: null as string | null,
   tagIds: tags.map(tag => tag.id!),
   startTime, endTime,
 };

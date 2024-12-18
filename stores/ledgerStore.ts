@@ -29,6 +29,8 @@ export const useLedgerStore = defineStore('ledger', {
         return false;
       } else if (filters.amountMax && log.amount > filters.amountMax) {
         return false;
+      } else if (filters.keyword && !(new RegExp(filters.keyword, 'i').test(log.description))) {
+        return false;
       } else {
         return filters.tagIds.includes(log.tagId);
       }
@@ -50,14 +52,19 @@ export const useLedgerStore = defineStore('ledger', {
       }
     },
 
+    applyKeywordFilter(query: DexieLogQuery, keyword: string) {
+      query.and(log => new RegExp(keyword, 'i').test(log.description));
+    },
+
     applyTagsFilter(query: DexieLogQuery, tagIds: number[]) {
       query.and(log => tagIds.includes((log as LogWithTagId).tagId));
     },
 
     async queryData(filters: Filters): Promise<Log[]> {
-      const { startTime, endTime, amountMin, amountMax, tagIds } = filters;
+      const { startTime, endTime, amountMin, amountMax, tagIds, keyword } = filters;
       const query = db.logs.where('createdAt').between(startTime, endTime);
       this.applyAmountFilters(query, amountMax, amountMin);
+      if (keyword) this.applyKeywordFilter(query, keyword);
       this.applyTagsFilter(query, tagIds);
       const logs = await query.toArray();
       logs.sort((a, b) => b.createdAt - a.createdAt);

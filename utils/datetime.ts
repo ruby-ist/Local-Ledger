@@ -6,13 +6,21 @@ export function monthTimestamps(monthString: string): [number, number] {
   ];
 }
 
-export function formatDateToMonth(date: Date): string {
+export function formatTimeToMonth(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   return `${year}-${month}`;
 };
 
-export const currentMonth = formatDateToMonth(new Date());
+export function formatTimeToDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+export const currentMonth = formatTimeToMonth(new Date());
+export const currentDate = formatTimeToDate(new Date());
 
 export function formatDateForDatetimePicker(date: Date) {
   const year = date.getFullYear();
@@ -35,6 +43,13 @@ export function convertToEpochTime(datetimeStr: string): number {
 const records = await db.logs.orderBy('createdAt').limit(1).toArray();
 const oldestLog = records[0];
 const oldestLogMonth = oldestLog
-  ? formatDateToMonth(new Date(oldestLog.createdAt))
+  ? formatTimeToMonth(new Date(oldestLog.createdAt))
   : undefined;
 export const minimumMonth = oldestLogMonth === currentMonth ? undefined : oldestLogMonth;
+// if min and max value are same in month picker, it will not respect those values.
+export const miniminDate = oldestLog
+  ? formatTimeToDate(new Date(oldestLog.createdAt))
+  : undefined;
+
+const [startDateTime, _] = monthTimestamps(currentMonth);
+export const currentMonthStartDate = formatTimeToDate(new Date(startDateTime));
