@@ -16,9 +16,15 @@
       </div>
       <div font="s-1.1rem">
         <div class="mb-15"><b>Spent:&ensp;</b>{{ currencySymbol + totalAmount }}</div>
-        <div v-if="month === currentMonth" class="mb-15"><b>Remaining:&ensp;</b>{{ currencySymbol + (target - totalAmount) }}</div>
-        <div v-if="month === currentMonth" class="mb-15"><b>Days Left:&ensp;</b>{{ monthEndDate - currentDate }}</div>
-        <div v-if="month !== currentMonth && totalAmount > target" class="mb-15">
+        <div v-if="month === currentMonth && totalAmount <= target" class="mb-15">
+          <b>Remaining:&ensp;</b>
+          {{ currencySymbol + (target - totalAmount) }}
+        </div>
+        <div v-if="month === currentMonth" class="mb-15">
+          <b>Days Left:&ensp;</b>
+          {{ monthEndDate - currentDate }}
+        </div>
+        <div v-if="totalAmount > target" class="mb-15">
           <b>Exceeded:&ensp;</b>
           {{ currencySymbol + (totalAmount - target) }}
         </div>

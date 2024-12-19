@@ -3,8 +3,18 @@
     <div class="w-100vw h-100vh absolute -t-94 l-0 z-9 bg-color-black opacity-0.8" @click="close" />
     <div id="filter_panel" ref="panel" class="w-55vw h-100vh absolute -t-94 l-0 z-10
                             bg-color-secondary-black pr-30 pl-40">
-      <div class="mt-120 auto-overflow--y no-scroll-bar" style="height: calc(100% - 120px);">
-        <div class="mb-80">
+      <div class="mt-80 auto-overflow--y no-scroll-bar" style="height: calc(100% - 80px);">
+        <div class="mb-60">
+          <div class="right-text mb-20">
+            <button class="bg-color-black color-white no-border no-outline p-6-10 pointer"
+                    border="rad-4" font="w-500" @click="clearFilters">
+              Clear
+            </button>&ensp;
+            <button class="bg-color-white color-black no-border no-outline p-6-10 pointer"
+                    border="rad-4" font="w-500" @click="applyFilter">
+              Apply
+            </button>
+          </div>
           <div class="mb-20">
             <label class="inline-block mb-14" font="w-600">Search</label><br>
             <input v-model="keyword"
@@ -45,7 +55,7 @@
                    data-error-message="Please enter a valid date in YYYY-MM-DD format"
                    @invalid="setErrorMessage" @input="clearErrorMessage">
           </div>
-          <div class="mb-20">
+          <div>
             <label class="inline-block mb-14" font="w-600">Tags</label>
             <div v-for="tag in tags" :key="tag.id" class="mb-15" font="s-1em">
               <input ref="checkbox" type="checkbox"
@@ -59,16 +69,6 @@
             <a class="inline-block mb-10" @click="unCheckAllTags">Unselect All</a>
             <span class="m-0-10">|</span>
             <a class="inline-block mb-10" @click="checkAllTags">Select All</a>
-          </div>
-          <div class="right-text">
-            <button class="bg-color-black color-white no-border no-outline p-6-10 pointer"
-                    border="rad-4" font="w-500" @click="clearFilters">
-              Clear
-            </button>&ensp;
-            <button class="bg-color-white color-black no-border no-outline p-6-10 pointer"
-                    border="rad-4" font="w-500" @click="applyFilter">
-              Apply
-            </button>
           </div>
         </div>
       </div>

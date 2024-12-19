@@ -21,8 +21,9 @@
            wrap="hard" maxlength="30" placeholder="description" autocomplete="off"
            spellcheck="false" border="none rad-10" font="s-1.1rem" required="true"
            @keydown.enter="removeFocus">
-    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em fam-monospace" required="true"
-           class="mb-60 ml-12 color-white bg-color-black no-border no-outline max-content" step="1">
+    <input ref="dateTimePicker" v-model="createdAt" type="datetime-local" font="s-1em fam-monospace"
+           required="true" class="mb-60 ml-12 color-white bg-color-black no-border no-outline max-content"
+           step="1" :max="formatDateForDatetimePicker(new Date())">
     <button v-if="currentLog" class="p-8-16 pointer bg-color-white" border="none rad-8"
             font="s-1em" @click="updateLog">Update</button>
     <button v-else class="p-8-16 pointer bg-color-white" border="none rad-8"
