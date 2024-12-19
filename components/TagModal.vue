@@ -114,6 +114,10 @@ export default defineNuxtComponent({
         if (this.currentTag) this.name = this.currentTag.name;
         this.savePrevHeaderFunctionalities();
         this.setHeaderFunctionalities();
+        history.pushState({ modal: true }, '');
+        window.addEventListener('popstate', this.headerButtonCallBack);
+      } else {
+        window.removeEventListener('popstate', this.headerButtonCallBack);
       }
     },
   },

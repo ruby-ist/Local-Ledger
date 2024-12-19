@@ -188,6 +188,10 @@ export default defineNuxtComponent({
         this.createdAt = formatDateForDatetimePicker(dateTime);
         this.savePrevHeaderFunctionlities();
         this.setHeaderFunctionalities();
+        history.pushState({ modal: true }, '');
+        window.addEventListener('popstate', this.headerButtonCallBack);
+      } else {
+        window.removeEventListener('popstate', this.headerButtonCallBack);
       }
     },
   },
