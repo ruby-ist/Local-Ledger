@@ -165,6 +165,8 @@ export default defineNuxtComponent({
       this.title = 'Log';
       this.headerButton = 'Close';
       this.headerButtonCallBack = () => {
+        window.removeEventListener('popstate', this.headerButtonCallBack);
+
         const { title, headerButton, headerButtonCallBack } = this.prevHeaderFunctionalities;
         this.title = title;
         this.headerButton = headerButton;
@@ -190,8 +192,6 @@ export default defineNuxtComponent({
         this.setHeaderFunctionalities();
         history.pushState({ modal: true }, '');
         window.addEventListener('popstate', this.headerButtonCallBack);
-      } else {
-        window.removeEventListener('popstate', this.headerButtonCallBack);
       }
     },
   },
