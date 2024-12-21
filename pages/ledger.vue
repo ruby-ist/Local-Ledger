@@ -43,6 +43,7 @@ export default defineNuxtComponent({
           duration: 0.3,
         });
         this.title = 'Filters';
+        history.pushState({ panel: true }, '');
       } else {
         this.title = 'Ledger';
       }

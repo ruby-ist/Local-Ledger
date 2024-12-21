@@ -166,10 +166,12 @@ export default defineNuxtComponent({
 
   async mounted() {
     gsap.set(this.$refs.panel as HTMLDivElement, { x: '-100%' });
+    window.addEventListener('popstate', this.close);
   },
 
   beforeUnmount() {
     this.clearFilters();
+    window.removeEventListener('popstate', this.close);
   },
 });
 </script>
