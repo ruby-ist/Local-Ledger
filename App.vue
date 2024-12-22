@@ -13,9 +13,9 @@
     <Header />
     <div class="relative">
       <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" />
-      <VerticalNavBar />
-      <LogModal v-show="showModal" ref="logModal" />
-      <ErrorMessage />
+      <VerticalNavBar v-if="notIndexPage" />
+      <LogModal v-show="showModal" v-if="notIndexPage" />
+      <ErrorMessage v-if="notIndexPage" />
     </div>
   </div>
 </template>
@@ -25,6 +25,9 @@ import '~/utils/swiper';
 
 export default defineNuxtComponent({
   computed: {
+    notIndexPage(): boolean { // @ts-expect-error for route path
+      return this.$route.path !== '/';
+    },
     ...mapState(useLedgerStore, ['showModal']),
   },
 
