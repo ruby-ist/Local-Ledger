@@ -1,7 +1,7 @@
 <template>
   <Head>
     <Title>Local Ledger</Title>
-    <Meta name="description" content="A minimal offline expense tracker mobile app with filters, graph, import and export options" />
+    <Meta name="description" content="Local Ledger is a minimal Progressive Web App (PWA) that helps you track expenses effortlessly. It works completely offline, with features like filters for organizing transactions, interactive graphs for visualizing spending, and import/export options for easy data management. With a clean, simple interface, it offers a secure and hassle-free way to manage your finances on your mobile." />
     <Meta name="theme-color" content="#000" />
     <Link rel="icon" href="favicon.ico" />
     <Link rel="apple-touch-icon" href="apple-touch-icon-180x180.png" />
@@ -10,7 +10,7 @@
   <NuxtPwaAssets />
 
   <div class="h-100vh hidden-overflow">
-    <Header />
+    <Header v-if="notIndexPage" />
     <div class="relative">
       <NuxtPage class="page mr-96px auto-overflow--y no-scroll-bar" />
       <VerticalNavBar v-if="notIndexPage" />

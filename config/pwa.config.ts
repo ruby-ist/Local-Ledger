@@ -9,7 +9,7 @@ const config: Partial<ModuleOptions> = {
     name: 'Local Ledger',
     short_name: 'Ledger',
     start_url: '/groups',
-    description: 'A minimal offline expense tracker mobile app with filters, graph, import and export options',
+    description: 'Local Ledger is a minimal Progressive Web App (PWA) that helps you track expenses effortlessly. It works completely offline, with features like filters for organizing transactions, interactive graphs for visualizing spending, and import/export options for easy data management. With a clean, simple interface, it offers a secure and hassle-free way to manage your finances on your mobile.',
     theme_color: '#000',
     icons: [
       {

@@ -249,8 +249,12 @@ export default defineConfig({
     ['no-outline', { outline: 'none' }],
 
     // text align rule
-    ['center-text', { 'text-align': 'center' }],
-    ['right-text', { 'text-align': 'right' }],
+    [/^(\w+)-text$/, ([_, alignment]) => ({ 'text-align': alignment })],
+
+    // line height rule with units
+    [/^lh-(\d+)(\w{1,3})?$/, ([_, value, unit]) => {
+      return { 'line-height': `${value}${mapUnit(unit)}` };
+    }],
 
     // SVG rule
     [/^fill-([\w-]+)$/, ([_, color]) => {
