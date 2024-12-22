@@ -2,6 +2,7 @@
   <div class="flex column align-center m-0 p-100-0">
     <img src="~/public/logo.png" class="w-120 h-120 border-rad-20">
     <button class="bg-color-white p-10-20 no-border no-outline border-rad-5 mt-100"
+            :disabled="isInstalling" :class="{ 'opacity-0.5': isInstalling }"
             font="w-500 s-1.2rem" @click="handleButtonClick">
       {{ buttonText }}
     </button>
@@ -9,36 +10,33 @@
 </template>
 
 <script>
-// PWAButton.vue
 export default {
-  data() {
-    return {
-      deferredPrompt: null,
-      pwaStartUrl: window.location.origin + '/groups',
-    };
-  },
+  data: () => ({
+    isInstalling: false,
+    deferredPrompt: null,
+    pwaStartUrl: window.location.origin + '/groups',
+  }),
   computed: {
     buttonText() {
-      return this.deferredPrompt ? 'Install App' : 'Open App';
+      return (this.deferredPrompt && !this.isInstalling) ? 'Install App' : 'Open App';
     },
     ...mapWritableState(useHeaderStore, ['title']),
   },
   async mounted() {
     this.title = 'Local Ledger';
-    // Listen for beforeinstallprompt event
+
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
     });
 
-    // Listen for appinstalled event
     window.addEventListener('appinstalled', () => {
       this.deferredPrompt = null;
     });
   },
   methods: {
     async handleButtonClick() {
-      if (this.deferredPrompt) {
+      if (this.deferredPrompt && !this.isInstalling) {
         await this.installPWA();
       } else {
         await this.launchPWA();
@@ -48,10 +46,21 @@ export default {
     async installPWA() {
       // Show the install prompt
       this.deferredPrompt.prompt();
+
+      try {
+        const { outcome } = await this.deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          this.isInstalling = true;
+          setTimeout(() => {
+            this.isInstalling = false;
+          }, 3000);
+        }
+      } catch (error) {
+        console.error('Error installing PWA:', error);
+      }
     },
 
     async launchPWA() {
-      // Try to launch using the manifest start_url
       try {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) {
