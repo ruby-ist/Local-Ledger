@@ -27,9 +27,6 @@ export default {
   },
   async mounted() {
     this.title = 'Local Ledger';
-    // Initial check
-    await this.checkInstallationStatus();
-
     // Listen for beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -50,28 +47,6 @@ export default {
     });
   },
   methods: {
-    async checkInstallationStatus() {
-      // Check if running in standalone mode (installed)
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        this.isInstalled = true;
-        return;
-      }
-
-      // For iOS devices
-      if (window.navigator.standalone === true) {
-        this.isInstalled = true;
-        return;
-      }
-
-      // Check service worker registration
-      try {
-        const registration = await navigator.serviceWorker.getRegistration();
-        this.isInstalled = !!registration;
-      } catch (error) {
-        console.error('Error checking installation status:', error);
-      }
-    },
-
     async handleButtonClick() {
       if (this.isInstalled) {
         await this.launchPWA();
