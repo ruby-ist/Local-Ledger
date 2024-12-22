@@ -13,15 +13,13 @@
 export default {
   data() {
     return {
-      isInstalled: false,
       deferredPrompt: null,
-      canInstall: false,
       pwaStartUrl: window.location.origin + '/groups',
     };
   },
   computed: {
     buttonText() {
-      return this.isInstalled ? 'Open App' : 'Install App';
+      return this.deferredPrompt ? 'Install App' : 'Open App';
     },
     ...mapWritableState(useHeaderStore, ['title']),
   },
@@ -31,50 +29,25 @@ export default {
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
-      this.canInstall = true;
     });
 
     // Listen for appinstalled event
     window.addEventListener('appinstalled', () => {
-      this.isInstalled = true;
       this.deferredPrompt = null;
-      this.canInstall = false;
-    });
-
-    // Listen for display mode changes
-    window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
-      this.isInstalled = evt.matches;
     });
   },
   methods: {
     async handleButtonClick() {
-      if (this.isInstalled) {
-        await this.launchPWA();
-      } else {
+      if (this.deferredPrompt) {
         await this.installPWA();
+      } else {
+        await this.launchPWA();
       }
     },
 
     async installPWA() {
-      if (!this.deferredPrompt) {
-        console.error('Installation prompt not available');
-        return;
-      }
-
       // Show the install prompt
       this.deferredPrompt.prompt();
-
-      try {
-        const { outcome } = await this.deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          this.isInstalled = true;
-        }
-      } catch (error) {
-        console.error('Installation error:', error);
-      }
-
-      // Clear the deferred prompt
-      this.deferredPrompt = null;
     },
 
     async launchPWA() {
