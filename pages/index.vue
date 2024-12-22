@@ -107,7 +107,7 @@ export default {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) {
           const startUrl = new URL(registration.scope).href;
-          alert('registration scope', startUrl);
+          alert(startUrl);
           window.open(startUrl, '_blank');
           return;
         }
@@ -117,7 +117,6 @@ export default {
 
       // Fallback: open in new window with standalone display
       const pwaUrl = window.location.origin;
-      alert('pwaUrl', pwaUrl);
       const windowFeatures = 'width=800,height=600,status=0,toolbar=0';
       window.open(pwaUrl, 'pwa_window', windowFeatures);
     },
