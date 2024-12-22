@@ -2,7 +2,7 @@
   <div id="index-page">
     <div class="flex row justify--space-evenly p-75-0-50">
       <div>
-        <img src="~/public/logo.png" class="w-120 border-rad-20">
+        <img src="/logo.webp" class="w-120 border-rad-20">
       </div>
       <div class="flex column justify--space-between">
         <h1 class="m-0">Local Ledger</h1>
