@@ -16,6 +16,7 @@ export default {
       isInstalled: false,
       deferredPrompt: null,
       canInstall: false,
+      pwaStartUrl: window.location.origin + '/groups',
     };
   },
   computed: {
@@ -106,19 +107,12 @@ export default {
       try {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) {
-          const startUrl = new URL(registration.scope).href;
-          alert(startUrl);
-          window.open(startUrl, '_blank');
+          window.open(this.pwaStartUrl, '_blank');
           return;
         }
       } catch (error) {
         console.error('Error launching PWA:', error);
       }
-
-      // Fallback: open in new window with standalone display
-      const pwaUrl = window.location.origin;
-      const windowFeatures = 'width=800,height=600,status=0,toolbar=0';
-      window.open(pwaUrl, 'pwa_window', windowFeatures);
     },
   },
 };
