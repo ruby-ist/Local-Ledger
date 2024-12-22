@@ -81,7 +81,7 @@ export default {
 
     async installPWA() {
       if (!this.deferredPrompt) {
-        console.log('Installation prompt not available');
+        console.error('Installation prompt not available');
         return;
       }
 
@@ -91,7 +91,6 @@ export default {
       try {
         const { outcome } = await this.deferredPrompt.userChoice;
         if (outcome === 'accepted') {
-          console.log('PWA installed successfully');
           this.isInstalled = true;
         }
       } catch (error) {

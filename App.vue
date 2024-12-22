@@ -1,7 +1,7 @@
 <template>
   <Head>
-    <Title>Nuxt PWA</Title>
-    <Meta name="description" content="Expense tracker app" />
+    <Title>Local Ledger</Title>
+    <Meta name="description" content="A minimal offline expense tracker mobile app with filters, graph, import and export options" />
     <Meta name="theme-color" content="#000" />
     <Link rel="icon" href="favicon.ico" />
     <Link rel="apple-touch-icon" href="apple-touch-icon-180x180.png" />

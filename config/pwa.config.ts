@@ -6,9 +6,10 @@ const config: Partial<ModuleOptions> = {
     globPatterns: ['**/*.{js,css,html,svg}'],
   },
   manifest: {
-    name: 'Ledger',
+    name: 'Local Ledger',
     short_name: 'Ledger',
-    description: 'Expense tracker',
+    start_url: '/groups',
+    description: 'A minimal offline expense tracker mobile app with filters, graph, import and export options',
     theme_color: '#000',
     icons: [
       {
