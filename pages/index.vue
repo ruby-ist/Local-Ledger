@@ -2,7 +2,7 @@
   <div class="flex column align-center m-0 p-100-0">
     <img src="~/public/logo.png" class="w-120 h-120 border-rad-20">
     <button class="bg-color-white p-10-20 no-border no-outline border-rad-5 mt-100"
-            :disabled="isInstalling" :class="{ 'opacity-0.5': isInstalling }"
+            :class="{ 'opacity-0.5': isInstalling }"
             font="w-500 s-1.2rem" @click="handleButtonClick">
       {{ buttonText }}
     </button>
@@ -18,7 +18,7 @@ export default {
   }),
   computed: {
     buttonText() {
-      return (this.deferredPrompt && !this.isInstalling) ? 'Install App' : 'Open App';
+      return (this.deferredPrompt || this.isInstalling) ? 'Install App' : 'Open App';
     },
     ...mapWritableState(useHeaderStore, ['title']),
   },
@@ -36,11 +36,12 @@ export default {
   },
   methods: {
     async handleButtonClick() {
-      if (this.deferredPrompt && !this.isInstalling) {
+      if (this.isInstalling) return;
+
+      if (this.deferredPrompt)
         await this.installPWA();
-      } else {
+      else
         await this.launchPWA();
-      }
     },
 
     async installPWA() {
@@ -53,7 +54,7 @@ export default {
           this.isInstalling = true;
           setTimeout(() => {
             this.isInstalling = false;
-          }, 3000);
+          }, 7500);
         }
       } catch (error) {
         console.error('Error installing PWA:', error);
