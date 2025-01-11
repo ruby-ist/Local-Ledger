@@ -24,4 +24,16 @@ export const useFiltersStore = defineStore('filters', {
   state: () => ({
     filters: structuredClone(DEFAULT_FILTERS),
   }),
+  getters: {
+    filterApplied() {
+      /* Another reason to hate javascript ^_^ */
+      if (this.filters.amountMax) return true;
+      else if (this.filters.amountMin) return true;
+      else if (this.filters.startTime !== DEFAULT_FILTERS.startTime) return true;
+      else if (this.filters.endTime !== DEFAULT_FILTERS.endTime) return true;
+      else if (!DEFAULT_FILTERS.tagIds.every(id => this.filters.tagIds.includes(id))) return true;
+      else if (this.filters.keyword) return true;
+      else return false;
+    },
+  },
 });
