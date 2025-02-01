@@ -1,6 +1,7 @@
 <template>
   <div>
-    <VueDatePicker id="month-picker" v-model="month" month-picker dark
+    <VueDatePicker id="month-picker" v-model="datePickerMonth"
+                   month-picker dark prevent-min-max-navigation auto-apply
                    :min-date="minimumMonth" :max-date="currentMonth"
                    :alt-position="() => ({ top: '60px', right: '20px' })"
                    :clearable="false" @update:model-value="handleMonth">
@@ -56,6 +57,14 @@ export default defineNuxtComponent({
   }),
 
   computed: {
+    datePickerMonth() {
+      const date = new Date(this.month);
+      return {
+        month: date.getMonth(),
+        year: date.getFullYear(),
+      };
+    },
+
     currentDate(): number {
       return this.month === currentMonth ? (new Date()).getDate() : this.monthEndDate;
     },
@@ -314,7 +323,7 @@ export default defineNuxtComponent({
 }
 
 .dp__menu {
-  padding: 10px;
+  padding: 10px 20px;
   --dp-background-color: var(--secondary-black);
   --dp-disabled-color: var(--secondary-black);
   --dp-primary-color: var(--white);
@@ -325,15 +334,5 @@ export default defineNuxtComponent({
 
 .dp__overlay_cell_disabled, .dp__overlay_cell_disabled:hover {
   color: var(--grey);
-}
-
-.dp__action_button {
-  --dp-action-buttons-padding: 16px 12px;
-  margin-inline-start: 12px;
-  font-size: 1em;
-}
-
-.dp__selection_preview {
-  display: none;
 }
 </style>
