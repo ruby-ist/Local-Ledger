@@ -40,12 +40,17 @@ export function convertToEpochTime(datetimeStr: string): number {
   return date.getTime();
 }
 
+export function formatMonthToHumanReadable(month: string): string {
+  const [year, monthNum] = month.split('-');
+  const monthName = new Date(Number(year), Number(monthNum) - 1).toLocaleString('default', { month: 'long' });
+  return `${monthName} ${year}`;
+}
+
 const records = await db.logs.orderBy('createdAt').limit(1).toArray();
 const oldestLog = records[0];
-const oldestLogMonth = oldestLog
+export const minimumMonth = oldestLog
   ? formatTimeToMonth(new Date(oldestLog.createdAt))
-  : undefined;
-export const minimumMonth = oldestLogMonth === currentMonth ? undefined : oldestLogMonth;
+  : currentMonth;
 // if min and max value are same in month picker, it will not respect those values.
 export const miniminDate = oldestLog
   ? formatTimeToDate(new Date(oldestLog.createdAt))

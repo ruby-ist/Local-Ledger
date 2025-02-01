@@ -1,10 +1,18 @@
 <template>
   <div>
-    <input v-model="month" type="month"
-           :max="currentMonth" :min="minimumMonth"
-           class="block p-12-0-10-40 color-white bg-color-secondary-black
-                  no-outline max-content no-border center-text absolute r-30 t-0"
-           border="rad-5" font="s-1em">
+    <VueDatePicker id="month-picker" v-model="month" month-picker dark
+                   :min-date="minimumMonth" :max-date="currentMonth"
+                   :alt-position="() => ({ top: '60px', right: '20px' })"
+                   :clearable="false" @update:model-value="handleMonth">
+      <template #trigger>
+        <button class="clickable-text block p-12-20-12-2 color-white bg-color-secondary-black
+                       no-outline max-content no-border center-text absolute r-30 t-0 z-1"
+                border="rad-5" font="s-1em">
+          <img src="~/assets/images/calendar-grey.svg" width="32px" height="16px" class="calender-icon mr-5">
+          {{ formatMonthToHumanReadable(month) }}
+        </button>
+      </template>
+    </VueDatePicker>
     <div ref="chart" class="w-280 h-300 ml-20 mb-40" />
     <div class="ml-50">
       <h3 class="pl-15">Tags</h3>
@@ -34,9 +42,13 @@
 </template>
 
 <script lang="ts">
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 let chart: ECharts;
 
 export default defineNuxtComponent({
+  components: { VueDatePicker },
   data: () => ({
     tags: [] as Tag[],
     month: currentMonth,
@@ -206,6 +218,10 @@ export default defineNuxtComponent({
       });
     },
 
+    handleMonth(month: { year: number; month: number }) {
+      this.month = `${month.year}-${String(month.month + 1).padStart(2, '0')}`;
+    },
+
     hideTooltipOnOutsideClick(event: Event) {
       const chartElement = chart.getDom();
       if (!chartElement.contains(event.target as Node)) {
@@ -288,12 +304,36 @@ export default defineNuxtComponent({
 });
 </script>
 
-<style scoped>
-input[type="month"] {
-  appearance: none;
-  background-image: url('~/assets/images/calendar-grey.svg');
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: 32px 16px;
+<style>
+#month-picker {
+  position: absolute;
+}
+
+.calender-icon {
+  transform: translateY(2px)
+}
+
+.dp__menu {
+  padding: 10px;
+  --dp-background-color: var(--secondary-black);
+  --dp-disabled-color: var(--secondary-black);
+  --dp-primary-color: var(--white);
+  --dp-primary-text-color: var(--secondary-black);
+  --dp-hover-color: var(--secondary-black);
+  --dp-disabled-color-text: var(--grey);
+}
+
+.dp__overlay_cell_disabled, .dp__overlay_cell_disabled:hover {
+  color: var(--grey);
+}
+
+.dp__action_button {
+  --dp-action-buttons-padding: 16px 12px;
+  margin-inline-start: 12px;
+  font-size: 1em;
+}
+
+.dp__selection_preview {
+  display: none;
 }
 </style>

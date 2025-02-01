@@ -3,6 +3,7 @@ import vueConfig from './config/vue.config';
 import unoConfig from './config/uno.config';
 
 export default defineNuxtConfig({
+  build: { transpile: ['@vuepic/vue-datepicker'] },
   compatibilityDate: '2024-04-03',
   components: [
     {
