@@ -18,7 +18,12 @@
     <section class="p-0-40 mb-40">
       <h3 class="mb-40">Description</h3>
       <p class="lh-28">
-        Local Ledger is a minimal Progressive Web App (PWA) that helps you track expenses effortlessly. It works completely offline, with features like filters for organizing transactions, interactive graphs for visualizing spending, and import/export options for easy data management. With a clean, simple interface, it offers a secure and hassle-free way to manage your finances on your mobile.
+        Local-Ledger is a mobile-first Progressive Web App designed for offline
+        expense tracking. Organize transactions with tags, narrow results with
+        filters, and visualize spending through interactive graph. Easily import
+        and export your transaction data via CSV. Clean, minimal, and built to
+        offer a secure and engaging way to manage personal finances — right from
+        your mobile device
       </p>
     </section>
     <section class="p-20-0-40 mb-40 bg-color-secondary-black">
