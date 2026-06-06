@@ -4,10 +4,20 @@
       <span>
         {{ fileName }}
       </span>
-      <label v-show="!fileSelected" class="p-10-15 center-text inline-block
-                                        bg-color-secondary-black color-white"
-             for="csvFileInput" border="rad-5">
-        <input id="csvFileInput" ref="input" type="file" accept=".csv" class="no-display" @change="handleFileSelection">
+      <label
+        v-show="!fileSelected"
+        class="p-10-15 center-text inline-block bg-color-secondary-black color-white"
+        for="csvFileInput"
+        border="rad-5"
+      >
+        <input
+          id="csvFileInput"
+          ref="input"
+          type="file"
+          accept=".csv, text/csv"
+          class="no-display"
+          @change="handleFileSelection"
+        >
         Open
       </label>
       <label v-show="fileSelected" class="p-10-14 center-text inline-block
