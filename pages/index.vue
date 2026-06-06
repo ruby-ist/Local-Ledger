@@ -1,47 +1,68 @@
 <template>
-  <div id="index-page">
-    <div class="flex row justify--space-evenly p-75-0-50">
-      <div>
-        <img src="/logo.webp" class="w-120 border-rad-20">
-      </div>
-      <div class="flex column justify--space-between">
-        <h1 class="m-0">Local Ledger</h1>
-        <div>
-          <button class="bg-color-white p-10-20 no-border no-outline border-rad-5 mb-5"
-                  :class="{ 'opacity-0.5': isInstalling }"
-                  font="w-500 s-1.2rem" @click="handleButtonClick">
+  <main id="index-page">
+    <div class="bg-color-black">
+      <div
+        class="grid p-20 lg:p-60-5dvw grid-columns-45%-55% grid-rows-auto lg:grid-rows-2fr-3fr grid-areas-:logo-header:-:description-description:- lg:grid-areas-:logo-header:-:logo-description:-"
+      >
+        <div class="grid-area-logo just-s-start lg:place-self-center">
+          <img
+            class="w-36dvw lg:w-28dvw max-w-600"
+            border="rad-10 lg:rad-25"
+            src="/logo.webp"
+            alt="rebmemer logo"
+          >
+        </div>
+        <div class="grid-area-header ml-16 lg:ml-0">
+          <h1 class="color-white" font="s-1.8rem lg:s-3rem w-550">
+            Local Ledger
+          </h1>
+          <button
+            class="bg-color-white color-black p-12-16 lg:p-14-20 pointer active:scale-96"
+            font="f-default-font w-500 s-1rem lg:s-1.25rem"
+            border="none rad-5"
+            @click="handleButtonClick"
+          >
             {{ buttonText }}
           </button>
         </div>
+        <div class="grid-area-description">
+          <p class="lg:mt-36" font="lg:s-1.25rem">
+            Local-Ledger is a mobile-first Progressive Web App designed for
+            offline expense tracking. Organize transactions with tags, narrow
+            results with filters, and visualize spending through interactive
+            graph. Easily import and export your transaction data via CSV.
+            Clean, minimal, and built to offer a secure and engaging way to
+            manage personal finances — right from your mobile device
+          </p>
+        </div>
       </div>
     </div>
-    <section class="p-0-40 mb-40">
-      <h3 class="mb-40">Description</h3>
-      <p class="lh-28">
-        Local-Ledger is a mobile-first Progressive Web App designed for offline
-        expense tracking. Organize transactions with tags, narrow results with
-        filters, and visualize spending through interactive graph. Easily import
-        and export your transaction data via CSV. Clean, minimal, and built to
-        offer a secure and engaging way to manage personal finances — right from
-        your mobile device
-      </p>
-    </section>
-    <section class="p-20-0-40 mb-40 bg-color-secondary-black">
-      <h3 class="mb-40 pl-40">Images</h3>
+    <div class="p-20-0-40 lg:p-40-0-80 bg-color-secondary-black">
+      <h3 class="m-0-20-20 lg:m-0-5dvw-40 color-white" font="w-500 lg:s-2rem">
+        Images
+      </h3>
       <swiper-container ref="swiper">
         <swiper-slide v-for="(image, index) in images" :key="index">
           <a :href="image.src" target="_blank">
-            <img :src="image.src" :alt="image.alt" class="w-100p" border-rad="5">
+            <img
+              :src="image.src"
+              :alt="image.alt"
+              class="w-100p"
+              border-rad="5"
+            >
           </a>
         </swiper-slide>
       </swiper-container>
-    </section>
-    <footer class="centered-grid mb-32" font="s-0.75rem">
-      <em>
-        Designed and Developed by <a href="https://srira.me">Srira</a>
-      </em>
+    </div>
+    <footer class="bg-color-black flex justify--center align-center p-32">
+      <i>
+        Desgined and Developed by
+        <a class="color-special-link" target="_blank" href="https://srira.me">
+          Srira
+        </a>
+      </i>
     </footer>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -70,7 +91,9 @@ export default defineNuxtComponent({
   }),
   computed: {
     buttonText() {
-      return (this.deferredPrompt || this.isInstalling) ? 'Install App' : 'Open App';
+      return this.deferredPrompt || this.isInstalling
+        ? 'Install App'
+        : 'Open App';
     },
   },
   async mounted() {
@@ -107,10 +130,8 @@ export default defineNuxtComponent({
     async handleButtonClick() {
       if (this.isInstalling) return;
 
-      if (this.deferredPrompt)
-        await this.installPWA();
-      else
-        await this.launchPWA();
+      if (this.deferredPrompt) await this.installPWA();
+      else await this.launchPWA();
     },
 
     async installPWA() {
