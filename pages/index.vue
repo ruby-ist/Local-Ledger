@@ -2,7 +2,7 @@
   <main id="index-page">
     <div class="bg-color-black">
       <div
-        class="grid p-20 lg:p-60-5dvw grid-columns-45%-55% grid-rows-auto lg:grid-rows-2fr-3fr grid-areas-:logo-header:-:description-description:- lg:grid-areas-:logo-header:-:logo-description:-"
+        class="grid p-32-20-20 lg:p-60-5dvw grid-columns-45%-55% grid-rows-auto lg:grid-rows-2fr-3fr grid-areas-:logo-header:-:description-description:- lg:grid-areas-:logo-header:-:logo-description:-"
       >
         <div class="grid-area-logo just-s-start lg:place-self-center">
           <img
@@ -13,7 +13,7 @@
           >
         </div>
         <div class="grid-area-header ml-16 lg:ml-0">
-          <h1 class="color-white" font="s-1.8rem lg:s-3rem w-550">
+          <h1 class="color-white" font="s-1.75rem lg:s-2.8rem w-550">
             Local Ledger
           </h1>
           <button
@@ -26,7 +26,7 @@
           </button>
         </div>
         <div class="grid-area-description">
-          <p class="lg:mt-36" font="lg:s-1.25rem">
+          <p class="mt-36 lh-26px" font="lg:s-1.25rem">
             Local-Ledger is a mobile-first Progressive Web App designed for
             offline expense tracking. Organize transactions with tags, narrow
             results with filters, and visualize spending through interactive
@@ -113,11 +113,15 @@ export default defineNuxtComponent({
       slidesOffsetAfter: 20,
       breakpoints: {
         320: {
-          slidesPerView: 3,
+          slidesPerView: 2.2,
           spaceBetween: 20,
         },
         640: {
-          slidesPerView: 4,
+          slidesPerView: 3,
+          spaceBetween: 40,
+        },
+        1080: {
+          slidesPerView: 4.7,
           spaceBetween: 40,
         },
       },
